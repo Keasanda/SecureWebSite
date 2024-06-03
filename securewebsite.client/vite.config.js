@@ -48,7 +48,7 @@ export default defineConfig({
                 target: "https://localhost:7239",
                 secure: false
             },
-            '^/api': {
+            '^/api/SecureWebsite': {
                 target: "https://localhost:7239",
                 secure: false
             }
