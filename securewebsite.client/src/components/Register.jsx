@@ -4,7 +4,7 @@ function Register() {
 
     document.title = "Register";
 
-    // dont ask an already registered user to register over and over again
+    // don't ask an already registered user to register over and over again
     useEffect(() => {
         const user = localStorage.getItem("user");
         if (user) {
@@ -32,7 +32,10 @@ function Register() {
                         <label htmlFor="password">Password</label>
                         <br />
                         <input type="password" name='PasswordHash' id='password' required />
-
+                        <br />
+                        <label htmlFor="confirmPassword">Confirm Password</label>
+                        <br />
+                        <input type="password" name='ConfirmPassword' id='confirmPassword' required />
                         <br />
                         <input type="submit" value="Register" className='register btn' />
                     </form>
@@ -44,14 +47,22 @@ function Register() {
             </div>
         </section>
     );
+
     async function registerHandler(e) {
         e.preventDefault();
-        const form_ = e.target, submitter = document.querySelector("input.login");
-
-        const formData = new FormData(form_, submitter), dataToSend = {};
+        const form_ = e.target;
+        const formData = new FormData(form_);
+        const dataToSend = {};
 
         for (const [key, value] of formData) {
             dataToSend[key] = value;
+        }
+
+        // check if password and confirm password match
+        if (dataToSend.PasswordHash !== dataToSend.ConfirmPassword) {
+            const messageEl = document.querySelector(".message");
+            messageEl.innerHTML = "Passwords do not match";
+            return;
         }
 
         // create username
@@ -63,7 +74,7 @@ function Register() {
             credentials: "include",
             body: JSON.stringify(dataToSend),
             headers: {
-                "content-type": "Application/json",
+                "content-type": "application/json",
                 "Accept": "application/json"
             }
         });
