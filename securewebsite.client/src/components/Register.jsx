@@ -4,7 +4,11 @@ function Register() {
 
     document.title = "Register";
 
+<<<<<<< HEAD
     // Don't ask an already registered user to register over and over again
+=======
+    // don't ask an already registered user to register over and over again
+>>>>>>> bd6f307742ddcb6d5e0bde7d083db007f340d058
     useEffect(() => {
         const user = localStorage.getItem("user");
         if (user) {
@@ -80,6 +84,13 @@ function Register() {
                         <label htmlFor="password">Password</label>
                         <br />
                         <input type="password" name='PasswordHash' id='password' required />
+<<<<<<< HEAD
+=======
+                        <br />
+                        <label htmlFor="confirmPassword">Confirm Password</label>
+                        <br />
+                        <input type="password" name='ConfirmPassword' id='confirmPassword' required />
+>>>>>>> bd6f307742ddcb6d5e0bde7d083db007f340d058
                         <br />
                         <input type="submit" value="Register" className='register btn' />
                     </form>
@@ -91,6 +102,62 @@ function Register() {
             </div>
         </section>
     );
+<<<<<<< HEAD
+=======
+
+    async function registerHandler(e) {
+        e.preventDefault();
+        const form_ = e.target;
+        const formData = new FormData(form_);
+        const dataToSend = {};
+
+        for (const [key, value] of formData) {
+            dataToSend[key] = value;
+        }
+
+        // check if password and confirm password match
+        if (dataToSend.PasswordHash !== dataToSend.ConfirmPassword) {
+            const messageEl = document.querySelector(".message");
+            messageEl.innerHTML = "Passwords do not match";
+            return;
+        }
+
+        // create username
+        const newUserName = dataToSend.Name.trim().split(" ");
+        dataToSend.UserName = newUserName.join("");
+
+        const response = await fetch("api/SecureWebsite/register", {
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify(dataToSend),
+            headers: {
+                "content-type": "application/json",
+                "Accept": "application/json"
+            }
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            document.location = "/login";
+        }
+
+        const messageEl = document.querySelector(".message");
+        if (data.message) {
+            messageEl.innerHTML = data.message;
+        } else {
+            let errorMessages = "<div>Attention please:</div><div class='normal'>";
+            data.errors.forEach(error => {
+                errorMessages += error.description + " ";
+            });
+
+            errorMessages += "</div>";
+            messageEl.innerHTML = errorMessages;
+        }
+
+        console.log("login error: ", data);
+    }
+>>>>>>> bd6f307742ddcb6d5e0bde7d083db007f340d058
 }
 
 export default Register;
