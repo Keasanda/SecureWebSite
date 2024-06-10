@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SecureWebSite.Server.Data;
 using SecureWebSite.Server.Models;
+using System.Net.Mail;
+using System.Net;
 
 namespace SecureWebSite.Server
 {
@@ -11,7 +14,7 @@ namespace SecureWebSite.Server
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            builder.Services.AddTransient<ISenderEmail, EmailSender>();
             builder.Services.AddControllers();
             builder.Services.AddAuthorization();
             builder.Services.AddDbContext<ApplicationDbContext>(options => {
@@ -37,7 +40,7 @@ namespace SecureWebSite.Server
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = true;
 
-            }).AddEntityFrameworkStores<ApplicationDbContext>();
+            }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
             var app = builder.Build();
 

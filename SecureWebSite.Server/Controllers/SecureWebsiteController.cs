@@ -9,15 +9,22 @@ namespace SecureWebSite.Server.Controllers
 {
     [Route("api/securewebsite")]
     [ApiController]
-    public class SecureWebsiteController(SignInManager<User> sm, UserManager<User> um) : ControllerBase
+    public class SecureWebsiteController : ControllerBase
     {
-        private readonly SignInManager<User> signInManager = sm;
-        private readonly UserManager<User> userManager = um;
+        private readonly SignInManager<User> signInManager;
+        private readonly UserManager<User> userManager;
+        private readonly ISenderEmail emailSender;
+
+        public SecureWebsiteController(SignInManager<User> sm, UserManager<User> um, ISenderEmail es)
+        {
+            signInManager = sm;
+            userManager = um;
+            emailSender = es;
+        }
 
         [HttpPost("register")]
         public async Task<ActionResult> RegisterUser(User user)
         {
-
             IdentityResult result = new();
 
             try
@@ -35,13 +42,45 @@ namespace SecureWebSite.Server.Controllers
                 {
                     return BadRequest(result);
                 }
+
+                // Generate email confirmation token
+                var token = await userManager.GenerateEmailConfirmationTokenAsync(user_);
+
+                // Create confirmation link
+                var confirmationLink = Url.Action(nameof(ConfirmEmail), "SecureWebsite", new { userId = user_.Id, token }, Request.Scheme);
+
+                // Send confirmation email
+                await emailSender.SendEmailAsync(user.Email, "Confirm your email", $"Please confirm your email by clicking this link: {confirmationLink}", true);
             }
             catch (Exception ex)
             {
                 return BadRequest("Something went wrong, please try again. " + ex.Message);
             }
 
-            return Ok(new { message = "Registered Successfully.", result = result });
+            return Ok(new { message = "Registered Successfully. Please check your email to confirm your account.", result = result });
+        }
+
+        [HttpGet("confirmemail")]
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            if (userId == null || token == null)
+            {
+                return BadRequest(new { message = "User ID and Token are required." });
+            }
+
+            var user = await userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return BadRequest(new { message = "User not found." });
+            }
+
+            var result = await userManager.ConfirmEmailAsync(user, token);
+            if (result.Succeeded)
+            {
+                return Ok(new { message = "Email confirmed successfully!" });
+            }
+
+            return BadRequest(new { message = "Error confirming your email." });
         }
 
         [HttpPost("login")]

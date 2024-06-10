@@ -4,13 +4,61 @@ function Register() {
 
     document.title = "Register";
 
-    // dont ask an already registered user to register over and over again
+    // Don't ask an already registered user to register over and over again
     useEffect(() => {
         const user = localStorage.getItem("user");
         if (user) {
             document.location = "/";
         }
     }, []);
+
+    async function registerHandler(e) {
+        e.preventDefault();
+        const form_ = e.target;
+    
+        const formData = new FormData(form_);
+        const dataToSend = {};
+    
+        formData.forEach((value, key) => {
+            dataToSend[key] = value;
+        });
+    
+        // Create username
+        const newUserName = dataToSend.Name.trim().split(" ");
+        dataToSend.UserName = newUserName.join("");
+    
+        try {
+            const response = await fetch("/api/securewebsite/register", {
+                method: "POST",
+                credentials: "include",
+                body: JSON.stringify(dataToSend),
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                }
+            });
+    
+            const data = await response.json();
+    
+            const messageEl = document.querySelector(".message");
+    
+            if (response.ok) {
+                messageEl.innerHTML = "Registered successfully. Please check your email to confirm your account.";
+                document.location = "/login";
+            } else {
+                let errorMessages = "<div>Attention please:</div><div class='normal'>";
+                data.errors.forEach(error => {
+                    errorMessages += error.description + " ";
+                });
+    
+                errorMessages += "</div>";
+                messageEl.innerHTML = errorMessages;
+            }
+        } catch (error) {
+            console.error("Registration error: ", error);
+            document.querySelector(".message").innerHTML = "Something went wrong, please try again.";
+        }
+    }
 
     return (
         <section className='register-page-wrapper page'>
@@ -32,7 +80,6 @@ function Register() {
                         <label htmlFor="password">Password</label>
                         <br />
                         <input type="password" name='PasswordHash' id='password' required />
-
                         <br />
                         <input type="submit" value="Register" className='register btn' />
                     </form>
@@ -44,51 +91,6 @@ function Register() {
             </div>
         </section>
     );
-    async function registerHandler(e) {
-        e.preventDefault();
-        const form_ = e.target, submitter = document.querySelector("input.login");
-
-        const formData = new FormData(form_, submitter), dataToSend = {};
-
-        for (const [key, value] of formData) {
-            dataToSend[key] = value;
-        }
-
-        // create username
-        const newUserName = dataToSend.Name.trim().split(" ");
-        dataToSend.UserName = newUserName.join("");
-
-        const response = await fetch("api/SecureWebsite/register", {
-            method: "POST",
-            credentials: "include",
-            body: JSON.stringify(dataToSend),
-            headers: {
-                "content-type": "Application/json",
-                "Accept": "application/json"
-            }
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            document.location = "/login";
-        }
-
-        const messageEl = document.querySelector(".message");
-        if (data.message) {
-            messageEl.innerHTML = data.message;
-        } else {
-            let errorMessages = "<div>Attention please:</div><div class='normal'>";
-            data.errors.forEach(error => {
-                errorMessages += error.description + " ";
-            });
-
-            errorMessages += "</div>";
-            messageEl.innerHTML = errorMessages;
-        }
-
-        console.log("login error: ", data);
-    }
 }
 
 export default Register;
