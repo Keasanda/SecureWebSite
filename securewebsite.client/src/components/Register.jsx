@@ -28,7 +28,7 @@ function Register() {
         dataToSend.UserName = newUserName.join("");
     
         try {
-            const response = await fetch("/api/securewebsite/register", {
+            const response = await fetch("/api/SecureWebsite/Register", {
                 method: "POST",
                 credentials: "include",
                 body: JSON.stringify(dataToSend),

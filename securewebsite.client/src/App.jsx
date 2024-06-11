@@ -14,7 +14,7 @@ const router = createBrowserRouter(
                 <Route path='/admin' element={<Admin />} />
             </Route>
             <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
+            <Route path='/Register' element={<Register />} />
             <Route path='*' element={
                 <div>
                     <header>
@@ -31,7 +31,7 @@ const router = createBrowserRouter(
 function App() {
     const isLogged = localStorage.getItem("user");
     const logout = async () => {
-        const response = await fetch("/api/securewebsite/logout", {
+        const response = await fetch("/api/SecureWebsite/logout", {
             method: "GET",
             credentials: "include"
         });
@@ -59,7 +59,7 @@ function App() {
                         </span> :
                         <span className='item-holder'>
                             <a href="/login">Login</a>
-                            <a href="/register">Register</a>
+                            <a href="/Register">Register</a>
                         </span>
                 }
             </div>
