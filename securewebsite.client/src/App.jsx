@@ -59,7 +59,7 @@ function App() {
                         </span> :
                         <span className='item-holder'>
                             <a href="/login">Login</a>
-                            <a href="/register">Register</a>
+                            <a href="/Register">Register</a>
                         </span>
                 }
             </div>
