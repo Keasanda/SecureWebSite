@@ -2,8 +2,12 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SecureWebSite.Server.Models;
 using System.Security.Claims;
+using System.Threading.Tasks;
+using System;
+using System.Net;
 
 namespace SecureWebSite.Server.Controllers
 {
@@ -14,134 +18,167 @@ namespace SecureWebSite.Server.Controllers
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
         private readonly ISenderEmail emailSender;
+        private readonly ILogger<SecureWebsiteController> logger;
 
-        public SecureWebsiteController(SignInManager<User> sm, UserManager<User> um, ISenderEmail es)
+        public SecureWebsiteController(SignInManager<User> sm, UserManager<User> um, ISenderEmail es, ILogger<SecureWebsiteController> logger)
         {
             signInManager = sm;
             userManager = um;
             emailSender = es;
+            this.logger = logger;
         }
 
         [HttpPost("register")]
         public async Task<ActionResult> RegisterUser(User user)
         {
-            IdentityResult result = new();
-
             try
             {
-                User user_ = new User()
+                User newUser = new User
                 {
                     Name = user.Name,
                     Email = user.Email,
                     UserName = user.UserName,
                 };
 
-                result = await userManager.CreateAsync(user_, user.PasswordHash);
+                var result = await userManager.CreateAsync(newUser, user.PasswordHash);
 
                 if (!result.Succeeded)
                 {
+                    logger.LogWarning("User registration failed: {Errors}", string.Join(", ", result.Errors.Select(e => e.Description)));
                     return BadRequest(result);
                 }
 
                 // Generate email confirmation token
-                var token = await userManager.GenerateEmailConfirmationTokenAsync(user_);
+                var token = await userManager.GenerateEmailConfirmationTokenAsync(newUser);
+                logger.LogInformation("Email confirmation token generated for user {UserId}", newUser.Id);
 
                 // Create confirmation link
-                var confirmationLink = Url.Action(nameof(ConfirmEmail), "SecureWebsite", new { userId = user_.Id, token }, Request.Scheme);
+                var encodedToken = WebUtility.UrlEncode(token);
+                var confirmationLink = Url.Action(nameof(ConfirmEmail), "SecureWebsite", new { email = newUser.Email, token = encodedToken }, Request.Scheme);
+                logger.LogInformation("Confirmation link generated: {ConfirmationLink}", confirmationLink);
 
                 // Send confirmation email
                 await emailSender.SendEmailAsync(user.Email, "Confirm your email", $"Please confirm your email by clicking this link: {confirmationLink}", true);
+                logger.LogInformation("Confirmation email sent to {Email}", user.Email);
+
+                return Ok(new { message = "Registered Successfully. Please check your email to confirm your account.", result = result });
             }
             catch (Exception ex)
             {
-                return BadRequest("Something went wrong, please try again. " + ex.Message);
+                logger.LogError(ex, "Error occurred during user registration.");
+                return BadRequest(new { message = "Something went wrong, please try again. " + ex.Message });
             }
-
-            return Ok(new { message = "Registered Successfully. Please check your email to confirm your account.", result = result });
         }
 
         [HttpGet("confirmemail")]
-        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        public async Task<IActionResult> ConfirmEmail(string token, string email)
         {
-            if (userId == null || token == null)
+            logger.LogInformation("ConfirmEmail endpoint hit with token: {Token} and email: {Email}", token, email);
+
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(token))
             {
-                return BadRequest(new { message = "User ID and Token are required." });
+                logger.LogWarning("Email or token is null or empty.");
+                return BadRequest(new { message = "Email and Token are required." });
             }
 
-            var user = await userManager.FindByIdAsync(userId);
+            var user = await userManager.FindByEmailAsync(email);
             if (user == null)
             {
+                logger.LogWarning("User with email {Email} not found.", email);
                 return BadRequest(new { message = "User not found." });
             }
 
-            var result = await userManager.ConfirmEmailAsync(user, token);
+            var decodedToken = WebUtility.UrlDecode(token);
+            logger.LogInformation("Decoded token: {DecodedToken}", decodedToken);
+            var result = await userManager.ConfirmEmailAsync(user, decodedToken);
             if (result.Succeeded)
             {
+                logger.LogInformation("User with email {Email} successfully confirmed email.", email);
                 return Ok(new { message = "Email confirmed successfully!" });
             }
 
+            logger.LogError("Error confirming email for user with email {Email}: {Error}", email, result.Errors.FirstOrDefault()?.Description);
             return BadRequest(new { message = "Error confirming your email." });
         }
+
 
         [HttpPost("login")]
         public async Task<ActionResult> LoginUser(Login login)
         {
-
             try
             {
-                User user_ = await userManager.FindByEmailAsync(login.Email);
-                if (user_ != null)
-                {
-                    login.Username = user_.UserName;
+                var user = await userManager.FindByEmailAsync(login.Email);
 
-                    if (!user_.EmailConfirmed)
+                if (user == null)
+                {
+                    logger.LogWarning("Login attempt failed for non-existent email {Email}", login.Email);
+                    return BadRequest(new { message = "Please check your credentials and try again." });
+                }
+
+                if (!user.EmailConfirmed)
+                {
+                    logger.LogWarning("Login attempt for unconfirmed email {Email}", login.Email);
+                    return Unauthorized(new { message = "Email not confirmed yet." });
+                }
+
+                var result = await signInManager.PasswordSignInAsync(user, login.Password, login.Remember, lockoutOnFailure: false);
+
+                if (result.Succeeded)
+                {
+                    user.LastLogin = DateTime.Now;
+                    var updateResult = await userManager.UpdateAsync(user);
+                    if (!updateResult.Succeeded)
                     {
-                        user_.EmailConfirmed = true;
+                        logger.LogWarning("Failed to update last login time for user {UserId}", user.Id);
+                        return BadRequest(new { message = "Failed to update last login time." });
                     }
 
-                    var result = await signInManager.PasswordSignInAsync(user_, login.Password, login.Remember, false);
-
-                    if (!result.Succeeded)
-                    {
-                        return Unauthorized(new { message = "Check your login credentials and try again" });
-                    }
-
-                    user_.LastLogin = DateTime.Now;
-                    var updateResult = await userManager.UpdateAsync(user_);
+                    logger.LogInformation("User {UserId} logged in successfully", user.Id);
+                    return Ok(new { message = "Login successful." });
                 }
-                else
+
+                if (result.RequiresTwoFactor)
                 {
-                    return BadRequest(new { message = "Please check your credentials and try again. " });
+                    logger.LogWarning("Two-factor authentication required for user {UserId}", user.Id);
+                    return BadRequest(new { message = "Two-factor authentication required." });
                 }
+
+                if (result.IsLockedOut)
+                {
+                    logger.LogWarning("User {UserId} is locked out", user.Id);
+                    return BadRequest(new { message = "Account locked out." });
+                }
+
+                logger.LogWarning("Invalid login attempt for user {UserId}", user.Id);
+                return Unauthorized(new { message = "Check your login credentials and try again." });
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Error occurred during login.");
                 return BadRequest(new { message = "Something went wrong, please try again. " + ex.Message });
             }
-
-            return Ok(new { message = "Login Successful." });
         }
 
         [HttpGet("logout"), Authorize]
         public async Task<ActionResult> LogoutUser()
         {
-
             try
             {
                 await signInManager.SignOutAsync();
+                logger.LogInformation("User logged out successfully.");
+                return Ok(new { message = "You are free to go!" });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = "Someting went wrong, please try again. " + ex.Message });
+                logger.LogError(ex, "Error occurred during logout.");
+                return BadRequest(new { message = "Something went wrong, please try again. " + ex.Message });
             }
-
-            return Ok(new { message = "You are free to go!" });
         }
 
         [HttpGet("admin"), Authorize]
         public ActionResult AdminPage()
         {
-            string[] partners = { "Raja", "Bill Gates", "Elon Musk", "Taylor Swift", "Jeff Bezoss",
+            string[] partners = { "Raja", "Bill Gates", "Elon Musk", "Taylor Swift", "Jeff Bezos",
                                         "Mark Zuckerberg", "Joe Biden", "Putin"};
 
             return Ok(new { trustedPartners = partners });
@@ -150,9 +187,10 @@ namespace SecureWebSite.Server.Controllers
         [HttpGet("home/{email}"), Authorize]
         public async Task<ActionResult> HomePage(string email)
         {
-            User userInfo = await userManager.FindByEmailAsync(email);
+            var userInfo = await userManager.FindByEmailAsync(email);
             if (userInfo == null)
             {
+                logger.LogWarning("User info not found for email {Email}", email);
                 return BadRequest(new { message = "Something went wrong, please try again." });
             }
 
@@ -162,8 +200,6 @@ namespace SecureWebSite.Server.Controllers
         [HttpGet("xhtlekd")]
         public async Task<ActionResult> CheckUser()
         {
-            User currentuser = new();
-
             try
             {
                 var user_ = HttpContext.User;
@@ -171,20 +207,21 @@ namespace SecureWebSite.Server.Controllers
                 var result = signInManager.IsSignedIn(principals);
                 if (result)
                 {
-                    currentuser = await signInManager.UserManager.GetUserAsync(principals);
+                    var currentuser = await signInManager.UserManager.GetUserAsync(principals);
+                    logger.LogInformation("User {UserId} is currently signed in.", currentuser?.Id);
+                    return Ok(new { message = "Logged in", user = currentuser });
                 }
                 else
                 {
+                    logger.LogWarning("No user is currently signed in.");
                     return Forbid();
                 }
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = "Something went wrong please try again. " + ex.Message });
+                logger.LogError(ex, "Error occurred during user check.");
+                return BadRequest(new { message = "Something went wrong, please try again. " + ex.Message });
             }
-
-            return Ok(new { message = "Logged in", user = currentuser });
         }
-
     }
 }

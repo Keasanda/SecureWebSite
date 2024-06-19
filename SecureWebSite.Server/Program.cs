@@ -13,6 +13,10 @@ namespace SecureWebSite.Server
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Logging.AddConsole();
+            builder.Logging.AddDebug();
+            builder.Logging.AddEventSourceLogger();
+
             // Add services to the container.
             builder.Services.AddTransient<ISenderEmail, EmailSender>();
             builder.Services.AddControllers();
@@ -29,12 +33,14 @@ namespace SecureWebSite.Server
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequiredLength = 6;
-                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequiredUniqueChars = 3;
 
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                 options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.AllowedForNewUsers = true;
 
+                options.SignIn.RequireConfirmedEmail = true;
+         
                 // User settings.
                 options.User.AllowedUserNameCharacters =
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
