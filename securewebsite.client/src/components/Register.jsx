@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
 
 function Register() {
-
     document.title = "Register";
 
-    // Don't ask an already registered user to register over and over again
+    // Redirect already registered users to the home page
     useEffect(() => {
         const user = localStorage.getItem("user");
         if (user) {
@@ -14,19 +13,19 @@ function Register() {
 
     async function registerHandler(e) {
         e.preventDefault();
-        const form_ = e.target;
-    
-        const formData = new FormData(form_);
+        const form = e.target;
+
+        const formData = new FormData(form);
         const dataToSend = {};
-    
+
         formData.forEach((value, key) => {
             dataToSend[key] = value;
         });
-    
-        // Create username
-        const newUserName = dataToSend.Name.trim().split(" ");
-        dataToSend.UserName = newUserName.join("");
-    
+
+        // Create username by joining the name parts
+        const newUserName = dataToSend.Name.trim().split(" ").join("");
+        dataToSend.UserName = newUserName;
+
         try {
             const response = await fetch("/api/SecureWebsite/Register", {
                 method: "POST",
@@ -37,25 +36,27 @@ function Register() {
                     "Accept": "application/json"
                 }
             });
-    
+
             const data = await response.json();
-    
             const messageEl = document.querySelector(".message");
-    
+
             if (response.ok) {
                 messageEl.innerHTML = "Registered successfully. Please check your email to confirm your account.";
                 document.location = "/login";
             } else {
                 let errorMessages = "<div>Attention please:</div><div class='normal'>";
-                data.errors.forEach(error => {
-                    errorMessages += error.description + " ";
-                });
-    
+                if (data.errors && Array.isArray(data.errors)) {
+                    data.errors.forEach(error => {
+                        errorMessages += `<div>${error.description}</div>`;
+                    });
+                } else {
+                    errorMessages += `<div>${data.message || 'An error occurred.'}</div>`;
+                }
                 errorMessages += "</div>";
                 messageEl.innerHTML = errorMessages;
             }
         } catch (error) {
-            console.error("Registration error: ", error);
+            console.error("Registration error:", error);
             document.querySelector(".message").innerHTML = "Something went wrong, please try again.";
         }
     }
@@ -68,7 +69,7 @@ function Register() {
                 </header>
                 <p className='message'></p>
                 <div className='form-holder'>
-                    <form action="#" className='register' onSubmit={registerHandler}>
+                    <form className='register' onSubmit={registerHandler}>
                         <label htmlFor="name">Name</label>
                         <br />
                         <input type="text" name='Name' id='name' required />
