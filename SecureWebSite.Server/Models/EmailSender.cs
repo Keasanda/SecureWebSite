@@ -1,36 +1,43 @@
-﻿using System.Net.Mail;
-using System.Net;
-
+﻿using System.Net;
+using System.Net.Mail;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace SecureWebSite.Server.Models
 {
     public interface ISenderEmail
     {
-        Task SendEmailAsync(string ToEmail, string Subject, string Body, bool IsBodyHtml = false);
+        Task SendEmailAsync(string toEmail, string subject, string body, bool isBodyHtml = false);
     }
+
     public class EmailSender : ISenderEmail
     {
         private readonly IConfiguration _configuration;
+
         public EmailSender(IConfiguration configuration)
         {
             _configuration = configuration;
         }
-        public Task SendEmailAsync(string ToEmail, string Subject, string Body, bool IsBodyHtml = false)
+
+        public async Task SendEmailAsync(string toEmail, string subject, string body, bool isBodyHtml = false)
         {
-            string MailServer = _configuration["EmailSettings:MailServer"];
-            string FromEmail = _configuration["EmailSettings:FromEmail"];
-            string Password = _configuration["EmailSettings:Password"];
-            int Port = int.Parse(_configuration["EmailSettings:MailPort"]);
-            var client = new SmtpClient(MailServer, Port)
+            string mailServer = _configuration["EmailSettings:MailServer"];
+            string fromEmail = _configuration["EmailSettings:FromEmail"];
+            string password = _configuration["EmailSettings:Password"];
+            int port = int.Parse(_configuration["EmailSettings:MailPort"]);
+
+            using (var client = new SmtpClient(mailServer, port))
             {
-                Credentials = new NetworkCredential(FromEmail, Password),
-                EnableSsl = true,
-            };
-            MailMessage mailMessage = new MailMessage(FromEmail, ToEmail, Subject, Body)
-            {
-                IsBodyHtml = IsBodyHtml
-            };
-            return client.SendMailAsync(mailMessage);
+                client.Credentials = new NetworkCredential(fromEmail, password);
+                client.EnableSsl = true;
+
+                var mailMessage = new MailMessage(fromEmail, toEmail, subject, body)
+                {
+                    IsBodyHtml = isBodyHtml
+                };
+
+                await client.SendMailAsync(mailMessage);
+            }
         }
     }
 }

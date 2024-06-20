@@ -7,6 +7,7 @@ using SecureWebSite.Server.Models;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System;
+using System.Linq;
 using System.Net;
 
 namespace SecureWebSite.Server.Controllers
@@ -52,6 +53,9 @@ namespace SecureWebSite.Server.Controllers
                 var token = await userManager.GenerateEmailConfirmationTokenAsync(newUser);
                 logger.LogInformation("Email confirmation token generated for user {UserId}", newUser.Id);
 
+                // Save the token to AspNetUserTokens table
+                await userManager.SetAuthenticationTokenAsync(newUser, "CustomProvider", "EmailConfirmation", token);
+
                 // Create confirmation link
                 var encodedToken = WebUtility.UrlEncode(token);
                 var confirmationLink = Url.Action(nameof(ConfirmEmail), "SecureWebsite", new { email = newUser.Email, token = encodedToken }, Request.Scheme);
@@ -69,6 +73,7 @@ namespace SecureWebSite.Server.Controllers
                 return BadRequest(new { message = "Something went wrong, please try again. " + ex.Message });
             }
         }
+
 
         [HttpGet("confirmemail")]
         public async Task<IActionResult> ConfirmEmail(string token, string email)
@@ -100,7 +105,6 @@ namespace SecureWebSite.Server.Controllers
             logger.LogError("Error confirming email for user with email {Email}: {Error}", email, result.Errors.FirstOrDefault()?.Description);
             return BadRequest(new { message = "Error confirming your email." });
         }
-
 
         [HttpPost("login")]
         public async Task<ActionResult> LoginUser(Login login)

@@ -5,6 +5,7 @@ import Home from './components/Home';
 import Admin from './components/Admin';
 import Login from './components/Login';
 import Register from './components/Register';
+import ConfirmEmail from './components/ConfirmEmail'; // Import the ConfirmEmail component
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -15,10 +16,11 @@ const router = createBrowserRouter(
             </Route>
             <Route path='/login' element={<Login />} />
             <Route path='/Register' element={<Register />} />
+            <Route path='/confirmemail' element={<ConfirmEmail />} /> {/* Add the confirm email route */}
             <Route path='*' element={
                 <div>
                     <header>
-                        <h1>Not Found</h1>
+                        <h1>Not Found  sandza</h1>
                     </header>
                     <p>
                         <a href="/">Back to Home</a>
@@ -28,6 +30,7 @@ const router = createBrowserRouter(
         </Route>
     )
 );
+
 function App() {
     const isLogged = localStorage.getItem("user");
     const logout = async () => {
