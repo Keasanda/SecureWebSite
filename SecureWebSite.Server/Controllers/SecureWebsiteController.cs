@@ -74,7 +74,6 @@ namespace SecureWebSite.Server.Controllers
             }
         }
 
-
         [HttpGet("confirmemail")]
         public async Task<IActionResult> ConfirmEmail(string token, string email)
         {
@@ -105,6 +104,7 @@ namespace SecureWebSite.Server.Controllers
             logger.LogError("Error confirming email for user with email {Email}: {Error}", email, result.Errors.FirstOrDefault()?.Description);
             return BadRequest(new { message = "Error confirming your email." });
         }
+
 
         [HttpPost("login")]
         public async Task<ActionResult> LoginUser(Login login)

@@ -16,7 +16,7 @@ const router = createBrowserRouter(
             </Route>
             <Route path='/login' element={<Login />} />
             <Route path='/Register' element={<Register />} />
-            <Route path='/confirmemail' element={<ConfirmEmail />} /> {/* Add the confirm email route */}
+            <Route path='/ConfirmEmail' element={<ConfirmEmail />} /> {/* Add the confirm email route */}
             <Route path='*' element={
                 <div>
                     <header>
