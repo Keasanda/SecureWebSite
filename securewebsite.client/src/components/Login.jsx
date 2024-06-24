@@ -1,89 +1,52 @@
-import { useEffect } from 'react';
+// src/components/Login.js
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function Login() {
+const Login = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
+    const navigate = useNavigate();
 
-    document.title = "Login";
-
-    // dont ask an already logged in user to login over and over again
-    useEffect(() => {
-        const user = localStorage.getItem("user");
-        if (user) {
-            document.location = "/";
-        }
-    }, []);
-
-    return (
-        <section className='login-page-wrapper page'>
-            <div className='login-page'>
-                <header>
-                    <h1>Login Page</h1>
-                </header>
-                <p className='message'></p>
-                <div className='form-holder'>
-                    <form action="#" className='login' onSubmit={loginHandler}>
-                        <label htmlFor="email">Email</label>
-                        <br />
-                        <input type="email" name='Email' id='email' required />
-                        <br />
-                        <label htmlFor="password">Password</label>
-                        <br />
-                        <input type="password" name='Password' id='password' required />
-                        <br />
-                        <input type="checkbox" name='Remember' id='remember' />
-                        <label htmlFor="remember">Remember Password?</label>
-                        <br />
-                        <br />
-                        <input type="submit" value="Login" className='login btn' />
-                    </form>
-                </div>
-                <div className='my-5'>
-                    <span>Or </span>
-                    <a href="/register">Register</a>
-                </div>
-            </div>
-        </section>
-    );
-    async function loginHandler(e) {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        const form_ = e.target, submitter = document.querySelector("input.login");
-
-        const formData = new FormData(form_, submitter), dataToSend = {};
-
-        for (const [key, value] of formData) {
-            dataToSend[key] = value;
-        }
-
-        if (dataToSend.Remember === "on") {
-            dataToSend.Remember = true;
-        }
-
-        console.log("login data before send: ", dataToSend);
-        const response = await fetch("api/SecureWebsite/login", {
+        const response = await fetch("/api/SecureWebsite/login", {
             method: "POST",
-            credentials: "include",
-            body: JSON.stringify(dataToSend),
-            headers: {
-                "content-type": "Application/json",
-                "Accept": "application/json"
-            }
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
         });
 
         const data = await response.json();
-
         if (response.ok) {
-            localStorage.setItem("user", dataToSend.Email);
-            document.location = "/";
-        }
-
-        const messageEl = document.querySelector(".message");
-        if (data.message) {
-            messageEl.innerHTML = data.message;
+            localStorage.setItem("user", JSON.stringify(data.user));
+            navigate('/');
         } else {
-            messageEl.innerHTML = "Something went wrong, please try again";
+            setMessage(data.message);
         }
+    };
 
-        console.log("login error: ", data);
-    }
-}
+    const handleForgotPassword = () => {
+        navigate('/forgotpassword');
+    };
+
+    return (
+        <div>
+            <h2>Login</h2>
+            <form onSubmit={handleLogin}>
+                <label>
+                    Email:
+                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                </label>
+                <label>
+                    Password:
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                </label>
+                <button type="submit">Login</button>
+            </form>
+            {message && <p>{message}</p>}
+            <button onClick={handleForgotPassword}>Forgot Password?</button>
+        </div>
+    );
+};
 
 export default Login;

@@ -5,7 +5,9 @@ import Home from './components/Home';
 import Admin from './components/Admin';
 import Login from './components/Login';
 import Register from './components/Register';
-import ConfirmEmail from './components/ConfirmEmail'; // Import the ConfirmEmail component
+import ConfirmEmail from './components/ConfirmEmail';
+import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -15,12 +17,14 @@ const router = createBrowserRouter(
                 <Route path='/admin' element={<Admin />} />
             </Route>
             <Route path='/login' element={<Login />} />
-            <Route path='/Register' element={<Register />} />
-            <Route path='/ConfirmEmail' element={<ConfirmEmail />} /> {/* Add the confirm email route */}
+            <Route path='/register' element={<Register />} />
+            <Route path='/confirmemail' element={<ConfirmEmail />} />
+            <Route path='/forgotpassword' element={<ForgotPassword />} />
+            <Route path='/resetpassword' element={<ResetPassword />} />
             <Route path='*' element={
                 <div>
                     <header>
-                        <h1>Not Found  sandza</h1>
+                        <h1>Not Found</h1>
                     </header>
                     <p>
                         <a href="/">Back to Home</a>
@@ -34,7 +38,7 @@ const router = createBrowserRouter(
 function App() {
     const isLogged = localStorage.getItem("user");
     const logout = async () => {
-        const response = await fetch("/api/SecureWebsite/logout", {
+        const response = await fetch("/api/securewebsite/logout", {
             method: "GET",
             credentials: "include"
         });
@@ -50,6 +54,7 @@ function App() {
             console.log("could not logout: ", response);
         }
     };
+
     return (
         <section>
             <div className='top-nav'>
@@ -62,7 +67,7 @@ function App() {
                         </span> :
                         <span className='item-holder'>
                             <a href="/login">Login</a>
-                            <a href="/Register">Register</a>
+                            <a href="/register">Register</a>
                         </span>
                 }
             </div>
