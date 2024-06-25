@@ -105,7 +105,6 @@ namespace SecureWebSite.Server.Controllers
             return BadRequest(new { message = "Error confirming your email." });
         }
 
-
         [HttpPost("login")]
         public async Task<ActionResult> LoginUser(Login login)
         {
@@ -227,5 +226,67 @@ namespace SecureWebSite.Server.Controllers
                 return BadRequest(new { message = "Something went wrong, please try again. " + ex.Message });
             }
         }
+
+        [HttpPost("forgotpassword")]
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordModel model)
+        {
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user == null || !(await userManager.IsEmailConfirmedAsync(user)))
+            {
+                logger.LogWarning("Forgot password attempt for non-existent or unconfirmed email {Email}", model.Email);
+                return BadRequest(new { message = "User with this email does not exist or email is not confirmed." });
+            }
+
+            var token = await userManager.GeneratePasswordResetTokenAsync(user);
+            var encodedToken = WebUtility.UrlEncode(token);
+            var resetLink = Url.Action(nameof(ResetPassword), "SecureWebsite", new { email = model.Email, token = encodedToken }, Request.Scheme);
+
+            await emailSender.SendEmailAsync(model.Email, "Reset Password", $"Please reset your password by clicking here: {resetLink}", true);
+
+            // Log the reset token for debugging purposes
+            logger.LogInformation("Password reset token generated for user {UserId}: {Token}", user.Id, token);
+
+            return Ok(new { message = "Password reset link has been sent to your email." });
+        }
+
+        [HttpGet("resetpassword")]
+        public IActionResult ResetPassword(string token, string email)
+        {
+            if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(email))
+            {
+                logger.LogWarning("Reset password attempt with invalid token or email.");
+                return BadRequest(new { message = "Invalid token or email." });
+            }
+
+            return Ok(new { email, token });
+        }
+
+        [HttpPost("resetpassword")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                logger.LogWarning("Reset password attempt for non-existent email {Email}", model.Email);
+                return BadRequest(new { message = "User with this email does not exist." });
+            }
+
+            var decodedToken = WebUtility.UrlDecode(model.Token);
+            var result = await userManager.ResetPasswordAsync(user, decodedToken, model.Password);
+            if (result.Succeeded)
+            {
+                logger.LogInformation("Password reset successfully for user {UserId}", user.Id);
+                return Ok(new { message = "Password has been reset successfully." });
+            }
+
+            logger.LogError("Error resetting password for user {UserId}: {Errors}", user.Id, string.Join(", ", result.Errors.Select(e => e.Description)));
+            return BadRequest(new { message = "Error resetting the password.", errors = result.Errors });
+        }
     }
 }
+
