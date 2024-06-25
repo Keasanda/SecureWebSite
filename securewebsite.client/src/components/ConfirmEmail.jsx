@@ -20,7 +20,7 @@ const ConfirmEmail = () => {
             }
 
             try {
-                const response = await fetch(`/api/securewebsite/confirmemail?email=${email}&token=${token}`);
+                const response = await fetch(`/api/SecureWebsite/confirmemail?email=${email}&token=${token}`);
                 const data = await response.json();
 
                 if (response.ok) {
