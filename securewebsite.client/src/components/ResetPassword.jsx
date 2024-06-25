@@ -11,7 +11,7 @@ const ResetPassword = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch("/api/securewebsite/resetpassword", {
+        const response = await fetch("/api/SecureWebsite/resetpassword", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, token, password })

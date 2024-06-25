@@ -36,7 +36,7 @@ namespace SecureWebSite.Server
                 options.Password.RequiredUniqueChars = 3;
 
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.MaxFailedAccessAttempts = 3;
                 options.Lockout.AllowedForNewUsers = true;
 
                 options.SignIn.RequireConfirmedEmail = true;
