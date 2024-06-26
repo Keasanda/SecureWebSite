@@ -38,7 +38,7 @@ const router = createBrowserRouter(
 function App() {
     const isLogged = localStorage.getItem("user");
     const logout = async () => {
-        const response = await fetch("/api/securewebsite/logout", {
+        const response = await fetch("/api/SecureWebsite/logout", {
             method: "GET",
             credentials: "include"
         });

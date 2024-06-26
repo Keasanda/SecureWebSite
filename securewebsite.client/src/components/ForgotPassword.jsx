@@ -7,7 +7,7 @@ const ForgotPassword = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch("/api/securewebsite/forgotpassword", {
+        const response = await fetch("/api/SecureWebsite/forgotpassword", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email })
