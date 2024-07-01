@@ -20,7 +20,7 @@ function Home() {
     return (
         <section className='page'>
             <header>
-                <h1>Welcome to your page</h1>
+                <h1> Image Gallery  </h1>
             </header>
             {
                 userInfo ?

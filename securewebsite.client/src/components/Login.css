@@ -1,0 +1,52 @@
+.emailtag{
+
+    margin-right:60%;
+font-size: small;
+}
+
+.passwordtag{
+
+    margin-right:80%;   
+font-size: small;
+}
+
+.form-text{
+
+    margin-left: 40%;
+}
+
+.btn {
+width: 40%;
+    margin: 30px;
+}
+
+.form-group{
+
+    margin-left: 10% ;
+    margin-right:10% ;
+}
+
+.background{
+
+    background-color: whitesmoke;
+
+    padding: 30px;
+
+    margin: 20%;
+}
+
+.login-container {
+    background-color: rgba(255, 255, 255, 0.8); /* Optional: Adds a white background with some transparency */
+    padding: 60px;
+    border-radius: 10px;
+}
+
+.background-image {
+    background-image: url('../assets/notebook-natural-laptop-macbook.jpg'); /* Adjust the path as necessary */
+    background-size: cover;
+    background-position: center;
+    height: 100vh; /* Full height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

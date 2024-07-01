@@ -66,8 +66,7 @@ function App() {
                             <span onClick={logout}>Log Out</span>
                         </span> :
                         <span className='item-holder'>
-                            <a href="/login">Login</a>
-                            <a href="/register">Register</a>
+                           
                         </span>
                 }
             </div>
