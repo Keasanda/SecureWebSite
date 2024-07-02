@@ -1,0 +1,44 @@
+.custom-image {
+    height: 200%; /* Adjust as needed */
+    width: auto;
+}
+form {
+    padding-top: 40px;
+}
+
+.form-label {
+    margin-right: 90%;
+    font-size: small;
+}
+
+.form-control {
+    margin-left: 10%;
+    width: 80%;
+}
+
+
+.heading{
+
+  padding-right: 100%;
+}
+
+
+.nae{
+    margin-right: 72%;
+    font-size: small;
+}
+.con{
+
+    margin-right: 58%;
+    font-size: small;
+}
+
+
+.na{
+
+    margin-right: 69%;
+    font-size: small;
+
+}
+
+/* Additional styles for the component */

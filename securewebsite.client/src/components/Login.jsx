@@ -75,7 +75,7 @@ const Login = () => {
                         </small>
                     </div>
                     <div className="d-grid gap-2">
-                        <button type="submit" className="btn btn-primary">Submit</button>
+                        <button type="submit" className="btn btn-primary">Login </button>
                     </div>
                 </form>
                 {message && <p>{message}</p>}

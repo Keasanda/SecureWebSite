@@ -1,3 +1,5 @@
+
+
 .emailtag{
 
     margin-right:60%;
@@ -8,6 +10,7 @@ font-size: small;
 
     margin-right:80%;   
 font-size: small;
+
 }
 
 .form-text{
@@ -16,7 +19,7 @@ font-size: small;
 }
 
 .btn {
-width: 40%;
+width: 80%;
     margin: 30px;
 }
 
@@ -50,3 +53,26 @@ width: 40%;
     justify-content: center;
     align-items: center;
 }
+
+.form-control{
+
+    margin: -5px;
+}
+.secheading{
+
+    padding-top: 15px;
+    padding-bottom: 20px;
+}
+
+
+
+/* Specific placeholder style for email input */
+#exampleInputEmail1::placeholder {
+    font-size: small; /* Adjust the size as needed */
+}
+
+/* Specific placeholder style for password input */
+#exampleInputPassword1::placeholder {
+    font-size: small; /* Adjust the size as needed */
+}
+
