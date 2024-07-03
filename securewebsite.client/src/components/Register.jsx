@@ -72,29 +72,29 @@ function Register() {
                     <form className='register' onSubmit={registerHandler}>
                         <div className="mb-3">
                             <label htmlFor="name" className="form-label"  class="nae">Name</label>
-                            <input type="text" className="form-control" name='Name' id='name' required />
+                            <input type="text" className="form-control" name='Name'    placeholder=    " Enter Name"    id='name' required />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="email" className="form-label" class="nae"   >Email</label>
-                            <input type="email" className="form-control" name='Email' id='email' required />
+                            <input type="email" className="form-control" name='Email'   placeholder=    " Enter Email"    id='email' required />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="password" className="form-label" class="na"    >Password</label>
-                            <input type="password" className="form-control" name='PasswordHash' id='password' required />
+                            <input type="password" className="form-control" name='PasswordHash'   placeholder=    " Password"    id='password' required />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="confirmPassword" className="form-label"   class="con"  >Confirm Password</label>
-                            <input type="password" className="form-control" name='ConfirmPassword' id='confirmPassword' required />
+                            <input type="password" className="form-control" name='ConfirmPassword'  placeholder=" Confirm Password"     id='confirmPassword' required />
                         </div>
                         <button type="submit" className="btn btn-primary">Register</button>
                     </form>
                     <div className='mt-3'>
-                        <span>Or </span>
-                        <a href="/login">Login</a>
+                        <span class="or">Or </span>
+                        
                     </div>
                     <div className='mt-3'>
-                        <button className="btn btn-secondary">Secondary Action</button>
-                        <button className="btn btn-secondary">Another Action</button>
+                        <button className="btn btn-link">Sign in with Google</button>
+                        <button className="btn btn-link">Sign in with Facebook</button>
                     </div>
                 </div>
                 <div className="col-md-6 d-flex align-items-center justify-content-center">

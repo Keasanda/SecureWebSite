@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
+
 .custom-image {
     height: 200%; /* Adjust as needed */
     width: auto;
@@ -7,11 +9,19 @@ form {
 }
 
 .form-label {
+   
+
     margin-right: 90%;
     font-size: small;
+
+   
+    
+
 }
 
 .form-control {
+      padding-left: 5px;
+    font-size: xx-small;
     margin-left: 10%;
     width: 80%;
 }
@@ -24,13 +34,24 @@ form {
 
 
 .nae{
-    margin-right: 72%;
+    margin-right: 74%;
     font-size: small;
+
+    font-family: "Inter Tight", sans-serif;
+
+    color:  #2187AB;;
+
+
+
 }
 .con{
 
-    margin-right: 58%;
+    margin-right: 60%;
     font-size: small;
+
+    font-family: "Inter Tight", sans-serif;
+
+    color:  #2187AB;;
 }
 
 
@@ -38,6 +59,28 @@ form {
 
     margin-right: 69%;
     font-size: small;
+
+    font-family: "Inter Tight", sans-serif;
+
+    color:  #2187AB;;
+
+}
+
+.btn-primary{
+
+    font-family: "Inter Tight", sans-serif;
+
+}
+
+.or{
+    font-size: smaller;
+}
+
+.btn-link{
+    color:  #2187AB;;
+    margin: 3px;
+
+    font-family: "Inter Tight", sans-serif;
 
 }
 

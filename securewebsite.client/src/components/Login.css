@@ -4,7 +4,7 @@
 .emailtag{
 
     margin-bottom: -120px;
-    margin-right:65%;
+    margin-right:77%;
 font-size: small;
 
 font-family: "Inter Tight", sans-serif;
@@ -15,7 +15,7 @@ color:  #2187AB;;
 
 .passwordtag{
     margin-bottom: -120px;
-    margin-right:80%;   
+    margin-right:86%;   
 font-size: small;
 
 font-family: "Inter Tight", sans-serif;
@@ -29,14 +29,13 @@ color:  #2187AB;;
 
 
 font-size: smaller;
-    padding-left: 60%;
+    padding-left: 75%;
 }
 
 .btn {
 width: 89%;
     margin: 30px;
 
-     
     font-family: "Poppins", sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -66,8 +65,8 @@ width: 89%;
 
 .login-container {
     background-color: whitesmoke;
-     padding-left: 130px;
-     padding-right: 180px;
+     padding-left: 100px;
+     padding-right: 100px;
     border-radius: 10px;
 
 }
@@ -122,7 +121,7 @@ padding-bottom: 40px ;
     margin-top: 60px;
     position: relative;
     left: 90px;
-    margin-right: 6%;
+    margin-right: 8%;
  
 
     font-family: "Poppins", sans-serif;
