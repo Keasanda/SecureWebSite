@@ -31,29 +31,27 @@ const Login = () => {
 
     return (
         <div className="background-image">
-           
             <div className="login-container">
+         
+         <div  className="heading" >
 
-            <div class="heading">
-                
-                <h3>  Image Gallery App </h3>
-                 </div>
+                    <h4 >Image Gallery App</h4>
+              
+                    </div>
 
-                 <div>
-                
-                <h3 class="secheading">  Log in </h3>
-                 </div>
-
-
+                <div>
+                    <h4 className="secheading">Log in</h4>
+                </div>
                 <form onSubmit={handleLogin}>
                     <div className="form-group">
-                        <label className="emailtag" htmlFor="exampleInputEmail1">Email address</label>
+                        <label className="emailtag" htmlFor="exampleInputEmail1">  Email address</label>
                         <input 
                             type="email" 
                             className="form-control" 
+                            class="emailtext"
                             id="exampleInputEmail1" 
                             aria-describedby="emailHelp" 
-                            placeholder="Enter email" 
+                            placeholder=    " Enter Email" 
                             value={email} 
                             onChange={(e) => setEmail(e.target.value)} 
                             required 
@@ -64,21 +62,25 @@ const Login = () => {
                         <input 
                             type="password" 
                             className="form-control" 
+                                class="password"
                             id="exampleInputPassword1" 
-                            placeholder="Password" 
+                            placeholder="Enter Password" 
                             value={password} 
                             onChange={(e) => setPassword(e.target.value)} 
                             required 
                         />
-                        <small id="emailHelp" className="form-text text-muted">
+                    
+                    </div>
+
+                    <small id="emailHelp" className="form-text text-muted">
                             <a href="#" onClick={handleForgotPassword}>Forgot Password?</a>
                         </small>
-                    </div>
+
                     <div className="d-grid gap-2">
-                        <button type="submit" className="btn btn-primary">Login </button>
+                        <button type="submit" className="btn btn-primary">Login</button>
                     </div>
                 </form>
-                {message && <p>{message}</p>}
+                {message && <p className="message">{message}</p>}
                 <div className="register-link">
                     <p>New to this platform? <a href="/register">Register here</a></p>
                 </div>

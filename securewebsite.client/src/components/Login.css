@@ -1,30 +1,56 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
 
 .emailtag{
 
-    margin-right:60%;
+    margin-bottom: -120px;
+    margin-right:65%;
 font-size: small;
+
+font-family: "Inter Tight", sans-serif;
+
+color:  #2187AB;;
+
 }
 
 .passwordtag{
-
+    margin-bottom: -120px;
     margin-right:80%;   
 font-size: small;
+
+font-family: "Inter Tight", sans-serif;
+
+
+color:  #2187AB;;
 
 }
 
 .form-text{
 
-    margin-left: 40%;
+
+font-size: smaller;
+    padding-left: 60%;
 }
 
 .btn {
-width: 80%;
+width: 89%;
     margin: 30px;
+
+     
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+
+
+
+
 }
 
 .form-group{
 
+    margin-bottom: 2px;
+
+      padding-right: 50px;
     margin-left: 10% ;
     margin-right:10% ;
 }
@@ -39,13 +65,15 @@ width: 80%;
 }
 
 .login-container {
-    background-color: rgba(255, 255, 255, 0.8); /* Optional: Adds a white background with some transparency */
-    padding: 60px;
+    background-color: whitesmoke;
+     padding-left: 130px;
+     padding-right: 180px;
     border-radius: 10px;
+
 }
 
 .background-image {
-    background-image: url('../assets/notebook-natural-laptop-macbook.jpg'); /* Adjust the path as necessary */
+    background-image: url('src/assets/Cool.jfif'); /* Adjust the path as necessary */
     background-size: cover;
     background-position: center;
     height: 100vh; /* Full height */
@@ -55,16 +83,19 @@ width: 80%;
 }
 
 .form-control{
+padding-left: 90px;
 
+width: 90px;
     margin: -5px;
 }
-.secheading{
 
-    padding-top: 15px;
-    padding-bottom: 20px;
+.emailtext{
+
+    font-size: ;
+    margin-top: 1px;
+
+width: 130%;
 }
-
-
 
 /* Specific placeholder style for email input */
 #exampleInputEmail1::placeholder {
@@ -76,3 +107,51 @@ width: 80%;
     font-size: small; /* Adjust the size as needed */
 }
 
+.password{
+
+    margin-bottom: 15px;
+    margin-top: 1px;
+width: 130%;
+}
+
+.register-link{
+padding-bottom: 40px ;
+    font-size: xx-small;
+}
+.heading{
+    margin-top: 60px;
+    position: relative;
+    left: 90px;
+    margin-right: 6%;
+ 
+
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+
+
+color: #2187AB;
+
+}
+
+.secheading{
+    padding-left: 60px;
+
+    
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+
+
+color: #2187AB;
+
+}
+
+
+#exampleInputEmail1::placeholder {
+    font-size: xx-small; /* Adjust the size as needed */
+}
+
+#exampleInputPassword1::placeholder {
+    font-size:  xx-small ; /* Adjust the size as needed */
+}
