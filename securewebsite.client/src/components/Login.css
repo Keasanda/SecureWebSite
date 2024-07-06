@@ -1,25 +1,29 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 .emailtag{
 
     margin-bottom: -120px;
-    margin-right:77%;
+    margin-right:76%;
 font-size: small;
 
-font-family: "Inter Tight", sans-serif;
+font-family: "Poppins", sans-serif;
+
+font-style: normal;
 
 color:  #2187AB;;
 
 }
 
 .passwordtag{
+    padding-top: 20px;
     margin-bottom: -120px;
     margin-right:86%;   
 font-size: small;
 
-font-family: "Inter Tight", sans-serif;
-
+ font-family: "Poppins", sans-serif;
+ 
+  font-style: normal;
 
 color:  #2187AB;;
 
@@ -28,20 +32,20 @@ color:  #2187AB;;
 .form-text{
 
 
-font-size: smaller;
-    padding-left: 75%;
+font-size: xx-small;
+    padding-left: 15%;
 }
 
-.btn {
-width: 89%;
-    margin: 30px;
+.power {
+width: 40px;
 
-    font-family: "Poppins", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+  margin-top: 20px;
+   
+  margin-bottom: 20px;
+   
+margin-right: 160px;
 
-
-
+padding-right: 40px;
 
 }
 
@@ -50,8 +54,6 @@ width: 89%;
     margin-bottom: 2px;
 
       padding-right: 50px;
-    margin-left: 10% ;
-    margin-right:10% ;
 }
 
 .background{
@@ -64,10 +66,14 @@ width: 89%;
 }
 
 .login-container {
-    background-color: whitesmoke;
-     padding-left: 100px;
-     padding-right: 100px;
+    background-color: white;
+     padding-left: 150px;
+   
     border-radius: 10px;
+
+    padding-top: 40px;
+
+    
 
 }
 
@@ -82,9 +88,9 @@ width: 89%;
 }
 
 .form-control{
-padding-left: 90px;
+padding-left: 9px;
 
-width: 90px;
+
     margin: -5px;
 }
 
@@ -107,40 +113,41 @@ width: 130%;
 }
 
 .password{
-
+     
     margin-bottom: 15px;
     margin-top: 1px;
-width: 130%;
+
 }
 
 .register-link{
+    margin-right: 190px;
 padding-bottom: 40px ;
     font-size: xx-small;
 }
-.heading{
-    margin-top: 60px;
+.headinglogin{
+    margin-top: 10px;
     position: relative;
-    left: 90px;
+    right: 40px;
     margin-right: 8%;
  
 
-    font-family: "Poppins", sans-serif;
+    font-family: "Poppins";
     font-weight: 400;
     font-style: normal;
 
-
-color: #2187AB;
+    font-weight: bold;
+color:#4682B4
 
 }
 
 .secheading{
-    padding-left: 60px;
+    padding-right: 90px;
 
     
-    font-family: "Poppins", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-
+    font-family: "Poppins";
+    font-weight: 300;
+    
+    font-weight: bold;
 
 color: #2187AB;
 
@@ -153,4 +160,42 @@ color: #2187AB;
 
 #exampleInputPassword1::placeholder {
     font-size:  xx-small ; /* Adjust the size as needed */
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon .icon {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    pointer-events: none; /* Ensure the icon does not interfere with input */
+}
+
+.input-with-icon .form-control {
+    padding-left: 30px; /* Adjust this value based on the icon size */
+    margin-left: 0px;
+}
+
+.custom-height {
+    height: 50px; /* Set your desired height */
+    font-size: 16px; /* Adjust font size if needed */
+    padding: 10px; /* Adjust padding if needed */
+}
+
+.login-button {
+
+    width: 100%; /* Set the width to 100% to make it full-width */
+    max-width: 300px; /* You can also set a max-width if needed */
+
+
+}
+
+.input-field {
+    padding: 15px;
+    width: 100%; /* Makes the input field full-width */
+    max-width: 300px; /* Sets a maximum width */
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
+import { FaUser, FaLock } from "react-icons/fa";
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -32,53 +33,53 @@ const Login = () => {
     return (
         <div className="background-image">
             <div className="login-container">
-         
-         <div  className="heading" >
-
-                    <h4 >Image Gallery App</h4>
-              
-                    </div>
-
+                <div className="headinglogin">
+                    <h3>Image Gallery App</h3>
+                </div>
                 <div>
-                    <h4 className="secheading">Log in</h4>
+                    <h3 className="secheading">Log in</h3>
                 </div>
                 <form onSubmit={handleLogin}>
-                    <div className="form-group">
-                        <label className="emailtag" htmlFor="exampleInputEmail1">  Email address</label>
-                        <input 
-                            type="email" 
-                            className="form-control" 
-                            class="emailtext"
-                            id="exampleInputEmail1" 
-                            aria-describedby="emailHelp" 
-                            placeholder=    " Enter Email" 
-                            value={email} 
-                            onChange={(e) => setEmail(e.target.value)} 
-                            required 
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label className="passwordtag" htmlFor="exampleInputPassword1">Password</label>
-                        <input 
-                            type="password" 
-                            className="form-control" 
-                                class="password"
-                            id="exampleInputPassword1" 
-                            placeholder="Enter Password" 
-                            value={password} 
-                            onChange={(e) => setPassword(e.target.value)} 
-                            required 
-                        />
                     
-                    </div>
+                <div className="form-group">
+    <label className="emailtag" htmlFor="exampleInputEmail1">Email address</label>
+    <div className="input-with-icon">
+        <FaUser className="icon" />
+        <input 
+            type="email" 
+            className="form-control emailtext input-field" 
+            id="exampleInputEmail1" 
+            aria-describedby="emailHelp" 
+            placeholder="Enter Email" 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)} 
+            required 
+        />
+    </div>
+</div>
+<div className="form-group">
+    <label className="passwordtag" htmlFor="exampleInputPassword1">Password</label>
+    <div className="input-with-icon">
+        <FaLock className="icon" />
+        <input 
+            type="password" 
+            className="form-control password input-field" 
+            id="exampleInputPassword1" 
+            placeholder="Enter Password" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+            required 
+        />
+    </div>
+</div>
 
                     <small id="emailHelp" className="form-text text-muted">
-                            <a href="#" onClick={handleForgotPassword}>Forgot Password?</a>
-                        </small>
+                        <a href="#" onClick={handleForgotPassword}>Forgot Password?</a>
+                    </small>
+                   
+                    <button type="submit" className="btn btn-primary power login-button">Login</button>
 
-                    <div className="d-grid gap-2">
-                        <button type="submit" className="btn btn-primary">Login</button>
-                    </div>
+                 
                 </form>
                 {message && <p className="message">{message}</p>}
                 <div className="register-link">
