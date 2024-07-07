@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import './Register.css'; // Import your CSS file
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebook } from "react-icons/fa";
 
 function Register() {
     useEffect(() => {
@@ -64,41 +66,59 @@ function Register() {
     }
 
     return (
-        <div className="container mt-5">
+        <div className="container ">
             <div className="row">
                 <div className="col-md-6">
-                    <h2 className="heading">Register Profile </h2>
+                    <h2 className="registerhead">Register Profile </h2>
+                    <p class="pa"> Lorem ipsum dolor sit amet consectetur sit amet consectetur   </p>
                     
                     <form className='register' onSubmit={registerHandler}>
                         <div className="mb-3">
                             <label htmlFor="name" className="form-label"  class="nae">Name</label>
-                            <input type="text" className="form-control" name='Name'    placeholder=    " Enter Name"    id='name' required />
+                            <input type="text" className="control1" name='Name'    placeholder=    " Enter Name"    id='name' required />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="email" className="form-label" class="nae"   >Email</label>
-                            <input type="email" className="form-control" name='Email'   placeholder=    " Enter Email"    id='email' required />
+                            <input type="email" className="control1" name='Email'   placeholder=    " Enter Email"    id='email' required />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="password" className="form-label" class="na"    >Password</label>
-                            <input type="password" className="form-control" name='PasswordHash'   placeholder=    " Password"    id='password' required />
+                            <input type="password" className="control1" name='PasswordHash'   placeholder=    " Password"    id='password' required />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="confirmPassword" className="form-label"   class="con"  >Confirm Password</label>
-                            <input type="password" className="form-control" name='ConfirmPassword'  placeholder=" Confirm Password"     id='confirmPassword' required />
+                            <input type="password" className="control1" name='ConfirmPassword'  placeholder=" Confirm Password"     id='confirmPassword' required />
                         </div>
-                        <button type="submit" className="btn btn-primary">Register</button>
-                    </form>
-                    <div className='mt-3'>
-                        <span class="or">Or </span>
+                        <button type="submit" className="btn btn-primary  registerbtn">Register</button>
+
+                        <div className='mt-3'>
+                        <span class="or">or </span>
+
+
+
+                        <div className='mt-3 push'>
+                    <button className="btn btn-link">
+                            <FcGoogle style={{ marginRight: '8px' }} />
+                            Sign in with Google
+                        </button>
+
+                        <button className="btn btn-link">
+                            <FaFacebook style={{ marginRight: '8px' }} />
+                            Sign in with Google
+                        </button>
+                       
+                       
+                    </div>
+
                         
                     </div>
-                    <div className='mt-3'>
-                        <button className="btn btn-link">Sign in with Google</button>
-                        <button className="btn btn-link">Sign in with Facebook</button>
-                    </div>
+
+                    </form>
+                  
+               
                 </div>
-                <div className="col-md-6 d-flex align-items-center justify-content-center">
-                    <img src="src/assets/notebook-natural-laptop-macbook.jpg" alt="Register" className="img-fluid custom-image" />
+                <div className="col-md-6 d-flex picRes">
+                    <img src="src\assets\5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Register" className="img-fluid custom-image" />
                 </div>
             </div>
         </div>

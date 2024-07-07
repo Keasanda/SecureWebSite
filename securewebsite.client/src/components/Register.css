@@ -1,11 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
 
-.custom-image {
-    height: 200%; /* Adjust as needed */
-    width: auto;
-}
+
 form {
     padding-top: 40px;
+    margin-left: 45px;
 }
 
 .form-label {
@@ -19,37 +17,53 @@ form {
 
 }
 
-.form-control {
-      padding-left: 5px;
+.control1 {
+      
     font-size: xx-small;
-    margin-left: 10%;
-    width: 80%;
+ margin-right: 79px ;
+   width: 100%;
+
+   padding: 10px;
+
+   margin-top:0px;
 }
 
 
-.heading{
+.registerhead{
 
-  padding-right: 100%;
+
+    padding-top: 100px;
+
+    font-family: "Poppins", sans-serif;
+    font-weight: bolder;
+    font-style: normal;
+
+
+    color:  #2187AB;
+
+  padding-right: 30%;
 }
 
 
 .nae{
-    margin-right: 74%;
+    margin-right: 99%;
     font-size: small;
 
-    font-family: "Inter Tight", sans-serif;
+padding-bottom: -1px;
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
 
     color:  #2187AB;;
-
 
 
 }
 .con{
 
-    margin-right: 60%;
+    margin-right: 74%;
     font-size: small;
 
-    font-family: "Inter Tight", sans-serif;
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
 
     color:  #2187AB;;
 }
@@ -57,31 +71,81 @@ form {
 
 .na{
 
-    margin-right: 69%;
+    margin-right: 89%;
     font-size: small;
 
-    font-family: "Inter Tight", sans-serif;
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
 
     color:  #2187AB;;
 
 }
 
-.btn-primary{
+.registerbtn{
 
-    font-family: "Inter Tight", sans-serif;
 
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+
+width: 480px;
+    margin-top: 30px;
 }
 
 .or{
     font-size: smaller;
+
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+
+    color:  #2187AB;;
+
+    padding-right: 10px;
 }
 
 .btn-link{
+ border: #2187AB;
     color:  #2187AB;;
-    margin: 3px;
+    margin: 4px;
 
     font-family: "Inter Tight", sans-serif;
-
+margin-left: 80px;
+  
 }
 
+.row{
+
+    margin-left: -250px;
+}
+
+.register{
+
+    padding-right: 90px;
+    padding: 55px;
+}
 /* Additional styles for the component */
+
+.picRes{
+
+    height: 370px /* Increase the width of the image */
+    /* Optional: set a maximum width */
+     /* Maintain aspect ratio */
+}
+
+.pa{
+
+    font-size: smaller;
+
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+
+    color:  #2187AB;;
+
+    margin-right: 20px;
+
+    margin-bottom: -1px;
+}
+
+.push{
+
+    margin-right:70px;
+}

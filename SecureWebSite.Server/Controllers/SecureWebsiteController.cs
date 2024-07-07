@@ -53,11 +53,10 @@ namespace SecureWebSite.Server.Controllers
                 var token = await userManager.GenerateEmailConfirmationTokenAsync(newUser);
                 logger.LogInformation("Email confirmation token generated for user {UserId}", newUser.Id);
 
-                // Save the token to AspNetUserTokens table
-                await userManager.SetAuthenticationTokenAsync(newUser, "CustomProvider", "EmailConfirmation", token);
+                // URL encode the token
+                var encodedToken = WebUtility.UrlEncode(token);
 
                 // Create confirmation link
-                var encodedToken = WebUtility.UrlEncode(token);
                 var confirmationLink = $"https://localhost:5173/confirmemail?email={newUser.Email}&token={encodedToken}";
                 logger.LogInformation("Confirmation link generated: {ConfirmationLink}", confirmationLink);
 
@@ -88,6 +87,9 @@ namespace SecureWebSite.Server.Controllers
                 return BadRequest(new { message = "Email and Token are required." });
             }
 
+            // URL decode the token
+            var decodedToken = WebUtility.UrlDecode(token);
+
             var user = await userManager.FindByEmailAsync(email);
             if (user == null)
             {
@@ -95,7 +97,7 @@ namespace SecureWebSite.Server.Controllers
                 return BadRequest(new { message = "User not found." });
             }
 
-            var result = await userManager.ConfirmEmailAsync(user, token);
+            var result = await userManager.ConfirmEmailAsync(user, decodedToken);
             if (result.Succeeded)
             {
                 logger.LogInformation("User with email {Email} successfully confirmed email.", email);
@@ -105,6 +107,7 @@ namespace SecureWebSite.Server.Controllers
             logger.LogError("Error confirming email for user with email {Email}: {Error}", email, result.Errors.FirstOrDefault()?.Description);
             return BadRequest(new { message = "Error confirming your email." });
         }
+
 
         [HttpPost("forgotpassword")]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordModel model)

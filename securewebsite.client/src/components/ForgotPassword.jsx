@@ -25,13 +25,13 @@ const ForgotPassword = () => {
         <div className="container mt-5">
             <div className="row">
                 <div className="col-md-6 ">
-                    <h2 className="heading">Forgot Password</h2>
+                    <h2 className="fg">Forgot Password</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
-                            <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
+                            <label htmlFor="exampleInputEmail1" className="email-label">Email address</label>
                             <input 
                                 type="email" 
-                                className="form-control" 
+                                className="forgetcontrol" 
                                 id="exampleInputEmail1" 
                                 aria-describedby="emailHelp" 
                                 placeholder="Enter email"
@@ -41,12 +41,12 @@ const ForgotPassword = () => {
                             />
 
                         </div>
-                        <button type="submit" className="btn btn-primary">Send Reset Link</button>
+                        <button type="submit" className="btn btn-primary rest">Send Reset Link</button>
                     </form>
                     {message && <p className="mt-3">{message}</p>}
                 </div>
-                <div className="col-md-6 d-flex align-items-center justify-content-center">
-                    <img src="src\assets\notebook-natural-laptop-macbook.jpg" alt="Forgot Password" className="img-fluid custom-image" />
+                <div className="forgetpic ">
+                    <img src="src\assets\5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Forgot Password" className="img-fluid custom-image" />
                 </div>
             </div>
         </div>

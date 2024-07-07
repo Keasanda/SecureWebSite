@@ -4,10 +4,12 @@
 .emailtag{
 
     margin-bottom: -120px;
-    margin-right:76%;
+    margin-right:67%;
 font-size: small;
 
 font-family: "Poppins", sans-serif;
+
+font-weight: bold;
 
 font-style: normal;
 
@@ -22,18 +24,26 @@ color:  #2187AB;;
 font-size: small;
 
  font-family: "Poppins", sans-serif;
- 
+ font-weight: bold;
+
   font-style: normal;
 
 color:  #2187AB;;
 
 }
 
-.form-text{
+.foget {
 
 
 font-size: xx-small;
-    padding-left: 15%;
+    padding-left: 45%;
+
+    font-family: "Poppins";
+    font-weight: 300;
+    
+    font-weight: bold;
+
+color: #2187AB;
 }
 
 .power {
@@ -67,7 +77,8 @@ padding-right: 40px;
 
 .login-container {
     background-color: white;
-     padding-left: 150px;
+     padding-left: 80px;
+     padding-right: 70px;
    
     border-radius: 10px;
 
@@ -120,28 +131,36 @@ width: 130%;
 }
 
 .register-link{
-    margin-right: 190px;
+    margin-right: 0px;
 padding-bottom: 40px ;
     font-size: xx-small;
-}
-.headinglogin{
-    margin-top: 10px;
-    position: relative;
-    right: 40px;
-    margin-right: 8%;
- 
 
+    
     font-family: "Poppins";
     font-weight: 400;
     font-style: normal;
 
     font-weight: bold;
 color:#4682B4
+}
+.headinglogin{
+    margin-top: 10px;
+    position: relative;
+   
 
+ 
+
+       
+    font-family: "Poppins";
+    font-weight: 300;
+    
+    font-weight: bold;
+
+color: #2187AB;
 }
 
 .secheading{
-    padding-right: 90px;
+    padding-right: 10px;
 
     
     font-family: "Poppins";

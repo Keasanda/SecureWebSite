@@ -73,7 +73,7 @@ const Login = () => {
     </div>
 </div>
 
-                    <small id="emailHelp" className="form-text text-muted">
+                    <small id="emailHelp" className="foget text-muted">
                         <a href="#" onClick={handleForgotPassword}>Forgot Password?</a>
                     </small>
                    

@@ -38,13 +38,13 @@ const ResetPassword = () => {
         <div className="container mt-5">
             <div className="row">
                 <div className="col-md-6">
-                    <h2 className="heading">Reset Password</h2>
+                    <h2 className="reheading ">Reset Password</h2>
                     <form onSubmit={handleSubmit}>
-                        <div className="mb-3">
-                            <label htmlFor="newPassword" className="form-label">New Password</label>
+                        <div className="mb-3 goat">
+                            <label htmlFor="newPassword" className="form-label np">New Password</label>
                             <input 
                                 type="password" 
-                                className="form-control" 
+                                className="form-control win" 
                                 id="newPassword" 
                                  placeholder="newPassword"
                                 value={password} 
@@ -52,11 +52,11 @@ const ResetPassword = () => {
                                 required 
                             />
                         </div>
-                        <div className="mb-3">
+                        <div className="mb-3 goat">
                             <label htmlFor="confirmPassword" className="form-label CP">Confirm New Password</label>
                             <input 
                                 type="password" 
-                                className="form-control" 
+                                className="form-control win" 
                                 id="confirmPassword" 
                                   placeholder="ConfirmPassword"
                                 value={confirmPassword} 
@@ -64,12 +64,12 @@ const ResetPassword = () => {
                                 required 
                             />
                         </div>
-                        <button type="submit" className="btn btn-primary">Reset Password</button>
+                        <button type="submit" className="btn btn-primary grow">Reset Password</button>
                     </form>
                     {message && <p className="mt-3">{message}</p>}
                 </div>
-                <div className="col-md-6 d-flex align-items-center justify-content-center">
-                    <img src="src\assets\notebook-natural-laptop-macbook.jpg" alt="Reset Password" className="img-fluid" />
+                <div className="col-md-6 restpic">
+                    <img src="src\assets\5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Reset Password" className="img-fluid" />
                 </div>
             </div>
         </div>
