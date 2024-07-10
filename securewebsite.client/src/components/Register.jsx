@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
-import './Register.css'; // Import your CSS file
+import React, { useEffect, useState } from 'react';
+import './Register.css';
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 
 function Register() {
+    const [message, setMessage] = useState('');
+
     useEffect(() => {
         const user = localStorage.getItem("user");
         if (user) {
@@ -26,12 +28,12 @@ function Register() {
         dataToSend.UserName = newUserName;
 
         if (dataToSend.PasswordHash !== dataToSend.ConfirmPassword) {
-            document.querySelector(".message").innerHTML = "Passwords do not match.";
+            setMessage("Passwords do not match.");
             return;
         }
 
         try {
-            const response = await fetch("/api/SecureWebsite/Register", {
+            const response = await fetch("/api/SecureWebsite/register", {
                 method: "POST",
                 credentials: "include",
                 body: JSON.stringify(dataToSend),
@@ -42,26 +44,23 @@ function Register() {
             });
 
             const data = await response.json();
-            const messageEl = document.querySelector(".message");
-
             if (response.ok) {
-                messageEl.innerHTML = "Registered successfully. Please check your email to confirm your account.";
+                setMessage("Registered successfully. Please check your email to confirm your account.");
                 document.location = "/login";
             } else {
-                let errorMessages = "<div>Attention please:</div><div class='normal'>";
+                let errorMessages = "Attention please:\n";
                 if (data.errors && Array.isArray(data.errors)) {
                     data.errors.forEach(error => {
-                        errorMessages += `<div>${error.description}</div>`;
+                        errorMessages += `${error}\n`;
                     });
                 } else {
-                    errorMessages += `<div>${data.message || 'An error occurred.'}</div>`;
+                    errorMessages += data.message || 'An error occurred.';
                 }
-                errorMessages += "</div>";
-                messageEl.innerHTML = errorMessages;
+                setMessage(errorMessages);
             }
         } catch (error) {
             console.error("Registration error:", error);
-            document.querySelector(".message").innerHTML = "Something went wrong, please try again.";
+            setMessage("Something went wrong, please try again.");
         }
     }
 
@@ -69,56 +68,44 @@ function Register() {
         <div className="container ">
             <div className="row">
                 <div className="col-md-6">
-                    <h2 className="registerhead">Register Profile </h2>
-                    <p class="pa"> Lorem ipsum dolor sit amet consectetur sit amet consectetur   </p>
-                    
+                    <h2 className="registerhead">Register Profile</h2>
+                    <p className="pa">Lorem ipsum dolor sit amet consectetur sit amet consectetur</p>
                     <form className='register' onSubmit={registerHandler}>
                         <div className="mb-3">
-                            <label htmlFor="name" className="form-label"  class="nae">Name</label>
-                            <input type="text" className="control1" name='Name'    placeholder=    " Enter Name"    id='name' required />
+                            <label htmlFor="name" className="form-label nae">Name</label>
+                            <input type="text" className="control1" name='Name' placeholder="Enter Name" id='name' required />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="email" className="form-label" class="nae"   >Email</label>
-                            <input type="email" className="control1" name='Email'   placeholder=    " Enter Email"    id='email' required />
+                            <label htmlFor="email" className="form-label nae">Email</label>
+                            <input type="email" className="control1" name='Email' placeholder="Enter Email" id='email' required />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="password" className="form-label" class="na"    >Password</label>
-                            <input type="password" className="control1" name='PasswordHash'   placeholder=    " Password"    id='password' required />
+                            <label htmlFor="password" className="form-label na">Password</label>
+                            <input type="password" className="control1" name='PasswordHash' placeholder="Password" id='password' required />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="confirmPassword" className="form-label"   class="con"  >Confirm Password</label>
-                            <input type="password" className="control1" name='ConfirmPassword'  placeholder=" Confirm Password"     id='confirmPassword' required />
+                            <label htmlFor="confirmPassword" className="form-label con">Confirm Password</label>
+                            <input type="password" className="control1" name='ConfirmPassword' placeholder="Confirm Password" id='confirmPassword' required />
                         </div>
-                        <button type="submit" className="btn btn-primary  registerbtn">Register</button>
-
+                        <button type="submit" className="btn btn-primary registerbtn">Register</button>
                         <div className='mt-3'>
-                        <span class="or">or </span>
-
-
-
-                        <div className='mt-3 push'>
-                    <button className="btn btn-link">
-                            <FcGoogle style={{ marginRight: '8px' }} />
-                            Sign in with Google
-                        </button>
-
-                        <button className="btn btn-link">
-                            <FaFacebook style={{ marginRight: '8px' }} />
-                            Sign in with Google
-                        </button>
-                       
-                       
-                    </div>
-
-                        
-                    </div>
-
+                            <span className="or">or</span>
+                            <div className='mt-3 push'>
+                                <button className="btn btn-link">
+                                    <FcGoogle style={{ marginRight: '8px' }} />
+                                    Sign in with Google
+                                </button>
+                                <button className="btn btn-link">
+                                    <FaFacebook style={{ marginRight: '8px' }} />
+                                    Sign in with Facebook
+                                </button>
+                            </div>
+                        </div>
                     </form>
-                  
-               
+                    {message && <p className="message">{message}</p>}
                 </div>
                 <div className="col-md-6 d-flex picRes">
-                    <img src="src\assets\5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Register" className="img-fluid custom-image" />
+                    <img src="src/assets/5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Register" className="img-fluid custom-image" />
                 </div>
             </div>
         </div>

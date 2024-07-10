@@ -46,24 +46,18 @@ namespace SecureWebSite.Server.Controllers
                 if (!result.Succeeded)
                 {
                     logger.LogWarning("User registration failed: {Errors}", string.Join(", ", result.Errors.Select(e => e.Description)));
-                    return BadRequest(result);
+                    return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
                 }
 
-                // Generate email confirmation token
                 var token = await userManager.GenerateEmailConfirmationTokenAsync(newUser);
                 logger.LogInformation("Email confirmation token generated for user {UserId}", newUser.Id);
 
-                // URL encode the token
                 var encodedToken = WebUtility.UrlEncode(token);
-
-                // Create confirmation link
                 var confirmationLink = $"https://localhost:5173/confirmemail?email={newUser.Email}&token={encodedToken}";
                 logger.LogInformation("Confirmation link generated: {ConfirmationLink}", confirmationLink);
 
-                // Log to console
                 Console.WriteLine($"Confirmation link generated: {confirmationLink}");
 
-                // Send confirmation email
                 await emailSender.SendEmailAsync(user.Email, "Confirm your email", $"Please confirm your email by clicking this link: {confirmationLink}", true);
                 logger.LogInformation("Confirmation email sent to {Email}", user.Email);
 
@@ -236,7 +230,6 @@ namespace SecureWebSite.Server.Controllers
 
             return Ok(new { userInfo = userInfo });
         }
-
         [HttpPost("login")]
         public async Task<ActionResult> LoginUser(Login login)
         {
@@ -256,7 +249,7 @@ namespace SecureWebSite.Server.Controllers
                     return Unauthorized(new { message = "Email not confirmed yet." });
                 }
 
-                var result = await signInManager.PasswordSignInAsync(user, login.Password, login.Remember, lockoutOnFailure: false);
+                var result = await signInManager.PasswordSignInAsync(user, login.Password, login.Remember, lockoutOnFailure: true);
 
                 if (result.Succeeded)
                 {
@@ -281,7 +274,7 @@ namespace SecureWebSite.Server.Controllers
                 if (result.IsLockedOut)
                 {
                     logger.LogWarning("User {UserId} is locked out", user.Id);
-                    return BadRequest(new { message = "Account locked out." });
+                    return BadRequest(new { message = "Account locked out due to multiple failed login attempts. Please try again later." });
                 }
 
                 logger.LogWarning("Invalid login attempt for user {UserId}", user.Id);
@@ -293,5 +286,6 @@ namespace SecureWebSite.Server.Controllers
                 return BadRequest(new { message = "Something went wrong, please try again. " + ex.Message });
             }
         }
+
     }
 }
