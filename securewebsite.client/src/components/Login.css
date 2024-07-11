@@ -4,7 +4,7 @@
 .emailtag{
 
     margin-bottom: -120px;
-    margin-right:67%;
+    margin-right:83%;
 font-size: small;
 
 font-family: "Poppins", sans-serif;
@@ -13,7 +13,7 @@ font-weight: bold;
 
 font-style: normal;
 
-color:  #2187AB;;
+color:  #0F3C4C;
 
 }
 
@@ -28,7 +28,7 @@ font-size: small;
 
   font-style: normal;
 
-color:  #2187AB;;
+color: #0F3C4C;
 
 }
 
@@ -36,34 +36,27 @@ color:  #2187AB;;
 
 
 font-size: xx-small;
-    padding-left: 45%;
+    padding-left: 43%;
+
+
 
     font-family: "Poppins";
     font-weight: 300;
     
     font-weight: bold;
 
-color: #2187AB;
+color: #0F3C4C;
+;
 }
 
-.power {
-width: 40px;
 
-  margin-top: 20px;
-   
-  margin-bottom: 20px;
-   
-margin-right: 160px;
-
-padding-right: 40px;
-
-}
 
 .form-group{
 
     margin-bottom: 2px;
 
-      padding-right: 50px;
+      padding-right: 100px;
+      
 }
 
 .background{
@@ -77,10 +70,10 @@ padding-right: 40px;
 
 .login-container {
     background-color: white;
-     padding-left: 80px;
-     padding-right: 70px;
+     padding-left: 30px;
+  
    
-    border-radius: 10px;
+
 
     padding-top: 40px;
 
@@ -107,7 +100,7 @@ padding-left: 9px;
 
 .emailtext{
 
-    font-size: ;
+  
     margin-top: 1px;
 
 width: 130%;
@@ -125,14 +118,15 @@ width: 130%;
 
 .password{
      
-    margin-bottom: 15px;
+ 
     margin-top: 1px;
+
 
 }
 
 .register-link{
-    margin-right: 0px;
-padding-bottom: 40px ;
+    margin-right: 70px;
+padding-bottom: 30px ;
     font-size: xx-small;
 
     
@@ -141,14 +135,14 @@ padding-bottom: 40px ;
     font-style: normal;
 
     font-weight: bold;
-color:#4682B4
+color: #0F3C4C;
 }
 .headinglogin{
-    margin-top: 10px;
+
     position: relative;
    
 
- 
+ margin-right: 70px;
 
        
     font-family: "Poppins";
@@ -156,19 +150,19 @@ color:#4682B4
     
     font-weight: bold;
 
-color: #2187AB;
+color: #0F3C4C;;
 }
 
 .secheading{
-    padding-right: 10px;
+    padding-right: 50px;
 
-    
+    padding-top: 20px;
     font-family: "Poppins";
-    font-weight: 300;
+  
     
     font-weight: bold;
 
-color: #2187AB;
+color: #0F3C4C;
 
 }
 
@@ -192,6 +186,8 @@ color: #2187AB;
     transform: translateY(-50%);
     color: #aaa;
     pointer-events: none; /* Ensure the icon does not interfere with input */
+
+  
 }
 
 .input-with-icon .form-control {
@@ -207,14 +203,25 @@ color: #2187AB;
 
 .login-button {
 
-    width: 100%; /* Set the width to 100% to make it full-width */
-    max-width: 300px; /* You can also set a max-width if needed */
+    width: 400px; /* Set the width to 100% to make it full-width */
+     /* You can also set a max-width if needed */
 
+margin-right: 100%;
+
+background-color:#2187AB;
+;
+
+margin-top: 50px;
+
+margin-bottom: 40px;
+font-family: "Poppins";
+font-weight: 400;
+font-size: smaller;
 
 }
 
 .input-field {
     padding: 15px;
-    width: 100%; /* Makes the input field full-width */
-    max-width: 300px; /* Sets a maximum width */
+    width: 400px; /* Makes the input field full-width */
+   /* Sets a maximum width */
 }

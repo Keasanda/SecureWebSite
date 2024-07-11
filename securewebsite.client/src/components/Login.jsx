@@ -37,11 +37,11 @@ const Login = () => {
                     <h3>Image Gallery App</h3>
                 </div>
                 <div>
-                    <h3 className="secheading">Log in</h3>
+                    <h3 className="secheading">Login</h3>
                 </div>
                 <form onSubmit={handleLogin}>
                     <div className="form-group">
-                        <label className="emailtag" htmlFor="exampleInputEmail1">Email address</label>
+                        <label className="emailtag" htmlFor="exampleInputEmail1">Username</label>
                         <div className="input-with-icon">
                             <FaUser className="icon" />
                             <input 
