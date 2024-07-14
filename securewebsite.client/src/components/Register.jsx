@@ -69,7 +69,7 @@ function Register() {
             <div className="row">
                 <div className="col-md-6">
                     <h2 className="registerhead">Register Profile</h2>
-                    <p className="pa">Lorem ipsum dolor sit amet consectetur sit amet consectetur</p>
+                  
                     <form className='register' onSubmit={registerHandler}>
                         <div className="mb-3">
                             <label htmlFor="name" className="form-label nae">Name</label>

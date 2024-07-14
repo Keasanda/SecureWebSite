@@ -81,8 +81,7 @@ namespace SecureWebSite.Server.Controllers
                 return BadRequest(new { message = "Email and Token are required." });
             }
 
-            // URL decode the token
-            var decodedToken = WebUtility.UrlDecode(token);
+      
 
             var user = await userManager.FindByEmailAsync(email);
             if (user == null)
@@ -91,7 +90,7 @@ namespace SecureWebSite.Server.Controllers
                 return BadRequest(new { message = "User not found." });
             }
 
-            var result = await userManager.ConfirmEmailAsync(user, decodedToken);
+            var result = await userManager.ConfirmEmailAsync(user, token);
             if (result.Succeeded)
             {
                 logger.LogInformation("User with email {Email} successfully confirmed email.", email);
