@@ -45,11 +45,12 @@ color: #0F3C4C;;
 
 
 .nae{
-    margin-right: 99%;
+padding-right: 450px;
     font-size: small;
 
 padding-bottom: -1px;
 
+margin: 1px;
 
 font-family: "Poppins";
 font-weight: 300;
@@ -62,7 +63,7 @@ color: #0F3C4C;;
 }
 .con{
 
-    margin-right: 74%;
+padding-right: 350px;
     font-size: small;
 
     font-family: "Poppins";
@@ -70,13 +71,16 @@ color: #0F3C4C;;
     
     font-weight: bold;
 
+
+    margin: 1px;
 color: #0F3C4C;;
 }
 
 
 .na{
 
-    margin-right: 89%;
+    padding-right: 450px;
+margin: 1px;
     font-size: small;
 
     font-family: "Poppins";
@@ -134,11 +138,16 @@ margin-left: 80px;
 /* Additional styles for the component */
 
 .picRes{
-
-    height: 370px /* Increase the width of the image */
-    /* Optional: set a maximum width */
-     /* Maintain aspect ratio */
+  
+height : 350px ;
+   
 }
+
+.custom-image{
+
+    width: 100%;
+}
+
 
 
 .push{

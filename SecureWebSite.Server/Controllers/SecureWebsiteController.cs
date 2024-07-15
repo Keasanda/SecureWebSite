@@ -29,6 +29,13 @@ namespace SecureWebSite.Server.Controllers
             this.logger = logger;
         }
 
+        // Method to modify the confirmation link
+        private string ModifyConfirmationLink(string confirmationLink)
+        {
+            // Replace the specified part of the URL
+            return confirmationLink.Replace("api/securewebsite/", "");
+        }
+
         [HttpPost("register")]
         public async Task<ActionResult> RegisterUser(User user)
         {
@@ -46,19 +53,27 @@ namespace SecureWebSite.Server.Controllers
                 if (!result.Succeeded)
                 {
                     logger.LogWarning("User registration failed: {Errors}", string.Join(", ", result.Errors.Select(e => e.Description)));
-                    return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
+                    return BadRequest(result);
                 }
 
+                // Generate email confirmation token
                 var token = await userManager.GenerateEmailConfirmationTokenAsync(newUser);
                 logger.LogInformation("Email confirmation token generated for user {UserId}", newUser.Id);
 
+                // Save the token to AspNetUserTokens table
+                await userManager.SetAuthenticationTokenAsync(newUser, "CustomProvider", "EmailConfirmation", token);
+
+                // Create confirmation link
                 var encodedToken = WebUtility.UrlEncode(token);
-                var confirmationLink = $"https://localhost:5173/confirmemail?email={newUser.Email}&token={encodedToken}";
+                var confirmationLink = Url.Action(nameof(ConfirmEmail), "SecureWebsite", new { email = newUser.Email, token = encodedToken }, Request.Scheme);
                 logger.LogInformation("Confirmation link generated: {ConfirmationLink}", confirmationLink);
 
-                Console.WriteLine($"Confirmation link generated: {confirmationLink}");
+                // Modify the confirmation link
+                var modifiedLink = ModifyConfirmationLink(confirmationLink);
+                logger.LogInformation("Modified confirmation link: {ModifiedLink}", modifiedLink);
 
-                await emailSender.SendEmailAsync(user.Email, "Confirm your email", $"Please confirm your email by clicking this link: {confirmationLink}", true);
+                // Send confirmation email with the modified link
+                await emailSender.SendEmailAsync(user.Email, "Confirm your email", $"Please confirm your email by clicking this link: {modifiedLink}", true);
                 logger.LogInformation("Confirmation email sent to {Email}", user.Email);
 
                 return Ok(new { message = "Registered Successfully. Please check your email to confirm your account.", result = result });
@@ -69,6 +84,7 @@ namespace SecureWebSite.Server.Controllers
                 return BadRequest(new { message = "Something went wrong, please try again. " + ex.Message });
             }
         }
+
 
         [HttpGet("confirmemail")]
         public async Task<IActionResult> ConfirmEmail(string token, string email)
@@ -81,8 +97,6 @@ namespace SecureWebSite.Server.Controllers
                 return BadRequest(new { message = "Email and Token are required." });
             }
 
-      
-
             var user = await userManager.FindByEmailAsync(email);
             if (user == null)
             {
@@ -90,6 +104,7 @@ namespace SecureWebSite.Server.Controllers
                 return BadRequest(new { message = "User not found." });
             }
 
+         ;
             var result = await userManager.ConfirmEmailAsync(user, token);
             if (result.Succeeded)
             {
@@ -100,6 +115,103 @@ namespace SecureWebSite.Server.Controllers
             logger.LogError("Error confirming email for user with email {Email}: {Error}", email, result.Errors.FirstOrDefault()?.Description);
             return BadRequest(new { message = "Error confirming your email." });
         }
+
+
+        [HttpPost("login")]
+        public async Task<ActionResult> LoginUser(Login login)
+        {
+            try
+            {
+                var user = await userManager.FindByEmailAsync(login.Email);
+
+                if (user == null)
+                {
+                    logger.LogWarning("Login attempt failed for non-existent email {Email}", login.Email);
+                    return BadRequest(new { message = "Please check your credentials and try again." });
+                }
+
+                if (!user.EmailConfirmed)
+                {
+                    logger.LogWarning("Login attempt for unconfirmed email {Email}", login.Email);
+                    return Unauthorized(new { message = "Email not confirmed yet." });
+                }
+
+                var result = await signInManager.PasswordSignInAsync(user, login.Password, login.Remember, lockoutOnFailure: false);
+
+                if (result.Succeeded)
+                {
+                    user.LastLogin = DateTime.Now;
+                    var updateResult = await userManager.UpdateAsync(user);
+                    if (!updateResult.Succeeded)
+                    {
+                        logger.LogWarning("Failed to update last login time for user {UserId}", user.Id);
+                        return BadRequest(new { message = "Failed to update last login time." });
+                    }
+
+                    logger.LogInformation("User {UserId} logged in successfully", user.Id);
+                    return Ok(new { message = "Login successful." });
+                }
+
+                if (result.RequiresTwoFactor)
+                {
+                    logger.LogWarning("Two-factor authentication required for user {UserId}", user.Id);
+                    return BadRequest(new { message = "Two-factor authentication required." });
+                }
+
+                if (result.IsLockedOut)
+                {
+                    logger.LogWarning("User {UserId} is locked out", user.Id);
+                    return BadRequest(new { message = "Account locked out." });
+                }
+
+                logger.LogWarning("Invalid login attempt for user {UserId}", user.Id);
+                return Unauthorized(new { message = "Check your login credentials and try again." });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error occurred during login.");
+                return BadRequest(new { message = "Something went wrong, please try again. " + ex.Message });
+            }
+        }
+
+        [HttpGet("logout"), Authorize]
+        public async Task<ActionResult> LogoutUser()
+        {
+            try
+            {
+                await signInManager.SignOutAsync();
+                logger.LogInformation("User logged out successfully.");
+                return Ok(new { message = "You are free to go!" });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error occurred during logout.");
+                return BadRequest(new { message = "Something went wrong, please try again. " + ex.Message });
+            }
+        }
+
+        [HttpGet("admin"), Authorize]
+        public ActionResult AdminPage()
+        {
+            string[] partners = { "Raja", "Bill Gates", "Elon Musk", "Taylor Swift", "Jeff Bezos",
+                                        "Mark Zuckerberg", "Joe Biden", "Putin"};
+
+            return Ok(new { trustedPartners = partners });
+        }
+
+        [HttpGet("home/{email}"), Authorize]
+        public async Task<ActionResult> HomePage(string email)
+        {
+            var userInfo = await userManager.FindByEmailAsync(email);
+            if (userInfo == null)
+            {
+                logger.LogWarning("User info not found for email {Email}", email);
+                return BadRequest(new { message = "Something went wrong, please try again." });
+            }
+
+            return Ok(new { userInfo = userInfo });
+        }
+
 
 
         [HttpPost("forgotpassword")]
@@ -165,6 +277,15 @@ namespace SecureWebSite.Server.Controllers
             return BadRequest(new { message = "Error resetting the password.", errors = result.Errors });
         }
 
+
+
+
+
+
+
+
+
+
         [HttpGet("xhtlekd")]
         public async Task<ActionResult> CheckUser()
         {
@@ -191,100 +312,5 @@ namespace SecureWebSite.Server.Controllers
                 return BadRequest(new { message = "Something went wrong, please try again. " + ex.Message });
             }
         }
-
-        [HttpGet("logout"), Authorize]
-        public async Task<ActionResult> LogoutUser()
-        {
-            try
-            {
-                await signInManager.SignOutAsync();
-                logger.LogInformation("User logged out successfully.");
-                return Ok(new { message = "You are free to go!" });
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "Error occurred during logout.");
-                return BadRequest(new { message = "Something went wrong, please try again. " + ex.Message });
-            }
-        }
-
-        [HttpGet("admin"), Authorize]
-        public ActionResult AdminPage()
-        {
-            string[] partners = { "Raja", "Bill Gates", "Elon Musk", "Taylor Swift", "Jeff Bezos",
-                                        "Mark Zuckerberg", "Joe Biden", "Putin"};
-
-            return Ok(new { trustedPartners = partners });
-        }
-
-        [HttpGet("home/{email}"), Authorize]
-        public async Task<ActionResult> HomePage(string email)
-        {
-            var userInfo = await userManager.FindByEmailAsync(email);
-            if (userInfo == null)
-            {
-                logger.LogWarning("User info not found for email {Email}", email);
-                return BadRequest(new { message = "Something went wrong, please try again." });
-            }
-
-            return Ok(new { userInfo = userInfo });
-        }
-        [HttpPost("login")]
-        public async Task<ActionResult> LoginUser(Login login)
-        {
-            try
-            {
-                var user = await userManager.FindByEmailAsync(login.Email);
-
-                if (user == null)
-                {
-                    logger.LogWarning("Login attempt failed for non-existent email {Email}", login.Email);
-                    return BadRequest(new { message = "Please check your credentials and try again." });
-                }
-
-                if (!user.EmailConfirmed)
-                {
-                    logger.LogWarning("Login attempt for unconfirmed email {Email}", login.Email);
-                    return Unauthorized(new { message = "Email not confirmed yet." });
-                }
-
-                var result = await signInManager.PasswordSignInAsync(user, login.Password, login.Remember, lockoutOnFailure: true);
-
-                if (result.Succeeded)
-                {
-                    user.LastLogin = DateTime.Now;
-                    var updateResult = await userManager.UpdateAsync(user);
-                    if (!updateResult.Succeeded)
-                    {
-                        logger.LogWarning("Failed to update last login time for user {UserId}", user.Id);
-                        return BadRequest(new { message = "Failed to update last login time." });
-                    }
-
-                    logger.LogInformation("User {UserId} logged in successfully", user.Id);
-                    return Ok(new { message = "Login successful." });
-                }
-
-                if (result.RequiresTwoFactor)
-                {
-                    logger.LogWarning("Two-factor authentication required for user {UserId}", user.Id);
-                    return BadRequest(new { message = "Two-factor authentication required." });
-                }
-
-                if (result.IsLockedOut)
-                {
-                    logger.LogWarning("User {UserId} is locked out", user.Id);
-                    return BadRequest(new { message = "Account locked out due to multiple failed login attempts. Please try again later." });
-                }
-
-                logger.LogWarning("Invalid login attempt for user {UserId}", user.Id);
-                return Unauthorized(new { message = "Check your login credentials and try again." });
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "Error occurred during login.");
-                return BadRequest(new { message = "Something went wrong, please try again. " + ex.Message });
-            }
-        }
-
     }
 }
