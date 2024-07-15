@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import './ConfirmEmail.css'; // Import a CSS file for styling
 
 const ConfirmEmail = () => {
     const [searchParams] = useSearchParams();
@@ -43,10 +44,15 @@ const ConfirmEmail = () => {
     };
 
     return (
-        <div>
-            <h1>{loading ? 'Confirming Email...' : 'Email Confirmation'}</h1>
-            {!loading && <p>{message}</p>}
-            {!loading && <button onClick={handleButtonClick}>Go to Home</button>}
+        <div className="confirm-email-container">
+            <div className="confirmation-message">
+                <h1>{loading ? 'Confirming Email...' : 'Email Confirmation'}</h1>
+                {!loading && <p className='me'>{message}</p>}
+                {!loading && <button  className="btn btn-primary  confirm"  onClick={handleButtonClick}>Go to Home</button>}
+            </div>
+            <div className="confirmation-image">
+                <img src="src\assets\5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Confirmation" />
+            </div>
         </div>
     );
 };

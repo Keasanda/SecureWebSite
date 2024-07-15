@@ -52,8 +52,9 @@ namespace SecureWebSite.Server.Controllers
 
                 if (!result.Succeeded)
                 {
-                    logger.LogWarning("User registration failed: {Errors}", string.Join(", ", result.Errors.Select(e => e.Description)));
-                    return BadRequest(result);
+                    var errorMessages = result.Errors.Select(e => e.Description).ToList();
+                    logger.LogWarning("User registration failed: {Errors}", string.Join(", ", errorMessages));
+                    return BadRequest(new { errors = errorMessages });
                 }
 
                 // Generate email confirmation token
@@ -76,7 +77,7 @@ namespace SecureWebSite.Server.Controllers
                 await emailSender.SendEmailAsync(user.Email, "Confirm your email", $"Please confirm your email by clicking this link: {modifiedLink}", true);
                 logger.LogInformation("Confirmation email sent to {Email}", user.Email);
 
-                return Ok(new { message = "Registered Successfully. Please check your email to confirm your account.", result = result });
+                return Ok(new { message = "Registered Successfully. Please check your email to confirm your account." });
             }
             catch (Exception ex)
             {
@@ -84,6 +85,7 @@ namespace SecureWebSite.Server.Controllers
                 return BadRequest(new { message = "Something went wrong, please try again. " + ex.Message });
             }
         }
+
 
 
         [HttpGet("confirmemail")]
@@ -136,7 +138,7 @@ namespace SecureWebSite.Server.Controllers
                     return Unauthorized(new { message = "Email not confirmed yet." });
                 }
 
-                var result = await signInManager.PasswordSignInAsync(user, login.Password, login.Remember, lockoutOnFailure: false);
+                var result = await signInManager.PasswordSignInAsync(user, login.Password, login.Remember, lockoutOnFailure: true);
 
                 if (result.Succeeded)
                 {
@@ -161,7 +163,7 @@ namespace SecureWebSite.Server.Controllers
                 if (result.IsLockedOut)
                 {
                     logger.LogWarning("User {UserId} is locked out", user.Id);
-                    return BadRequest(new { message = "Account locked out." });
+                    return BadRequest(new { message = "Account locked out due to multiple failed login attempts." });
                 }
 
                 logger.LogWarning("Invalid login attempt for user {UserId}", user.Id);
@@ -173,6 +175,7 @@ namespace SecureWebSite.Server.Controllers
                 return BadRequest(new { message = "Something went wrong, please try again. " + ex.Message });
             }
         }
+
 
         [HttpGet("logout"), Authorize]
         public async Task<ActionResult> LogoutUser()
@@ -189,29 +192,6 @@ namespace SecureWebSite.Server.Controllers
                 return BadRequest(new { message = "Something went wrong, please try again. " + ex.Message });
             }
         }
-
-        [HttpGet("admin"), Authorize]
-        public ActionResult AdminPage()
-        {
-            string[] partners = { "Raja", "Bill Gates", "Elon Musk", "Taylor Swift", "Jeff Bezos",
-                                        "Mark Zuckerberg", "Joe Biden", "Putin"};
-
-            return Ok(new { trustedPartners = partners });
-        }
-
-        [HttpGet("home/{email}"), Authorize]
-        public async Task<ActionResult> HomePage(string email)
-        {
-            var userInfo = await userManager.FindByEmailAsync(email);
-            if (userInfo == null)
-            {
-                logger.LogWarning("User info not found for email {Email}", email);
-                return BadRequest(new { message = "Something went wrong, please try again." });
-            }
-
-            return Ok(new { userInfo = userInfo });
-        }
-
 
 
         [HttpPost("forgotpassword")]
@@ -238,6 +218,7 @@ namespace SecureWebSite.Server.Controllers
 
             return Ok(new { message = "Password reset link has been sent to your email." });
         }
+
 
         [HttpGet("resetpassword")]
         public IActionResult ResetPassword(string token, string email)
@@ -281,36 +262,5 @@ namespace SecureWebSite.Server.Controllers
 
 
 
-
-
-
-
-
-        [HttpGet("xhtlekd")]
-        public async Task<ActionResult> CheckUser()
-        {
-            try
-            {
-                var user_ = HttpContext.User;
-                var principals = new ClaimsPrincipal(user_);
-                var result = signInManager.IsSignedIn(principals);
-                if (result)
-                {
-                    var currentuser = await signInManager.UserManager.GetUserAsync(principals);
-                    logger.LogInformation("User {UserId} is currently signed in.", currentuser?.Id);
-                    return Ok(new { message = "Logged in", user = currentuser });
-                }
-                else
-                {
-                    logger.LogWarning("No user is currently signed in.");
-                    return Forbid();
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "Error occurred during user check.");
-                return BadRequest(new { message = "Something went wrong, please try again. " + ex.Message });
-            }
-        }
     }
 }

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import './ForgotPassword.css'; // Import your CSS file
+import { useNavigate } from 'react-router-dom';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -15,7 +17,10 @@ const ForgotPassword = () => {
 
         const data = await response.json();
         if (response.ok) {
-            setMessage(data.message);
+            setMessage("Password reset link has been sent to your email.");
+            setTimeout(() => {
+                navigate('/login');
+            }, 3000); // Navigate to login page after 3 seconds
         } else {
             setMessage(data.message);
         }
@@ -39,14 +44,13 @@ const ForgotPassword = () => {
                                 onChange={(e) => setEmail(e.target.value)} 
                                 required 
                             />
-
                         </div>
                         <button type="submit" className="btn btn-primary rest">Send Reset Link</button>
                     </form>
                     {message && <p className="mt-3">{message}</p>}
                 </div>
-                <div className="forgetpic ">
-                    <img src="src\assets\5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Forgot Password" className="img-fluid custom-image" />
+                <div className="forgetpic">
+                    <img src="src/assets/5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Forgot Password" className="img-fluid custom-image" />
                 </div>
             </div>
         </div>

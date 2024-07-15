@@ -66,7 +66,7 @@ const ResetPassword = () => {
                         </div>
                         <button type="submit" className="btn btn-primary grow">Reset Password</button>
                     </form>
-                    {message && <p className="mt-3">{message}</p>}
+                    {message && <p className="mt-3 red">{message}</p>}
                 </div>
                 <div className="col-md-6 restpic">
                     <img src="src\assets\5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Reset Password" className="img-fluid" />

@@ -5,6 +5,7 @@ import { FaFacebook } from "react-icons/fa";
 
 function Register() {
     const [message, setMessage] = useState('');
+    const [errors, setErrors] = useState([]);
 
     useEffect(() => {
         const user = localStorage.getItem("user");
@@ -29,6 +30,7 @@ function Register() {
 
         if (dataToSend.PasswordHash !== dataToSend.ConfirmPassword) {
             setMessage("Passwords do not match.");
+            setErrors([]);
             return;
         }
 
@@ -46,30 +48,30 @@ function Register() {
             const data = await response.json();
             if (response.ok) {
                 setMessage("Registered successfully. Please check your email to confirm your account.");
+                setErrors([]);
                 document.location = "/login";
             } else {
-                let errorMessages = "Attention please:\n";
+                let errorMessages = [];
                 if (data.errors && Array.isArray(data.errors)) {
-                    data.errors.forEach(error => {
-                        errorMessages += `${error}\n`;
-                    });
+                    errorMessages = data.errors;
                 } else {
-                    errorMessages += data.message || 'An error occurred.';
+                    errorMessages.push(data.message || 'An error occurred.');
                 }
-                setMessage(errorMessages);
+                setMessage("Attention please:");
+                setErrors(errorMessages);
             }
         } catch (error) {
             console.error("Registration error:", error);
             setMessage("Something went wrong, please try again.");
+            setErrors([]);
         }
     }
 
     return (
-        <div className="container ">
+        <div className="container">
             <div className="row">
                 <div className="col-md-6">
                     <h2 className="registerhead">Register Profile</h2>
-                  
                     <form className='register' onSubmit={registerHandler}>
                         <div className="mb-3">
                             <label htmlFor="name" className="form-label nae">Name</label>
@@ -103,6 +105,13 @@ function Register() {
                         </div>
                     </form>
                     {message && <p className="message">{message}</p>}
+                    {errors.length > 0 && (
+                        <ul className="error-messages">
+                            {errors.map((error, index) => (
+                                <li key={index}>{error}</li>
+                            ))}
+                        </ul>
+                    )}
                 </div>
                 <div className="col-md-6 d-flex picRes">
                     <img src="src/assets/5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Register" className="img-fluid custom-image" />

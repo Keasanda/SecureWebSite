@@ -12,9 +12,6 @@ form {
     margin-right: 90%;
     font-size: small;
 
-   
-    
-
 }
 
 .control1 {
@@ -93,7 +90,7 @@ color: #0F3C4C;;
 
 .registerbtn{
 
-
+    background-color:#2187AB;
     font-family: "Poppins", sans-serif;
     font-weight: bold;
 
@@ -153,4 +150,9 @@ height : 350px ;
 .push{
 
     margin-right:70px;
+}
+
+.message{
+
+    color: red;
 }
