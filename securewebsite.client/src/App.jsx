@@ -8,6 +8,8 @@ import Register from './components/Register';
 import ConfirmEmail from './components/ConfirmEmail';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
+import OtpVerification from './components/OtpVerification'
+
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -21,6 +23,8 @@ const router = createBrowserRouter(
             <Route path='/confirmemail' element={<ConfirmEmail />} />
             <Route path='/forgotpassword' element={<ForgotPassword />} />
             <Route path='/resetpassword' element={<ResetPassword />} />
+            <Route path='/verifyotp' element={<OtpVerification />} />
+
             <Route path='*' element={
                 <div>
                     <header>

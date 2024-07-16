@@ -19,8 +19,13 @@ const Login = () => {
 
         const data = await response.json();
         if (response.ok) {
-            localStorage.setItem("user", JSON.stringify(data.user));
-            navigate('/');
+            if (data.requiresOtp) {
+                localStorage.setItem('email', email);
+                navigate('/verifyotp');
+            } else {
+                localStorage.setItem("user", JSON.stringify(data.user));
+                navigate('/');
+            }
         } else {
             setMessage(data.message);
         }

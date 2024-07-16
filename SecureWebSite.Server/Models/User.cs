@@ -6,7 +6,6 @@ namespace SecureWebSite.Server.Models
 {
     public class User : IdentityUser
     {
-
         [MaxLength(50)]
         public string Name { get; set; }
 
@@ -19,6 +18,9 @@ namespace SecureWebSite.Server.Models
         [Column(TypeName = "datetime")]
         public DateTime LastLogin { get; set; } = DateTime.Now;
 
+        public string? Otp { get; set; } // Make OTP nullable
+
         public bool IsAdmin { get; set; } = false;
     }
+
 }

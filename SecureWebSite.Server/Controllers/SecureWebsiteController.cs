@@ -4,11 +4,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SecureWebSite.Server.Models;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using System;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace SecureWebSite.Server.Controllers
 {
@@ -29,10 +28,8 @@ namespace SecureWebSite.Server.Controllers
             this.logger = logger;
         }
 
-        // Method to modify the confirmation link
         private string ModifyConfirmationLink(string confirmationLink)
         {
-            // Replace the specified part of the URL
             return confirmationLink.Replace("api/securewebsite/", "");
         }
 
@@ -46,6 +43,7 @@ namespace SecureWebSite.Server.Controllers
                     Name = user.Name,
                     Email = user.Email,
                     UserName = user.UserName,
+                    Otp = null // Ensure OTP is not set during registration
                 };
 
                 var result = await userManager.CreateAsync(newUser, user.PasswordHash);
@@ -57,23 +55,18 @@ namespace SecureWebSite.Server.Controllers
                     return BadRequest(new { errors = errorMessages });
                 }
 
-                // Generate email confirmation token
                 var token = await userManager.GenerateEmailConfirmationTokenAsync(newUser);
                 logger.LogInformation("Email confirmation token generated for user {UserId}", newUser.Id);
 
-                // Save the token to AspNetUserTokens table
                 await userManager.SetAuthenticationTokenAsync(newUser, "CustomProvider", "EmailConfirmation", token);
 
-                // Create confirmation link
                 var encodedToken = WebUtility.UrlEncode(token);
                 var confirmationLink = Url.Action(nameof(ConfirmEmail), "SecureWebsite", new { email = newUser.Email, token = encodedToken }, Request.Scheme);
                 logger.LogInformation("Confirmation link generated: {ConfirmationLink}", confirmationLink);
 
-                // Modify the confirmation link
                 var modifiedLink = ModifyConfirmationLink(confirmationLink);
                 logger.LogInformation("Modified confirmation link: {ModifiedLink}", modifiedLink);
 
-                // Send confirmation email with the modified link
                 await emailSender.SendEmailAsync(user.Email, "Confirm your email", $"Please confirm your email by clicking this link: {modifiedLink}", true);
                 logger.LogInformation("Confirmation email sent to {Email}", user.Email);
 
@@ -85,7 +78,6 @@ namespace SecureWebSite.Server.Controllers
                 return BadRequest(new { message = "Something went wrong, please try again. " + ex.Message });
             }
         }
-
 
 
         [HttpGet("confirmemail")]
@@ -106,7 +98,6 @@ namespace SecureWebSite.Server.Controllers
                 return BadRequest(new { message = "User not found." });
             }
 
-         ;
             var result = await userManager.ConfirmEmailAsync(user, token);
             if (result.Succeeded)
             {
@@ -117,6 +108,7 @@ namespace SecureWebSite.Server.Controllers
             logger.LogError("Error confirming email for user with email {Email}: {Error}", email, result.Errors.FirstOrDefault()?.Description);
             return BadRequest(new { message = "Error confirming your email." });
         }
+
 
 
         [HttpPost("login")]
@@ -142,6 +134,14 @@ namespace SecureWebSite.Server.Controllers
 
                 if (result.Succeeded)
                 {
+                    var otp = new Random().Next(10000, 99999).ToString();
+                    user.Otp = otp;
+                    await userManager.UpdateAsync(user);
+
+                    logger.LogInformation("Sending OTP to email: {Email}, OTP: {Otp}", user.Email, otp);
+
+                    await emailSender.SendEmailAsync(user.Email, "Your OTP Code", $"Your OTP code is: {otp}");
+
                     user.LastLogin = DateTime.Now;
                     var updateResult = await userManager.UpdateAsync(user);
                     if (!updateResult.Succeeded)
@@ -150,8 +150,10 @@ namespace SecureWebSite.Server.Controllers
                         return BadRequest(new { message = "Failed to update last login time." });
                     }
 
+                    HttpContext.Session.SetString("otpUserEmail", user.Email); // Store the email in session
+
                     logger.LogInformation("User {UserId} logged in successfully", user.Id);
-                    return Ok(new { message = "Login successful." });
+                    return Ok(new { message = "Login successful. Please check your email for the OTP." });
                 }
 
                 if (result.RequiresTwoFactor)
@@ -176,6 +178,41 @@ namespace SecureWebSite.Server.Controllers
             }
         }
 
+        [HttpPost("verifyotp")]
+        public async Task<ActionResult> VerifyOtp(OtpVerificationModel model)
+        {
+            var email = HttpContext.Session.GetString("otpUserEmail");
+            if (string.IsNullOrEmpty(email))
+            {
+                return BadRequest(new { message = "Session expired. Please log in again." });
+            }
+
+            if (string.IsNullOrEmpty(model.Otp))
+            {
+                return BadRequest(new { message = "OTP is required." });
+            }
+
+            var user = await userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return BadRequest(new { message = "User not found." });
+            }
+
+            if (user.Otp != model.Otp)
+            {
+                return BadRequest(new { message = "Invalid OTP." });
+            }
+
+            logger.LogInformation("OTP verified successfully for email: {Email}, OTP: {Otp}", email, model.Otp);
+
+            user.Otp = null;
+            await userManager.UpdateAsync(user);
+            await signInManager.SignInAsync(user, isPersistent: false);
+
+            return Ok(new { message = "OTP verified successfully.", user = user });
+        }
+
+
 
         [HttpGet("logout"), Authorize]
         public async Task<ActionResult> LogoutUser()
@@ -193,7 +230,6 @@ namespace SecureWebSite.Server.Controllers
             }
         }
 
-
         [HttpPost("forgotpassword")]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordModel model)
         {
@@ -210,34 +246,17 @@ namespace SecureWebSite.Server.Controllers
 
             await emailSender.SendEmailAsync(model.Email, "Reset Password", $"Please reset your password by clicking here: {resetLink}", true);
 
-            // Log the reset token for debugging purposes
-            logger.LogInformation("Password reset token generated for user {UserId}: {Token}", user.Id, token);
-
-            // Log to console
-            Console.WriteLine($"Password reset link generated: {resetLink}");
-
-            return Ok(new { message = "Password reset link has been sent to your email." });
-        }
-
-
-        [HttpGet("resetpassword")]
-        public IActionResult ResetPassword(string token, string email)
-        {
-            if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(email))
-            {
-                logger.LogWarning("Reset password attempt with invalid token or email.");
-                return BadRequest(new { message = "Invalid token or email." });
-            }
-
-            return Ok(new { email, token });
+            logger.LogInformation("Password reset email sent to {Email}", model.Email);
+            return Ok(new { message = "Password reset email sent. Please check your inbox." });
         }
 
         [HttpPost("resetpassword")]
-        public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
+        public async Task<ActionResult> ResetPassword(ResetPasswordModel model)
         {
-            if (!ModelState.IsValid)
+            if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Token) || string.IsNullOrEmpty(model.Password))
             {
-                return BadRequest(ModelState);
+                logger.LogWarning("Reset password attempt with missing data.");
+                return BadRequest(new { message = "Email, token, and new password are required." });
             }
 
             var user = await userManager.FindByEmailAsync(model.Email);
@@ -248,19 +267,15 @@ namespace SecureWebSite.Server.Controllers
             }
 
             var result = await userManager.ResetPasswordAsync(user, model.Token, model.Password);
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                logger.LogInformation("Password reset successfully for user {UserId}", user.Id);
-                return Ok(new { message = "Password has been reset successfully." });
+                var errorMessages = result.Errors.Select(e => e.Description).ToList();
+                logger.LogWarning("Password reset failed: {Errors}", string.Join(", ", errorMessages));
+                return BadRequest(new { errors = errorMessages });
             }
 
-            logger.LogError("Error resetting password for user {UserId}: {Errors}", user.Id, string.Join(", ", result.Errors.Select(e => e.Description)));
-            return BadRequest(new { message = "Error resetting the password.", errors = result.Errors });
+            logger.LogInformation("Password reset successful for user {UserId}", user.Id);
+            return Ok(new { message = "Password reset successful." });
         }
-
-
-
-
-
     }
 }
