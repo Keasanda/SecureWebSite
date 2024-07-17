@@ -8,6 +8,7 @@ import Register from './components/Register';
 import ConfirmEmail from './components/ConfirmEmail';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
+import DragNDrop from './components/DragNDrop';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -21,6 +22,7 @@ const router = createBrowserRouter(
             <Route path='/confirmemail' element={<ConfirmEmail />} />
             <Route path='/forgotpassword' element={<ForgotPassword />} />
             <Route path='/resetpassword' element={<ResetPassword />} />
+            <Route path='/DragNDrop' element={<DragNDrop />} />
             <Route path='*' element={
                 <div>
                     <header>
@@ -46,9 +48,7 @@ function App() {
         const data = await response.json();
         if (response.ok) {
             localStorage.removeItem("user");
-
             alert(data.message);
-
             document.location = "/login";
         } else {
             console.log("could not logout: ", response);
@@ -58,19 +58,15 @@ function App() {
     return (
         <section>
             <div className='top-nav'>
-                {
-                    isLogged ?
-                        <span className='item-holder'>
-                            <a href="/">Home</a>
-                            <a href="/admin">Admin</a>
-                            <span onClick={logout}>Log Out</span>
-                        </span> :
-                        <span className='item-holder'>
-                           
-                        </span>
+                {isLogged ?
+                    <span className='item-holder'>
+                        <a href="/">Home</a>
+                        <a href="/admin">Admin</a>
+                        <span onClick={logout}>Log Out</span>
+                    </span> :
+                    <span className='item-holder'></span>
                 }
             </div>
-
             <RouterProvider router={router} />
         </section>
     );

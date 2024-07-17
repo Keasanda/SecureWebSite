@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+.Imagetitle{
+
+    margin-top: 2px;
+    margin-right: 320px;
+
+    font-size: small;
+
+    font-family: "Poppins", sans-serif;
+    
+    font-weight: bold;
+    
+    font-style: normal;
+    
+    color:  #0F3C4C;
+
+
+}
+
+.UploadHead{
+
+    
+
+
+    font-family: "Poppins", sans-serif;
+    
+    font-weight: bold;
+    
+    font-style: normal;
+    
+    color:  #2187AB;
+}
+
+.ImageDiscription{
+
+
+margin: 4px;
+margin-right: 271px;
+
+font-family: "Poppins", sans-serif;
+    
+font-weight: bold;
+
+font-style: normal;
+
+color:  #0F3C4C;
+
+
+}
+
+.discription{
+
+    width : 400px;
+
+    height: 79px ;
+}
+
+.imgtil{
+
+    width : 400px;
+
+    height: Fixed (38px);
+    
+
+}
+
+.dropNDrag{
+
+    width : 400px;
+
+    height: 293px ;
+
+}
+
+.botto{
+
+    padding-bottom: 20px;
+}
+
+.card-body{
+
+
+    padding-left: 100px ;
+
+
+    
+    padding-right: 100px ;
+
+
+}
+
+
+/* DragNDrop.css */
+
+
+
+.vertical-panel {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    left: 0; /* Position the panel on the left side */
+    top: 0;
+    bottom: 0;
+    background-color: #f8f9fa; /* Background color to match Bootstrap's .bg-light */
+    padding-top: 20px; /* Some padding at the top */
+}
+
+.logo {
+    width: 100px;
+    height: auto;
+}
+
+.btn-block {
+    width: 100%;
+    margin-top: 10px; /* Space between buttons */
+}
+
+
+.bg{
+
+    background-color:  #2187AB;;
+  
+    width: 350px;
+}
+
+.loghead{
+
+    margin-right: 245px;
+
+    font-family: "Poppins", sans-serif;
+    
+    font-weight: bold;
+    
+    font-style: normal;
+    
+    color:  #f8f9fa;
+
+}
+
+.navbarBTN{
+
+    margin-right: 265px;
+}
+
+.uplodBTN{
+
+margin-left: 70px;
+    background-color:  #E9F5F9;
+    
+   width: 500px ;
+
+   height: 80px ;
+
+
+}
