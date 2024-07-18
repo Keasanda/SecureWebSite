@@ -19,8 +19,13 @@ const Login = () => {
 
         const data = await response.json();
         if (response.ok) {
-            localStorage.setItem("user", JSON.stringify(data.user));
-            navigate('/');
+            if (data.requiresOtp) {
+                localStorage.setItem('email', email);
+                navigate('/verifyotp');
+            } else {
+                localStorage.setItem("user", JSON.stringify(data.user));
+                navigate('/');
+            }
         } else {
             setMessage(data.message);
         }
@@ -73,15 +78,21 @@ const Login = () => {
                     </div>
 
                     <small id="emailHelp" className="foget text-muted">
-                        <a href="#" onClick={handleForgotPassword}>Forgot Password?</a>
+                        <a  onClick={handleForgotPassword}>Forgot Password?</a>
                     </small>
                     
                     <button type="submit" className="btn btn-primary power login-button">Login</button>
                 </form>
                 {message && <p className="message">{message}</p>}
+             
+
                 <div className="register-link">
-                    <p>New to this platform? <a href="/register">Register here</a></p>
-                </div>
+    <p>New to this platform? <a href="/register" className="no-underline">Register here</a></p>
+</div>
+
+
+
+
             </div>
         </div>
     );

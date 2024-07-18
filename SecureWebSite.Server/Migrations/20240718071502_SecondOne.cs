@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SecureWebSite.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstOne : Migration
+    public partial class SecondOne : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,6 +34,7 @@ namespace SecureWebSite.Server.Migrations
                     CreatedDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     LastLogin = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Otp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsAdmin = table.Column<bool>(type: "bit", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),

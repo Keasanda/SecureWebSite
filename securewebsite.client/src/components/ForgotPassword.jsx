@@ -29,7 +29,7 @@ const ForgotPassword = () => {
     return (
         <div className="container mt-5">
             <div className="row">
-                <div className="col-md-6 ">
+                <div className="col-md-6 dow">
                     <h2 className="fg">Forgot Password</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
@@ -49,7 +49,7 @@ const ForgotPassword = () => {
                     </form>
                     {message && <p className="mt-3">{message}</p>}
                 </div>
-                <div className="forgetpic">
+                <div className="col-md-6  open">
                     <img src="src/assets/5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Forgot Password" className="img-fluid custom-image" />
                 </div>
             </div>

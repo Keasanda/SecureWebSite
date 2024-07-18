@@ -112,6 +112,17 @@ color:  #0F3C4C;
 .logo {
     width: 100px;
     height: auto;
+
+
+    font-family: Poppins;
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 54px;
+    text-align: center;
+    
+
+
+
 }
 
 .btn-block {
@@ -141,19 +152,46 @@ color:  #0F3C4C;
 
 }
 
-.navbarBTN{
 
-    margin-right: 265px;
+.navbarBTN {
+
+
+    font-family: "Poppins", sans-serif;
+    
+    font-weight: bold;
+    
+    font-style: normal;
+
+width: 100%;
+
+height: 60px;
+
+padding-left: 100px;
+
+
+
 }
+
 
 .uplodBTN{
 
-margin-left: 70px;
-    background-color:  #E9F5F9;
+    font-family: "Poppins", sans-serif;
     
-   width: 500px ;
+    font-weight: bold;
+    
+    font-style: normal;
 
-   height: 80px ;
+    padding-right:px;
 
+height: 60px;
 
+background-color: beige;
+
+padding-left: 100px;
+
+}
+
+.contain{
+
+    width:100%
 }

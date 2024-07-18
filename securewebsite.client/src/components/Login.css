@@ -78,6 +78,7 @@ color: #0F3C4C;
     padding-top: 40px;
 
     
+    
 
 }
 
@@ -89,6 +90,10 @@ color: #0F3C4C;
     display: flex;
     justify-content: center;
     align-items: center;
+
+
+
+
 }
 
 .form-control{
@@ -160,7 +165,7 @@ color: #0F3C4C;;
     font-family: "Poppins";
   
     
-    font-weight: bold;
+
 
 color: #0F3C4C;
 
@@ -224,4 +229,13 @@ font-size: smaller;
     padding: 15px;
     width: 400px; /* Makes the input field full-width */
    /* Sets a maximum width */
+}
+
+.no-underline {
+    text-decoration: none;
+    color: inherit; /* Optional: to ensure it inherits the color from its parent */
+}
+
+.no-underline:hover {
+    text-decoration: underline; /* Optional: to add underline on hover */
 }

@@ -9,6 +9,11 @@ import ConfirmEmail from './components/ConfirmEmail';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import DragNDrop from './components/DragNDrop';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
+
+
 
 const router = createBrowserRouter(
     createRoutesFromElements(
