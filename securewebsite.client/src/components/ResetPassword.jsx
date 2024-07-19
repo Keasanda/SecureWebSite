@@ -37,9 +37,13 @@ const ResetPassword = () => {
     return (
         <div className="container mt-5">
             <div className="row">
-                <div className="col-md-6">
-                    <h2 className="reheading ">Reset Password</h2>
+                <div className="col-md-5">
+                   
                     <form onSubmit={handleSubmit}>
+
+                    <h2 className="reheading ">Reset Password</h2>
+
+
                         <div className="mb-3 goat">
                             <label htmlFor="newPassword" className="form-label np">New Password</label>
                             <input 
@@ -68,8 +72,8 @@ const ResetPassword = () => {
                     </form>
                     {message && <p className="mt-3 red">{message}</p>}
                 </div>
-                <div className="col-md-6 restpic">
-                    <img src="src\assets\5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Reset Password" className="img-fluid" />
+                <div className="col-md-7 ">
+                    <img src="src\assets\5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Reset Password" className=" restpic " />
                 </div>
             </div>
         </div>

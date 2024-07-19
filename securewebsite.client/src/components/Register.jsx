@@ -70,9 +70,12 @@ function Register() {
     return (
         <div className="container">
             <div className="row">
-                <div className="col-md-6">
-                    <h2 className="registerhead">Register Profile</h2>
+                <div className="col-md-5">
+                   
                     <form className='register' onSubmit={registerHandler}>
+
+                    <h2 className="registerhead">Register Profile</h2>
+
                         <div className="mb-3">
                             <label htmlFor="name" className="form-label nae">Name</label>
                             <input type="text" className="control1" name='Name' placeholder="Enter Name" id='name' required />
@@ -93,11 +96,11 @@ function Register() {
                         <div className='mt-3'>
                             <span className="or">or</span>
                             <div className='mt-3 push'>
-                                <button className="btn btn-link">
+                                <button className="btn btn-default">
                                     <FcGoogle style={{ marginRight: '8px' }} />
                                     Sign in with Google
                                 </button>
-                                <button className="btn btn-link">
+                                <button className="btn btn-default">
                                     <FaFacebook style={{ marginRight: '8px' }} />
                                     Sign in with Facebook
                                 </button>
@@ -113,8 +116,8 @@ function Register() {
                         </ul>
                     )}
                 </div>
-                <div className="col-md-6 d-flex picRes">
-                    <img src="src/assets/5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Register" className="img-fluid custom-image" />
+                <div className="col-md-7 d-flex picRes">
+                    <img src="src/assets/5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Register" className="img-fluid custom-image  regPic" />
                 </div>
             </div>
         </div>

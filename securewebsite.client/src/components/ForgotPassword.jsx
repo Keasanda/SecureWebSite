@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './ForgotPassword.css'; // Import your CSS file
+import './ForgotPassword.css';
 import { useNavigate } from 'react-router-dom';
 
 const ForgotPassword = () => {
@@ -20,20 +20,20 @@ const ForgotPassword = () => {
             setMessage("Password reset link has been sent to your email.");
             setTimeout(() => {
                 navigate('/login');
-            }, 3000); // Navigate to login page after 3 seconds
+            }, 3000);
         } else {
             setMessage(data.message);
         }
     };
 
     return (
-        <div className="container mt-5">
+        <div className="container mt-8">
             <div className="row">
-                <div className="col-md-6 dow">
+                <div className="col-md-4 dow">
                     <h2 className="fg">Forgot Password</h2>
-                    <form onSubmit={handleSubmit}>
-                        <div className="mb-3">
-                            <label htmlFor="exampleInputEmail1" className="email-label">Email address</label>
+                    <form  className='tanahala' onSubmit={handleSubmit}>
+                        <div className="mb-3 cont">
+                            <label htmlFor="exampleInputEmail1" className="email-label la ">Email address</label>
                             <input 
                                 type="email" 
                                 className="forgetcontrol" 
@@ -49,7 +49,7 @@ const ForgotPassword = () => {
                     </form>
                     {message && <p className="mt-3">{message}</p>}
                 </div>
-                <div className="col-md-6  open">
+                <div className="col-md-8 open">
                     <img src="src/assets/5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Forgot Password" className="img-fluid custom-image" />
                 </div>
             </div>

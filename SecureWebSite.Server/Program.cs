@@ -12,7 +12,7 @@ namespace SecureWebSite.Server
         public static void Main(string[] args)
         {
 
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+          
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Logging.AddConsole();
