@@ -6,8 +6,6 @@
     margin-top: 2px;
     margin-right: 320px;
 
-    font-size: small;
-
     font-family: "Poppins", sans-serif;
     
     font-weight: bold;
@@ -16,13 +14,18 @@
     
     color:  #0F3C4C;
 
-
 }
 
 .UploadHead{
 
-    
 
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 36px;
+    text-align: center;
+    
+padding-bottom: 50px;
+padding-top: 30px;
 
     font-family: "Poppins", sans-serif;
     
@@ -71,6 +74,9 @@ color:  #0F3C4C;
     width : 400px;
 
     height: 293px ;
+    border-style: dashed;
+background-color:  #E9F5F9;
+;
 
 }
 
@@ -79,17 +85,6 @@ color:  #0F3C4C;
     padding-bottom: 20px;
 }
 
-.card-body{
-
-
-    padding-left: 100px ;
-
-
-    
-    padding-right: 100px ;
-
-
-}
 
 
 /* DragNDrop.css */
@@ -105,7 +100,7 @@ color:  #0F3C4C;
     left: 0; /* Position the panel on the left side */
     top: 0;
     bottom: 0;
-    background-color: #f8f9fa; /* Background color to match Bootstrap's .bg-light */
+   
     padding-top: 20px; /* Some padding at the top */
 }
 
@@ -133,7 +128,7 @@ color:  #0F3C4C;
 
 .bg{
 
-    background-color:  #2187AB;;
+    background-color:  #2187AB;
   
     width: 350px;
 }
@@ -144,7 +139,7 @@ color:  #0F3C4C;
 
     font-family: "Poppins", sans-serif;
     
-    font-weight: bold;
+
     
     font-style: normal;
     
@@ -153,7 +148,7 @@ color:  #0F3C4C;
 }
 
 
-.navbarBTN {
+button.navbarBTN {
 
 
     font-family: "Poppins", sans-serif;
@@ -166,14 +161,15 @@ width: 100%;
 
 height: 60px;
 
-padding-left: 100px;
+padding-right: 70%;
 
 
 
 }
 
 
-.uplodBTN{
+button.uplodBTN {
+   
 
     font-family: "Poppins", sans-serif;
     
@@ -181,17 +177,53 @@ padding-left: 100px;
     
     font-style: normal;
 
-    padding-right:px;
+width: 100%;
 
 height: 60px;
 
-background-color: beige;
+background-color: #E9F5F9;
 
-padding-left: 100px;
+color: #2187AB;
 
-}
+padding-right: 50%;
+
+  }
+  
 
 .contain{
 
-    width:100%
+    width:100% ;
+
+
+    
 }
+
+.bars{
+
+    margin-left:25% ;
+}
+
+button.logout{
+
+
+    font-family: "Poppins", sans-serif;
+    
+    font-weight: bold;
+    
+    font-style: normal;
+    padding-right: 70%;
+
+    color: #f8f9fa;
+
+}
+
+.card{
+
+padding-left: 25%;
+
+
+
+
+}
+
+
