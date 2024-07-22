@@ -102,10 +102,10 @@ function DragNDrop() {
                             </div>
                             <div {...getRootProps({ className: "  dropNDrag" })}>
                                 <input {...getInputProps()} />
-                                <img className="mb-3" src={addFileIcon} alt="add file" style={{ height: '80px' }} />
+                                <img className="mb-3" src={addFileIcon} alt="add file" style={{ height: '30%', width: '30%' }} />
                                 <p>Drag and Drop Files</p>
                                 <p>or </p>
-                                <button type="button" className="btn btn-primary">Upload</button>
+                                <button type="button" className="btn pad btn-primary">Upload</button>
                             </div>
                             <div className="flex justify-center flex-wrap "> 
         {

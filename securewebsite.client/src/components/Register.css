@@ -90,7 +90,7 @@ margin: 1px;
 color: #0F3C4C;;
 }
 
-.registerbtn{
+button.registerbtn{
 
     background-color:#2187AB;
     font-family: "Poppins", sans-serif;
@@ -98,6 +98,8 @@ color: #0F3C4C;;
 
 width: 100%;
     margin-top: 30px;
+
+    color: white;
 }
 
 .or{
@@ -113,14 +115,21 @@ color: #0F3C4C;;
     padding-right: 10px;
 }
 
-.btn-link{
+button.twin{
     font-family: "Poppins";
     font-weight: 300;
     
     font-weight: bold;
 
 color: #0F3C4C;;
-margin-left: 80px;
+
+
+width: 100%;
+
+
+box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+
+margin-bottom: 20px;
   
 }
 
@@ -148,10 +157,14 @@ margin-left: 80px;
 
 .push{
 
-    margin-right:70px;
+ width: 100%;
 }
 
 .message{
 
     color: red;
+}
+
+.container{
+max-width: 100%;
 }

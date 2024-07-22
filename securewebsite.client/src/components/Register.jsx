@@ -92,15 +92,16 @@ function Register() {
                             <label htmlFor="confirmPassword" className="form-label con">Confirm Password</label>
                             <input type="password" className="control1" name='ConfirmPassword' placeholder="Confirm Password" id='confirmPassword' required />
                         </div>
-                        <button type="submit" className="btn btn-primary registerbtn">Register</button>
+                        <button type="submit" className="btn  registerbtn">Register</button>
                         <div className='mt-3'>
                             <span className="or">or</span>
-                            <div className='mt-3 push'>
-                                <button className="btn btn-default">
+                            <div className='mt-5 push'>
+                                <button className="btn twin btn-default">
                                     <FcGoogle style={{ marginRight: '8px' }} />
                                     Sign in with Google
                                 </button>
-                                <button className="btn btn-default">
+
+                                <button className="btn twin btn-default">
                                     <FaFacebook style={{ marginRight: '8px' }} />
                                     Sign in with Facebook
                                 </button>
