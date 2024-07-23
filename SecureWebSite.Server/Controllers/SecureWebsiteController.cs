@@ -17,13 +17,15 @@ namespace SecureWebSite.Server.Controllers
     {
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
+        private readonly IPasswordHasher<User> passwordHasher;
         private readonly ISenderEmail emailSender;
         private readonly ILogger<SecureWebsiteController> logger;
 
-        public SecureWebsiteController(SignInManager<User> sm, UserManager<User> um, ISenderEmail es, ILogger<SecureWebsiteController> logger)
+        public SecureWebsiteController(SignInManager<User> sm, UserManager<User> um, IPasswordHasher<User> ph, ISenderEmail es, ILogger<SecureWebsiteController> logger)
         {
             signInManager = sm;
             userManager = um;
+            passwordHasher = ph;
             emailSender = es;
             this.logger = logger;
         }
@@ -79,7 +81,6 @@ namespace SecureWebSite.Server.Controllers
             }
         }
 
-
         [HttpGet("confirmemail")]
         public async Task<IActionResult> ConfirmEmail(string token, string email)
         {
@@ -108,7 +109,6 @@ namespace SecureWebSite.Server.Controllers
             logger.LogError("Error confirming email for user with email {Email}: {Error}", email, result.Errors.FirstOrDefault()?.Description);
             return BadRequest(new { message = "Error confirming your email." });
         }
-
 
         [HttpPost("login")]
         public async Task<ActionResult> LoginUser(Login login)
@@ -167,7 +167,6 @@ namespace SecureWebSite.Server.Controllers
             }
         }
 
-
         [HttpPost("verifyotp")]
         public async Task<ActionResult> VerifyOtp(OtpVerificationModel model)
         {
@@ -201,8 +200,6 @@ namespace SecureWebSite.Server.Controllers
 
             return Ok(new { message = "OTP verified successfully.", user = user });
         }
-
-
 
         [HttpGet("logout"), Authorize]
         public async Task<ActionResult> LogoutUser()
@@ -254,6 +251,13 @@ namespace SecureWebSite.Server.Controllers
             {
                 logger.LogWarning("Reset password attempt for non-existent email {Email}", model.Email);
                 return BadRequest(new { message = "User with this email does not exist." });
+            }
+
+            var verificationResult = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, model.Password);
+            if (verificationResult == PasswordVerificationResult.Success)
+            {
+                logger.LogWarning("User tried to reset password with the same password {UserId}", user.Id);
+                return BadRequest(new { message = "New password cannot be the same as the old password." });
             }
 
             var result = await userManager.ResetPasswordAsync(user, model.Token, model.Password);

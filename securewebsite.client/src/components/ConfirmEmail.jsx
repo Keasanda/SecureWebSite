@@ -40,7 +40,7 @@ const ConfirmEmail = () => {
     }, [searchParams]);
 
     const handleButtonClick = () => {
-        navigate('/');
+        navigate('/login ');
     };
 
     return (

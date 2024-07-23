@@ -7,11 +7,11 @@
 }
 
 .confirmation-message {
-    flex: 1;
+
     padding: 20px;
     text-align: left;
 
-    padding-right: 50px;
+    padding-right: 10px;
 
     padding-top: 20px;
     font-family: "Poppins";
@@ -23,15 +23,18 @@
 
 .confirmation-image {
     flex: 1;
-    padding: 20px;
+    padding: 150px;
     display: flex;
-    align-items: center;
+   
     justify-content: center;
+    object-fit: cover; /* Ensures the image covers the entire div without stretching */
+
+
 }
 
 .confirmation-image img {
     max-width: 100%;
-    height: 640px;
+   
 }
 
 .confirm{
