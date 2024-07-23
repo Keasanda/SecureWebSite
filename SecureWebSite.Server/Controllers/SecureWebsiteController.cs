@@ -8,6 +8,8 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using SecureWebSite.Server.Data;
 
 namespace SecureWebSite.Server.Controllers
 {
@@ -20,14 +22,16 @@ namespace SecureWebSite.Server.Controllers
         private readonly IPasswordHasher<User> passwordHasher;
         private readonly ISenderEmail emailSender;
         private readonly ILogger<SecureWebsiteController> logger;
+        private readonly ApplicationDbContext dbContext; // Add your DbContext
 
-        public SecureWebsiteController(SignInManager<User> sm, UserManager<User> um, IPasswordHasher<User> ph, ISenderEmail es, ILogger<SecureWebsiteController> logger)
+        public SecureWebsiteController(SignInManager<User> sm, UserManager<User> um, IPasswordHasher<User> ph, ISenderEmail es, ILogger<SecureWebsiteController> logger, ApplicationDbContext dbContext)
         {
             signInManager = sm;
             userManager = um;
             passwordHasher = ph;
             emailSender = es;
             this.logger = logger;
+            this.dbContext = dbContext;
         }
 
         private string ModifyConfirmationLink(string confirmationLink)
@@ -253,11 +257,20 @@ namespace SecureWebSite.Server.Controllers
                 return BadRequest(new { message = "User with this email does not exist." });
             }
 
-            var verificationResult = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, model.Password);
-            if (verificationResult == PasswordVerificationResult.Success)
+            // Fetch user's old passwords
+            var oldPasswords = await dbContext.UserPasswordHistory
+                .Where(p => p.UserId == user.Id)
+                .Select(p => p.PasswordHash)
+                .ToListAsync();
+
+            // Check if the new password is the same as any old password
+            foreach (var oldPassword in oldPasswords)
             {
-                logger.LogWarning("User tried to reset password with the same password {UserId}", user.Id);
-                return BadRequest(new { message = "New password cannot be the same as the old password." });
+                if (passwordHasher.VerifyHashedPassword(user, oldPassword, model.Password) == PasswordVerificationResult.Success)
+                {
+                    logger.LogWarning("User tried to reset password with an old password {UserId}", user.Id);
+                    return BadRequest(new { message = "New password cannot be the same as any of the old passwords." });
+                }
             }
 
             var result = await userManager.ResetPasswordAsync(user, model.Token, model.Password);
@@ -267,6 +280,14 @@ namespace SecureWebSite.Server.Controllers
                 logger.LogWarning("Password reset failed: {Errors}", string.Join(", ", errorMessages));
                 return BadRequest(new { errors = errorMessages });
             }
+
+            // Store the current password hash in the password history table
+            dbContext.UserPasswordHistory.Add(new UserPasswordHistory
+            {
+                UserId = user.Id,
+                PasswordHash = user.PasswordHash
+            });
+            await dbContext.SaveChangesAsync();
 
             logger.LogInformation("Password reset successful for user {UserId}", user.Id);
             return Ok(new { message = "Password reset successful." });
