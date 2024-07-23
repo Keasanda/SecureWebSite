@@ -61,6 +61,14 @@ namespace SecureWebSite.Server.Controllers
                     return BadRequest(new { errors = errorMessages });
                 }
 
+                // Store the initial password hash in the password history table
+                dbContext.UserPasswordHistory.Add(new UserPasswordHistory
+                {
+                    UserId = newUser.Id,
+                    PasswordHash = userManager.PasswordHasher.HashPassword(newUser, user.PasswordHash)
+                });
+                await dbContext.SaveChangesAsync();
+
                 var token = await userManager.GenerateEmailConfirmationTokenAsync(newUser);
                 logger.LogInformation("Email confirmation token generated for user {UserId}", newUser.Id);
 
@@ -84,6 +92,7 @@ namespace SecureWebSite.Server.Controllers
                 return BadRequest(new { message = "Something went wrong, please try again. " + ex.Message });
             }
         }
+
 
         [HttpGet("confirmemail")]
         public async Task<IActionResult> ConfirmEmail(string token, string email)
