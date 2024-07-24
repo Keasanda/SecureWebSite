@@ -90,6 +90,21 @@ function DragNDrop() {
                                     onChange={(e) => setTitle(e.target.value)}
                                 />
                             </div>
+
+
+                            <div className="mb-4">
+                                <label htmlFor="title" className="form-label Imagetitle">Category</label>
+                                <input
+                                    type="text"
+                                    className="form-control imgtil"
+                                    id="title"
+                                    value={title}
+                                    onChange={(e) => setTitle(e.target.value)}
+                                />
+                            </div>
+
+
+
                             <div className="mb-3 botto">
                                 <label htmlFor="description" className="form-label ImageDiscription">Image Description</label>
                                 <textarea
