@@ -28,7 +28,7 @@ form {
 
 .registerhead{
 
-margin-right: 31px;
+margin-right: 203px;
     padding-top: 100px;
 
     padding-bottom: 55px;
@@ -44,7 +44,7 @@ color: #0F3C4C;;
 
 
 .nae{
-padding-right: 450px;
+padding-right: 600px;
     font-size: small;
 
 padding-bottom: -1px;
@@ -62,7 +62,7 @@ color: #0F3C4C;;
 }
 .con{
 
-padding-right: 271px;
+padding-right: 510px;
     font-size: small;
 
     font-family: "Poppins";
@@ -78,7 +78,7 @@ color: #0F3C4C;;
 
 .na{
 
-    padding-right: 450px;
+    padding-right: 650px;
 margin: 1px;
     font-size: small;
 
@@ -145,11 +145,10 @@ margin-bottom: 20px;
 }
 /* Additional styles for the component */
 
-.regPic{
+.picRes{
 
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensures the image covers the entire div without stretching */
+  height: 70%;
+   
 }
 
 
