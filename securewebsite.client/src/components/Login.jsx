@@ -84,15 +84,10 @@ const Login = () => {
                     <button type="submit" className="btn btn-primary power login-button">Login</button>
                 </form>
                 {message && <p className="message">{message}</p>}
-             
 
                 <div className="register-link">
-    <p>New to this platform? <a href="/register" className="no-underline">Register here</a></p>
-</div>
-
-
-
-
+                    <p>New to this platform? <a href="/register" className="no-underline">Register here</a></p>
+                </div>
             </div>
         </div>
     );

@@ -16,6 +16,8 @@ function DragNDrop() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
+    const [category, setCategory] = useState('');
+
     const { getRootProps, getInputProps, acceptedFiles, fileRejections } = useDropzone({
         maxFiles: 2,
         accept: {
@@ -92,17 +94,20 @@ function DragNDrop() {
                             </div>
 
 
-                            <div className="mb-4">
-                                <label htmlFor="title" className="form-label Imagetitle">Category</label>
-                                <input
-                                    type="text"
-                                    className="form-control imgtil"
-                                    id="title"
-                                    value={title}
-                                    onChange={(e) => setTitle(e.target.value)}
-                                />
-                            </div>
-
+                            <div className="mb-4"> 
+  <label htmlFor="category" className="form-label Imagetitle">Category</label> 
+  <select 
+    className="form-control imgtil" 
+    id="category" 
+    value={category} 
+    onChange={(e) => setCategory(e.target.value)} 
+  > 
+    <option value="">Select a category</option> 
+    <option value="category1">Category 1</option> 
+    <option value="category2">Category 2</option> 
+    <option value="category3">Category 3</option> 
+  </select> 
+</div>
 
 
                             <div className="mb-3 botto">

@@ -155,7 +155,7 @@ namespace SecureWebSite.Server.Controllers
                     }
 
                     logger.LogInformation("User {UserId} logged in successfully", user.Id);
-                    return Ok(new { message = "Login successful." });
+                    return Ok(new { message = "Login successful.", user = new { user.Email, user.Name } });
                 }
 
                 if (result.RequiresTwoFactor)
@@ -176,9 +176,12 @@ namespace SecureWebSite.Server.Controllers
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error occurred during login.");
-                return BadRequest(new { message = "Something went wrong, please try again. " + ex.Message });
+                return BadRequest(new { message = "An error occurred. Please try again." });
             }
         }
+
+
+
 
         [HttpPost("verifyotp")]
         public async Task<ActionResult> VerifyOtp(OtpVerificationModel model)
