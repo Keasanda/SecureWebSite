@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import { FaUser, FaLock } from "react-icons/fa";
+import axios from "axios";
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -10,29 +11,48 @@ const Login = () => {
     const navigate = useNavigate();
 
  
+    // const handleLogin = async (e) => {
+    //     e.preventDefault();
+    //     const response = await fetch("/api/SecureWebsite/login", {
+    //         method: "POST",
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify({ email, password })
+    //     });
+    
+    //     const data = await response.json();
+    //     if (response.ok) {
+
+    //         console.log(response)
+    //         if (data.requiresOtp) {
+    //             localStorage.setItem('email', email);
+    //             navigate('/verifyotp');
+    //         } else {
+    //             localStorage.setItem("user", JSON.stringify(data.user));
+    //             navigate('/');
+    //         }
+    //     } else {
+    //         setMessage(data.message);
+    //     }
+    // };
     const handleLogin = async (e) => {
         e.preventDefault();
-        const response = await fetch("/api/SecureWebsite/login", {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-        });
     
-        const data = await response.json();
-        if (response.ok) {
-            if (data.requiresOtp) {
-                localStorage.setItem('email', email);
-                navigate('/verifyotp');
+        try {
+            const response = await axios.post("/api/SecureWebsite/login", { email, password });
+            
+            if (response.status === 200) {
+                const { userEmail, userName ,userID } = response.data;
+                localStorage.setItem("user", JSON.stringify({ userName, userEmail ,userID}));
+                navigate('/home');  // Navigate to Home page
             } else {
-                localStorage.setItem("user", JSON.stringify(data.user));
-                navigate('/');
+                setMessage("Login failed. Please check your credentials.");
             }
-        } else {
-            setMessage(data.message);
+        } catch (error) {
+            console.error("ERROR: ", error);
+            setMessage("An error occurred during login. Please try again.");
         }
-    };
-
-
+    }
+    
 
     const handleForgotPassword = () => {
         navigate('/forgotpassword');

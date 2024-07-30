@@ -11,20 +11,7 @@ function Home() {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
             const user = JSON.parse(storedUser);
-            if (user && user.email) {
-                fetch(`/api/securewebsite/home/${user.email}`, {
-                    method: "GET",
-                    credentials: "include"
-                })
-                .then(response => response.json())
-                .then(data => {
-                    setUserInfo(data.userInfo);
-                    console.log("User info: ", data.userInfo);
-                })
-                .catch(error => {
-                    console.log("Error on home page: ", error);
-                });
-            }
+            setUserInfo(user);
         }
     }, []);
 
@@ -47,12 +34,12 @@ function Home() {
                         <Nav className="me-auto"></Nav>
                         <Nav>
                             {userInfo ? (
-                                <Nav.Link href="/logout">Logout</Nav.Link>
+                                <>
+                                    <Nav.Link href="/logout">Logout</Nav.Link>
+                                    <span className="nav-link">{userInfo.userEmail}</span>
+                                </>
                             ) : (
                                 <Nav.Link href="/login">Login</Nav.Link>
-                            )}
-                            {userInfo && (
-                                <span className="nav-link">{userInfo.email}</span>
                             )}
                         </Nav>
                     </Navbar.Collapse>
@@ -65,9 +52,11 @@ function Home() {
                     {userInfo ? (
                         <>
                             <div className="user-info">
-                                <h2>Welcome, {userInfo.name}!</h2>
-                                <p>Email: {userInfo.email}</p>
-                                <p>Last Login: {new Date(userInfo.lastLogin).toLocaleString()}</p>
+                                <h2>Welcome, {userInfo.userName}!</h2>
+                                <p>Email: {userInfo.userEmail}</p>
+                                <p> user: [userInfo.userID] </p>
+
+                            
                             </div>
                             {Array.from({ length: 2 }, (_, index) => (
                                 <div className="col-md-5 to" key={index}>

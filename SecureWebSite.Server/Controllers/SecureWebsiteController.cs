@@ -178,7 +178,7 @@ namespace SecureWebSite.Server.Controllers
                     }
 
                     logger.LogInformation("User {UserId} logged in successfully", user.Id);
-                    return Ok(new { message = "Login successful.", userName = user.Name, userEmail = user.Email });
+                    return Ok(new { message = "Login successful.", userName = user.Name, userEmail = user.Email ,  userID = user.Id});
                 }
 
                 if (result.RequiresTwoFactor)
