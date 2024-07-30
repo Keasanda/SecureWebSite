@@ -11,7 +11,7 @@ namespace SecureWebSite.Server.Data
 
     public class ApplicationDbContext : IdentityDbContext<User>
     {
-
+        public DbSet<ImageUpload> ImageUploads { get; set; }
         public DbSet<UserPasswordHistory> UserPasswordHistory { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
