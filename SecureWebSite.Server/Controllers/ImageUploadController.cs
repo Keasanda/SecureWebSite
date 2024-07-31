@@ -1,8 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SecureWebSite.Server.Data;
 using SecureWebSite.Server.Models;
+using System.IO;
+using System.Threading.Tasks;
 
-[Route("api/[controller]")]
+
+
+
+[Route("api/ImageUpload")]
 [ApiController]
 public class ImageUploadController : ControllerBase
 {
@@ -39,49 +44,17 @@ public class ImageUploadController : ControllerBase
             Title = title,
             Description = description,
             Category = category,
-            ImageURL = file.FileName, // Save the file name, or URL if you use it
+            ImageURL = filePath, // Save the full path
             UserId = userId
         };
 
         _context.ImageUploads.Add(imageUpload);
         await _context.SaveChangesAsync();
 
-        return Ok(new { message = "Image uploaded successfully." });
+        return Ok(new { message = "Image uploaded successfully.", filePath });
     }
-
-
-
-    [HttpPost("save")]
-    public async Task<IActionResult> Save([FromBody] ImageDetailsDto imageDetails)
-    {
-        if (string.IsNullOrEmpty(imageDetails.ImageURL))
-            return BadRequest("Image URL is required.");
-
-        var imageUpload = new ImageUpload
-        {
-            Title = imageDetails.Title,
-            Description = imageDetails.Description,
-            Category = imageDetails.Category,
-            ImageURL = imageDetails.ImageURL,
-            UserId = imageDetails.UserId
-        };
-
-        _context.ImageUploads.Add(imageUpload);
-        await _context.SaveChangesAsync();
-
-        return Ok(new { message = "Image details saved successfully." });
-    }
-
-    public class ImageDetailsDto
-    {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string Category { get; set; }
-        public string ImageURL { get; set; }
-        public string UserId { get; set; }
-    }
-
-
-
-
 }
+
+
+
+
