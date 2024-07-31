@@ -6,14 +6,12 @@ import Error from './Error';
 import { IoHomeOutline, IoCameraOutline } from "react-icons/io5";
 import './DragNDrop.css';
 import { MdLogout } from "react-icons/md";
-import axios from 'axios';
 
 function DragNDrop() {
     const [files, setFiles] = useState([]);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
-    const [uploadedFilePath, setUploadedFilePath] = useState('');
     const { getRootProps, getInputProps, acceptedFiles, fileRejections } = useDropzone({
         maxFiles: 2,
         accept: {
@@ -48,47 +46,19 @@ function DragNDrop() {
         formData.append('userId', userId);
 
         try {
-            const response = await axios.post('/api/ImageUpload/upload', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
+            const response = await fetch('/api/ImageUpload/upload', {
+                method: 'POST',
+                body: formData,
             });
-            setUploadedFilePath(response.data.filePath); // Save the file path for later
-            console.log(response.data);
+
+            const data = await response.json();
+            if (response.ok) {
+                console.log(data);
+            } else {
+                console.error('Error uploading image:', data);
+            }
         } catch (error) {
             console.error('Error uploading image:', error);
-        }
-    };
-
-    const handleSave = async () => {
-        if (!uploadedFilePath) {
-            alert('No file uploaded');
-            return;
-        }
-
-        const storedUser = localStorage.getItem("user");
-        if (!storedUser) {
-            alert('User not logged in');
-            return;
-        }
-
-        const user = JSON.parse(storedUser);
-        const userId = user.userID;
-
-        const imageDetails = {
-            title,
-            description,
-            category,
-            imageURL: uploadedFilePath,
-            userId
-        };
-
-        try {
-            const response = await axios.post('/api/ImageUpload/save', imageDetails);
-            console.log(response.data);
-            // Optionally clear the form or show a success message here
-        } catch (error) {
-            console.error('Error saving image details:', error);
         }
     };
 
@@ -192,7 +162,9 @@ function DragNDrop() {
                             <div className="mt-3">
                                 {fileRejections[0] ? <Error errorM={fileRejections[0].errors[0]} /> : ''}
                             </div>
-                            <button type="button" className="btn btn-primary mt-3" onClick={handleSave}>Save</button>
+                            <div className="text-center mt-4">
+                                <button type="button" className="btn btn-success" onClick={handleUpload}>Save</button>
+                            </div>
                         </div>
                     </div>
                 </div>

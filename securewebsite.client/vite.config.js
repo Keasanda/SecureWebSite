@@ -51,7 +51,16 @@ export default defineConfig({
             '^/api/SecureWebsite': {
                 target: "https://localhost:7239",
                 secure: false
+            },
+
+            '^/api/ImageUpload' :{
+
+                target: "https://localhost:7239",
+                secure: false
             }
+
+
+            
         },
         port: 5173,
         https: {

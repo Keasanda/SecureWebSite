@@ -10,30 +10,6 @@ const Login = () => {
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
- 
-    // const handleLogin = async (e) => {
-    //     e.preventDefault();
-    //     const response = await fetch("/api/SecureWebsite/login", {
-    //         method: "POST",
-    //         headers: { 'Content-Type': 'application/json' },
-    //         body: JSON.stringify({ email, password })
-    //     });
-    
-    //     const data = await response.json();
-    //     if (response.ok) {
-
-    //         console.log(response)
-    //         if (data.requiresOtp) {
-    //             localStorage.setItem('email', email);
-    //             navigate('/verifyotp');
-    //         } else {
-    //             localStorage.setItem("user", JSON.stringify(data.user));
-    //             navigate('/');
-    //         }
-    //     } else {
-    //         setMessage(data.message);
-    //     }
-    // };
     const handleLogin = async (e) => {
         e.preventDefault();
     
