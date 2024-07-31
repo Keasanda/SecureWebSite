@@ -12,15 +12,15 @@ function DragNDrop() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
+    const [uploadMessage, setUploadMessage] = useState('');
+    const [validationMessages, setValidationMessages] = useState([]);
     const { getRootProps, getInputProps, acceptedFiles, fileRejections } = useDropzone({
         maxFiles: 2,
         accept: {
             "image/png": [".png", ".jpg", '.jpeg']
         },
         onDrop: (acceptedFiles) => {
-            setFiles(
-                acceptedFiles.map((file) => Object.assign(file, { preview: URL.createObjectURL(file) }))
-            );
+            setFiles(acceptedFiles);
         }
     });
 
@@ -29,9 +29,20 @@ function DragNDrop() {
     };
 
     const handleUpload = async () => {
+        let messages = [];
+        if (!title) messages.push('Image title is required.');
+        if (!description) messages.push('Image description is required.');
+        if (!category) messages.push('Category is required.');
+        if (files.length === 0) messages.push('Image file is required.');
+
+        if (messages.length > 0) {
+            setValidationMessages(messages);
+            return;
+        }
+
         const storedUser = localStorage.getItem("user");
         if (!storedUser) {
-            alert('User not logged in');
+            setUploadMessage('User not logged in');
             return;
         }
 
@@ -53,12 +64,17 @@ function DragNDrop() {
 
             const data = await response.json();
             if (response.ok) {
-                console.log(data);
+                setUploadMessage('Pic was posted successfully.');
+                setTitle('');
+                setDescription('');
+                setCategory('');
+                setFiles([]);
+                setValidationMessages([]);
             } else {
-                console.error('Error uploading image:', data);
+                setUploadMessage(`Error: ${data.message}`);
             }
         } catch (error) {
-            console.error('Error uploading image:', error);
+            setUploadMessage('Error uploading image.');
         }
     };
 
@@ -140,31 +156,23 @@ function DragNDrop() {
                                 <img className="mb-3" src={addFileIcon} alt="add file" style={{ height: '30%', width: '30%' }} />
                                 <p>Drag and Drop Files</p>
                                 <p>or </p>
-                                <button type="button" className="btn pad btn-primary" onClick={handleUpload}>Upload</button>
-                            </div>
-                            <div className="flex justify-center flex-wrap">
-                                {
-                                    files.map((file) => (
-                                        <div className="image-preview m-2 p-4 w-40 h-40 " key={file.name}>
-                                            <img src={file.preview} alt="thumbnail"
-                                                className='w-auto h-full rounded-md'
-                                                onLoad={() => {
-                                                    URL.revokeObjectURL(file.preview)
-                                                }}
-                                            />
-                                        </div>
-                                    ))
-                                }
+                                <button type="button" className="btn pad btn-primary">Upload</button>
                             </div>
                             <div className="mt-3">
-                                {acceptedFiles[0] ? <p className="text-success">🙂 Files accepted </p> : ''}
-                            </div>
-                            <div className="mt-3">
-                                {fileRejections[0] ? <Error errorM={fileRejections[0].errors[0]} /> : ''}
+                                {acceptedFiles.length > 0 && <p className="text-success">🙂 Files accepted </p>}
+                                {fileRejections.length > 0 && <Error errorM={fileRejections[0].errors[0]} />}
                             </div>
                             <div className="text-center mt-4">
                                 <button type="button" className="btn btn-success" onClick={handleUpload}>Save</button>
                             </div>
+                            {validationMessages.length > 0 && (
+                                <div className="mt-3">
+                                    {validationMessages.map((msg, index) => (
+                                        <p key={index} className="text-danger">{msg}</p>
+                                    ))}
+                                </div>
+                            )}
+                            {uploadMessage && <div className="text-center mt-3"><p>{uploadMessage}</p></div>}
                         </div>
                     </div>
                 </div>

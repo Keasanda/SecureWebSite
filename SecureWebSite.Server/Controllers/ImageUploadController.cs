@@ -4,9 +4,6 @@ using SecureWebSite.Server.Models;
 using System.IO;
 using System.Threading.Tasks;
 
-
-
-
 [Route("api/ImageUpload")]
 [ApiController]
 public class ImageUploadController : ControllerBase
@@ -24,7 +21,7 @@ public class ImageUploadController : ControllerBase
     public async Task<IActionResult> Upload([FromForm] IFormFile file, [FromForm] string title, [FromForm] string description, [FromForm] string category, [FromForm] string userId)
     {
         if (file == null || file.Length == 0)
-            return BadRequest("No file uploaded.");
+            return BadRequest(new { message = "No file uploaded." });
 
         var uploadFolder = Path.Combine(_environment.ContentRootPath, "Gallery pics");
         if (!Directory.Exists(uploadFolder))
@@ -54,7 +51,3 @@ public class ImageUploadController : ControllerBase
         return Ok(new { message = "Image uploaded successfully.", filePath });
     }
 }
-
-
-
-
