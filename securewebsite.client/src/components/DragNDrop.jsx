@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import addFileIcon from './image/addFileIcon.svg';
@@ -14,6 +14,18 @@ function DragNDrop() {
     const [category, setCategory] = useState('');
     const [uploadMessage, setUploadMessage] = useState('');
     const [validationMessages, setValidationMessages] = useState([]);
+    const [userName, setUserName] = useState('');
+    const [userEmail, setUserEmail] = useState('');
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            const user = JSON.parse(storedUser);
+            setUserName(user.userName);
+            setUserEmail(user.userEmail);
+        }
+    }, []);
+
     const { getRootProps, getInputProps, acceptedFiles, fileRejections } = useDropzone({
         maxFiles: 2,
         accept: {
@@ -89,9 +101,9 @@ function DragNDrop() {
                         <Nav.Link href="#image-upload"></Nav.Link>
                     </Nav>
                     <Nav>
-                        <NavDropdown title="Lindokuhle Mahlangu" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">lindo@gmail.com</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">Reset Password</NavDropdown.Item>
+                        <NavDropdown title={userName} id="basic-nav-dropdown">
+                            <NavDropdown.Item href="#action/3.1">{userEmail}</NavDropdown.Item>
+                            <NavDropdown.Item href="LoggedInResetPassword">Reset Password</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>

@@ -395,5 +395,61 @@ namespace SecureWebSite.Server.Controllers
 
             return Ok(new { message = "Logged in", user = currentuser });
         }
+
+
+        // Endpoint to reset password for logged-in user
+        [HttpPost("loggedinresetpassword")]
+        public async Task<ActionResult> LoggedInResetPassword(LoggedInResetPasswordModel model)
+        {
+            // Extract the user details from local storage
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return BadRequest(new { message = "User is not logged in." });
+            }
+
+            // Find the user by ID
+            var user = await userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return BadRequest(new { message = "User not found." });
+            }
+
+            // Fetch user's old passwords
+            var oldPasswords = await dbContext.UserPasswordHistory
+                .Where(p => p.UserId == user.Id)
+                .Select(p => p.PasswordHash)
+                .ToListAsync();
+
+            // Check if the new password is the same as any old password
+            foreach (var oldPassword in oldPasswords)
+            {
+                if (passwordHasher.VerifyHashedPassword(user, oldPassword, model.NewPassword) == PasswordVerificationResult.Success)
+                {
+                    return BadRequest(new { message = "New password cannot be the same as any of the old passwords." });
+                }
+            }
+
+            // Change the user's password
+            var result = await userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+            if (!result.Succeeded)
+            {
+                var errorMessages = result.Errors.Select(e => e.Description).ToList();
+                return BadRequest(new { errors = errorMessages });
+            }
+
+            // Store the current password hash in the password history table
+            dbContext.UserPasswordHistory.Add(new UserPasswordHistory
+            {
+                UserId = user.Id,
+                PasswordHash = user.PasswordHash
+            });
+            await dbContext.SaveChangesAsync();
+
+            return Ok(new { message = "Password reset successful." });
+        }
+
+
+
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SecureWebSite.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstOne : Migration
+    public partial class Firstone : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

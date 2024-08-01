@@ -9,6 +9,7 @@ import ConfirmEmail from './components/ConfirmEmail';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import DragNDrop from './components/DragNDrop';
+import LoggedInResetPassword from './components/LoggedInResetPassword'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -28,6 +29,9 @@ const router = createBrowserRouter(
             <Route path='/forgotpassword' element={<ForgotPassword />} />
             <Route path='/resetpassword' element={<ResetPassword />} />
             <Route path='/DragNDrop' element={<DragNDrop />} />
+
+            <Route path='/loggedinresetpassword' element={<LoggedInResetPassword/>} />
+            
             <Route path='*' element={
                 <div>
                     <header>

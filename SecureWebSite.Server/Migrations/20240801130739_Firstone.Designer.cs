@@ -12,8 +12,8 @@ using SecureWebSite.Server.Data;
 namespace SecureWebSite.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240730134125_FirstOne")]
-    partial class FirstOne
+    [Migration("20240801130739_Firstone")]
+    partial class Firstone
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
