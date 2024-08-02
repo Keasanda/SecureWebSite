@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SecureWebSite.Server.Data;
 using SecureWebSite.Server.Models;
 using System.IO;
@@ -30,6 +31,7 @@ public class ImageUploadController : ControllerBase
         }
 
         var filePath = Path.Combine(uploadFolder, file.FileName);
+        var relativePath = Path.Combine("/gallery", file.FileName);
 
         using (var stream = new FileStream(filePath, FileMode.Create))
         {
@@ -41,7 +43,7 @@ public class ImageUploadController : ControllerBase
             Title = title,
             Description = description,
             Category = category,
-            ImageURL = filePath, // Save the full path
+            ImageURL = relativePath, // Save the relative path
             UserId = userId
         };
 
@@ -49,5 +51,12 @@ public class ImageUploadController : ControllerBase
         await _context.SaveChangesAsync();
 
         return Ok(new { message = "Image uploaded successfully.", filePath });
+    }
+
+    [HttpGet("images")]
+    public async Task<IActionResult> GetImages()
+    {
+        var images = await _context.ImageUploads.ToListAsync();
+        return Ok(images);
     }
 }

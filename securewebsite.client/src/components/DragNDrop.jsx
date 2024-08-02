@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
-import addFileIcon from './image/addFileIcon.svg';
+import cloud_upload from './image/cloud_upload.svg';
 import Error from './Error';
 import { IoHomeOutline, IoCameraOutline } from "react-icons/io5";
 import './DragNDrop.css';
@@ -165,7 +165,7 @@ function DragNDrop() {
                             </div>
                             <div {...getRootProps({ className: "dropNDrag" })}>
                                 <input {...getInputProps()} />
-                                <img className="mb-3" src={addFileIcon} alt="add file" style={{ height: '30%', width: '30%' }} />
+                                <img className="mb-3" src={cloud_upload} alt="add file" style={{ height: '45%', width: '35%' }} />
                                 <p>Drag and Drop Files</p>
                                 <p>or </p>
                                 <button type="button" className="btn pad btn-primary">Upload</button>

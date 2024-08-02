@@ -6,6 +6,7 @@ import './Home.css';
 function Home() {
     document.title = "Welcome";
     const [userInfo, setUserInfo] = useState(null);
+    const [images, setImages] = useState([]);
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
@@ -13,7 +14,19 @@ function Home() {
             const user = JSON.parse(storedUser);
             setUserInfo(user);
         }
+
+        fetchImages();
     }, []);
+
+    const fetchImages = async () => {
+        try {
+            const response = await fetch('api/ImageUpload/images');
+            const data = await response.json();
+            setImages(data);
+        } catch (error) {
+            console.error('Error fetching images:', error);
+        }
+    };
 
     return (
         <div className="content">
@@ -28,7 +41,7 @@ function Home() {
             </div>
             <div className="main-content">
                 <Navbar bg="light" expand="lg" className='homenav'>
-                    <Navbar.Brand href="#home">Home </Navbar.Brand>
+                    <Navbar.Brand href="#home">Home</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto"></Nav>
@@ -54,17 +67,15 @@ function Home() {
                             <div className="user-info">
                                 <h2>Welcome, {userInfo.userName}!</h2>
                                 <p>Email: {userInfo.userEmail}</p>
-                                <p> user: [userInfo.userID] </p>
-
-                            
                             </div>
-                            {Array.from({ length: 2 }, (_, index) => (
-                                <div className="col-md-5 to" key={index}>
-                                    <div className="card to">
-                                        <img src="src/assets/5b4b4419dc94f06b31a38beb2085ab3b.jpg" className="card-img-top" alt="Butterfly" />
+                            {images.map((image) => (
+                                <div className="col-md-4 mb-4" key={image.imageId}>
+                                    <div className="card">
+                                        <img src={image.imageURL} className="card-img-top" alt={image.title} />
                                         <div className="card-body">
-                                            <h5 className="card-title">Butterfly</h5>
-                                            <p className="card-text">Butterflies have taste receptors on their feet to help them find their host plants and locate food. A female butterfly lands on different plants, drumming the leaves with her feet until the plant releases its juices.</p>
+                                            <h5 className="card-title">{image.title}</h5>
+                                            <p className="card-text">{image.description}</p>
+                                            <p className="card-text"><small className="text-muted">Category: {image.category}</small></p>
                                         </div>
                                     </div>
                                 </div>
