@@ -168,7 +168,7 @@ function DragNDrop() {
 
 
                     <div className="card border-0">
-                        <div className="card-body">
+                        <div className="">
                             <h1 className="text-center mb-4 UploadHead">Image Upload</h1>
                             <div className="mb-4">
                                 <label htmlFor="title" className="form-label Imagetitle">Image Title</label>

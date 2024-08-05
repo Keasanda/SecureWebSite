@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css';
+import { IoFilterSharp } from "react-icons/io5";
+import { CiSearch } from "react-icons/ci";
+
 
 function Home() {
     document.title = "Welcome";
@@ -36,6 +39,7 @@ function Home() {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+
     return (
         <div className="content">
             <div className="sidebar">
@@ -51,10 +55,14 @@ function Home() {
             </div>
             <div className="main-content">
                 <Navbar bg="light" expand="lg" className='homenav'>
+                <Navbar.Brand style={{ marginLeft: '25px' }} href="#home">Home</Navbar.Brand>
+
                     <Nav className="me-auto"></Nav>
                     <Nav>
                         {userInfo ? (
-                            <NavDropdown title={<span><img src="path_to_profile_image" alt="Profile" className="profile-image" /> {userInfo.userName}</span>}>
+                            <NavDropdown title={<span><img src="src\assets\5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Profile" className="profile-image" /> {userInfo.userName}</span>}>
+
+                                
                                 <NavDropdown.Item>{userInfo.userEmail}</NavDropdown.Item>
                                 <NavDropdown.Item href="/reset-password">Reset Password</NavDropdown.Item>
                             </NavDropdown>
@@ -64,16 +72,22 @@ function Home() {
                     </Nav>
                 </Navbar>
                 <div className="search-bar">
-                    <input type="text" placeholder="Search for..." />
-                    <button className="filters-button">Filters</button>
+
+          
+                    <input   type="text"        placeholder=  "Search for..." />
+                    <button className="filters-button">    <IoFilterSharp className="icon ma  " />    Filters</button>
                 </div>
                 <div className="image-gallery">
                     {userInfo ? (
                         currentImages.map((image) => (
                             <div className="card" key={image.imageId}>
-                                <img src={image.imageURL} className="card-img-top" alt={image.title} />
-                                <div className="card-body">
+                                <div className="image-container">
+                                    <img src={image.imageURL} className="card-img-top" alt={image.title} />
+                                </div>
+                                <div className="card-title-overlay">
                                     <h5 className="card-title">{image.title}</h5>
+                                </div>
+                                <div className="card-body">
                                     <div className="card-actions">
                                         <i className="far fa-heart"></i>
                                         <i className="far fa-comment"></i>
