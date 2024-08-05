@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css';
 
@@ -7,6 +7,8 @@ function Home() {
     document.title = "Welcome";
     const [userInfo, setUserInfo] = useState(null);
     const [images, setImages] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const imagesPerPage = 4;
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
@@ -28,6 +30,12 @@ function Home() {
         }
     };
 
+    const indexOfLastImage = currentPage * imagesPerPage;
+    const indexOfFirstImage = indexOfLastImage - imagesPerPage;
+    const currentImages = images.slice(indexOfFirstImage, indexOfLastImage);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
     return (
         <div className="content">
             <div className="sidebar">
@@ -36,57 +44,60 @@ function Home() {
                     <ul>
                         <li className="active">Home</li>
                         <li onClick={() => window.location.href = '/dragndrop'}>Image Upload</li>
+                        <li onClick={() => window.location.href = '/library'}>My Library</li>
                     </ul>
                 </nav>
+                <footer className='logout' onClick={() => window.location.href = '/logout'}>Logout</footer>
             </div>
             <div className="main-content">
                 <Navbar bg="light" expand="lg" className='homenav'>
-                    <Navbar.Brand href="#home">Home</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto"></Nav>
-                        <Nav>
-                            {userInfo ? (
-                                <>
-                                    <Nav.Link href="/logout">Logout</Nav.Link>
-                                    <span className="nav-link">{userInfo.userEmail}</span>
-                                </>
-                            ) : (
-                                <Nav.Link href="/login">Login</Nav.Link>
-                            )}
-                        </Nav>
-                    </Navbar.Collapse>
+                    <Nav className="me-auto"></Nav>
+                    <Nav>
+                        {userInfo ? (
+                            <NavDropdown title={<span><img src="path_to_profile_image" alt="Profile" className="profile-image" /> {userInfo.userName}</span>}>
+                                <NavDropdown.Item>{userInfo.userEmail}</NavDropdown.Item>
+                                <NavDropdown.Item href="/reset-password">Reset Password</NavDropdown.Item>
+                            </NavDropdown>
+                        ) : (
+                            <Nav.Link href="/login">Login</Nav.Link>
+                        )}
+                    </Nav>
                 </Navbar>
                 <div className="search-bar">
                     <input type="text" placeholder="Search for..." />
                     <button className="filters-button">Filters</button>
                 </div>
-                <div className="image-gallery row">
+                <div className="image-gallery">
                     {userInfo ? (
-                        <>
-                            <div className="user-info">
-                                <h2>Welcome, {userInfo.userName}!</h2>
-                                <p>Email: {userInfo.userEmail}</p>
-                            </div>
-                            {images.map((image) => (
-                                <div className="col-md-4 mb-4" key={image.imageId}>
-                                    <div className="card">
-                                        <img src={image.imageURL} className="card-img-top" alt={image.title} />
-                                        <div className="card-body">
-                                            <h5 className="card-title">{image.title}</h5>
-                                            <p className="card-text">{image.description}</p>
-                                            <p className="card-text"><small className="text-muted">Category: {image.category}</small></p>
-                                        </div>
+                        currentImages.map((image) => (
+                            <div className="card" key={image.imageId}>
+                                <img src={image.imageURL} className="card-img-top" alt={image.title} />
+                                <div className="card-body">
+                                    <h5 className="card-title">{image.title}</h5>
+                                    <div className="card-actions">
+                                        <i className="far fa-heart"></i>
+                                        <i className="far fa-comment"></i>
                                     </div>
                                 </div>
-                            ))}
-                        </>
+                            </div>
+                        ))
                     ) : (
                         <div className='warning'>
                             <p>Please login to view the images.</p>
                         </div>
                     )}
                 </div>
+                <nav aria-label="Page navigation">
+                    <ul className="pagination justify-content-center">
+                        {Array.from({ length: Math.ceil(images.length / imagesPerPage) }, (_, i) => (
+                            <li className="page-item" key={i + 1}>
+                                <a className="page-link" href="#" onClick={() => paginate(i + 1)}>
+                                    {i + 1}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
             </div>
         </div>
     );
