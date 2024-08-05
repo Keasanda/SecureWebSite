@@ -1,229 +1,265 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-
-.Imagetitle{
-
+.Imagetitle {
     margin-top: 2px;
     margin-right: 320px;
-
     font-family: "Poppins", sans-serif;
-    
     font-weight: bold;
-    
     font-style: normal;
-    
-    color:  #0F3C4C;
-
+    color: #0F3C4C;
 }
 
-.UploadHead{
 
+.ImageCategory{
 
+    margin-top: 2px;
+    margin-right: 280px;
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+    font-style: normal;
+    color: #0F3C4C;
+}
+
+.UploadHead {
     font-size: 24px;
     font-weight: 600;
     line-height: 36px;
     text-align: center;
-    
-padding-bottom: 90px;
-padding-top: 30px;
-
+    padding-bottom: 90px;
+    padding-top: 30px;
     font-family: "Poppins", sans-serif;
-    
     font-weight: bold;
-    
     font-style: normal;
-    
-    color:  #2187AB;
+    color: #2187AB;
 }
 
-.ImageDiscription{
-
-
-margin: 4px;
-margin-right: 271px;
-
-font-family: "Poppins", sans-serif;
-    
-font-weight: bold;
-
-font-style: normal;
-
-color:  #0F3C4C;
-
-
+.ImageDiscription {
+    margin: 4px;
+    margin-right: 271px;
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+    font-style: normal;
+    color: #0F3C4C;
 }
 
-.discription{
-
-    width : 400px;
-
-    height: 79px ;
+.discription {
+    width: 400px;
+    height: 79px;
+    margin-left: 36%;
 }
 
-.imgtil{
-
-    width : 400px;
-
+.imgtil {
+    margin-left: 36%;
+    width: 400px;
     height: Fixed (38px);
-    
-
 }
 
-.dropNDrag{
-
-    width : 400px;
-
-    height: 293px ;
-    border-style: dashed;
-background-color:  #E9F5F9;
-padding-bottom: 90px;
-
+.dropNDrag {
+    display: flex;
+    justify-content: center;
 }
 
-.botto{
-
-    padding-bottom: 20px;
+.botton {
+    width: 400px;
 }
 
 
 
-/* DragNDrop.css */
+.upload-container {
+    display: flex;
+    justify-content: center;
+}
 
-
-
-.vertical-panel {
-    width: 200px;
+.drag-drop-zone {
+    width:400px;
+    height: 250px;
+    border: 2px dashed #2187AB;
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: fixed;
-    left: 0; /* Position the panel on the left side */
-    top: 0;
-    bottom: 0;
-   
-    padding-top: 20px; /* Some padding at the top */
-}
+    justify-content: center;
+    padding: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+padding-bottom: 100px;
 
-.logo {
-    width: 100px;
-    height: auto;
-
-
-    font-family: Poppins;
-    font-size: 36px;
-    font-weight: 600;
-    line-height: 54px;
-    text-align: center;
-    
-
+background-color: #E9F5F9;
 
 
 }
 
-.btn-block {
+.drag-drop-text {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #2187AB;
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+    font-style: normal;
+}
+
+.upload {
+    background: #2187AB;
+    width: 175px;
+    height: 40px;
+    border-radius: 5px;
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 15px;
+}
+
+.save {
+    background:  #2187AB;
+    width: 175px;
+    height: 40px;
+    border-radius: 5px;
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 15px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Inter Tight', sans-serif;
+}
+
+.navbarBTN {
+    background:  #2187AB;
+    color: #fff;
+    border: none;
     width: 100%;
-    margin-top: 10px; /* Space between buttons */
+    height: 56px;
+    margin-bottom: 10px;
+
+    padding-right: 55%;
+
+
+}
+
+button.uplodBTN  {
+    background: white;
+    color: #2187AB;
+    border: none;
+    width: 100%;
+    height: 56px;
+    margin-bottom: 10px;
+
+
+    padding-right: 50%;
+}
+
+.bars {
+
+  
+    width: 100%;
+    height: 100%;
+    background: rgba(33, 135, 171, 0.5);
+
+  ;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    color: #0F3C4C;
+}
+
+.logout {
+    width: 100%;
+    height: 56px;
+    background: #2187AB;
+ color: white;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+  
+    padding-right: 70%;
+}
+
+.logout .icon {
+    margin-right: 10px;
+}
+
+.vertical-panel {
+    width: 500px;
+    height: 1054px;
+   background: #2187AB;
+
+
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.loghead {
+    font-size: 28px;
+    color: #2187AB;
+    font-weight: bold;
+
+    padding-right: 70%;
+}
+
+.icon {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.contain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 
-.bg{
 
-    background-color:  #2187AB;
+.Uploadmuster{
+
+ width: 90%;
+ height: 80%;
+}
+
+.ma {
+    margin-right: 15px;
+}
+
+.cloud{
+margin-top: 50px;
+    width: 70%;
+    height: 75%;
+}
+
+.topnavname{
+
+    padding-right: 500px;
+}
+
+.show{
+
+    margin-right: 50px;
+}
+
+.Navbar.Brand {
+
   
-    width: 350px;
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+color: #2187AB;    
+
+
 }
 
 .loghead{
 
-    margin-right: 245px;
+    font-family: Poppins;
 
-    font-family: "Poppins", sans-serif;
-    
+    line-height: 24px;
+    text-align: center;
+    color: white;
 
-    
-    font-style: normal;
-    
-    color:  #f8f9fa;
-
+    margin-bottom: 50px;
 }
-
-
-button.navbarBTN {
-
-
-    font-family: "Poppins", sans-serif;
-    
-    font-weight: bold;
-    
-    font-style: normal;
-
-width: 100%;
-
-height: 60px;
-
-padding-right: 70%;
-
-
-
-}
-
-
-button.uplodBTN {
-   
-
-    font-family: "Poppins", sans-serif;
-    
-    font-weight: bold;
-    
-    font-style: normal;
-
-width: 100%;
-
-height: 60px;
-
-background-color: #E9F5F9;
-
-color: #2187AB;
-
-padding-right: 50%;
-
-  }
-  
-
-.contain{
-
-    width:100% ;
-    
-}
-
-.container{
-
-    padding-bottom: 100px;
-}
-
-.bars{
-
-    margin-left:19% ;
-}
-
-button.logout{
-
-
-    font-family: "Poppins", sans-serif;
-    
-    font-weight: bold;
-    
-    font-style: normal;
-    padding-right: 70%;
-
-    color: #f8f9fa;
-
-}
-
-
-
-button.pad {
-
-    margin-bottom: 30px;
-}
-

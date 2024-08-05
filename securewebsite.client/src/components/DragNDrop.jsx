@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import cloud_upload from './image/cloud_upload.svg';
-import Error from './Error';
 import { IoHomeOutline, IoCameraOutline } from "react-icons/io5";
 import './DragNDrop.css';
 import { MdLogout } from "react-icons/md";
@@ -26,15 +25,24 @@ function DragNDrop() {
         }
     }, []);
 
-    const { getRootProps, getInputProps, acceptedFiles, fileRejections } = useDropzone({
+    const { getRootProps, getInputProps, open, acceptedFiles, fileRejections } = useDropzone({
         maxFiles: 2,
         accept: {
             "image/png": [".png", ".jpg", '.jpeg']
         },
         onDrop: (acceptedFiles) => {
             setFiles(acceptedFiles);
-        }
+        },
+        noClick: true,
+        noKeyboard: true
     });
+
+    useEffect(() => {
+        const messages = fileRejections.map(rejection => 
+            `${rejection.file.name} is not a supported format.`
+        );
+        setValidationMessages(messages);
+    }, [fileRejections]);
 
     const handleLogout = () => {
         alert('Logged out');
@@ -92,26 +100,17 @@ function DragNDrop() {
 
     return (
         <>
-            <Navbar bg="light" expand="lg" className='bars'>
-                <Navbar.Brand href="#home">Image Upload</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                        <Nav.Link href="#home"></Nav.Link>
-                        <Nav.Link href="#image-upload"></Nav.Link>
-                    </Nav>
-                    <Nav>
-                        <NavDropdown title={userName} id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">{userEmail}</NavDropdown.Item>
-                            <NavDropdown.Item href="LoggedInResetPassword">Reset Password</NavDropdown.Item>
-                        </NavDropdown>
-                    </Nav>
-                </Navbar.Collapse>
-            </Navbar>
-
+           
             <div className="d-flex">
+
+          
+
+
+          
+
+
                 <div className="vertical-panel bg p-3">
-                    <h1 className='loghead'> Logo </h1>
+                    <h1 className='loghead'>Logo</h1>
                     <div className="mt-5 contain">
                         <button className="btn btn-primary navbarBTN btn-block mb-3">
                             <IoHomeOutline className="icon ma" /> Home
@@ -119,13 +118,55 @@ function DragNDrop() {
                         <button className="btn uplodBTN btn-block mb-5">
                             <IoCameraOutline className="icon ma  " /> Image Upload
                         </button>
+
+                        <button className="btn navbarBTN  btn-block mb-5">
+                            <IoCameraOutline className="icon ma  " /> My Gallery
+                        </button>
+
+
                     </div>
                     <button className="btn logout btn-block mt-auto" onClick={handleLogout}>
                         <MdLogout className="icon ma  " />
                         Log Out
                     </button>
                 </div>
-                <div className="container my-2 open">
+
+
+                
+
+
+                <div className="Uploadmuster">
+
+
+
+
+
+
+
+
+                <Navbar bg="light" expand="lg" className='bars'>
+                <Navbar.Brand style={{ marginLeft: '25px' }} href="#home">Image Upload</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="me-auto">
+                        <Nav.Link href="#home"></Nav.Link>
+                        <Nav.Link href="#image-upload"></Nav.Link>
+                    </Nav>
+                    <Nav>
+                        <NavDropdown title={userName} id="basic-nav-dropdown ">
+                            <NavDropdown.Item href="#action/3.1">{userEmail}</NavDropdown.Item>
+                            <NavDropdown.Item href="LoggedInResetPassword">Reset Password</NavDropdown.Item>
+                        </NavDropdown>
+                    </Nav>
+                </Navbar.Collapse>
+            </Navbar>
+
+            
+              
+
+
+
+
                     <div className="card border-0">
                         <div className="card-body">
                             <h1 className="text-center mb-4 UploadHead">Image Upload</h1>
@@ -140,7 +181,7 @@ function DragNDrop() {
                                 />
                             </div>
                             <div className="mb-4">
-                                <label htmlFor="category" className="form-label Imagetitle">Category</label>
+                                <label htmlFor="category" className="form-label ImageCategory"> Image Category</label>
                                 <select
                                     className="form-control imgtil"
                                     id="category"
@@ -167,15 +208,26 @@ function DragNDrop() {
                                 <div {...getRootProps()} className="drag-drop-zone">
                                     <input {...getInputProps()} />
                                     <img src={cloud_upload} alt="upload" className="cloud" />
-                                    <p className="drag-drop-text">Drag and drop your file here</p>
+                                    <p className="drag-drop-text">Drag and Drop Files</p>
+
+                                    <p> or </p>
+
+
+                                    <button className="btn btn-primary upload-btn" type="button" onClick={open}>Upload</button>
+
+                                  
+                                  
                                 </div>
                             </div>
-                            <button className="btn btn-primary upload mt-4 mb-3" onClick={handleUpload}>Upload</button>
+                            <button className="btn btn-primary save mt-4 mb-3" type="button" onClick={handleUpload}>Save</button>
                             {uploadMessage && <p className="mt-3 text-center">{uploadMessage}</p>}
                             {validationMessages.length > 0 && (
                                 <div className="alert alert-danger mt-4" role="alert">
                                     {validationMessages.map((message, index) => (
                                         <p key={index}>{message}</p>
+
+
+
                                     ))}
                                 </div>
                             )}
@@ -183,6 +235,10 @@ function DragNDrop() {
                     </div>
                 </div>
             </div>
+
+
+
+
         </>
     );
 }
