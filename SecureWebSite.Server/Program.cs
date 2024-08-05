@@ -45,6 +45,9 @@ namespace SecureWebSite.Server
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
+            // Add the IHttpClientFactory service
+            builder.Services.AddHttpClient();
+
             var app = builder.Build();
 
             app.UseDefaultFiles();

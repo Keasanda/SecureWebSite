@@ -163,28 +163,22 @@ function DragNDrop() {
                                     onChange={(e) => setDescription(e.target.value)}
                                 ></textarea>
                             </div>
-                            <div {...getRootProps({ className: "dropNDrag" })}>
-                                <input {...getInputProps()} />
-                                <img className="mb-3" src={cloud_upload} alt="add file" style={{ height: '45%', width: '35%' }} />
-                                <p>Drag and Drop Files</p>
-                                <p>or </p>
-                                <button type="button" className="btn pad btn-primary">Upload</button>
+                            <div className="upload-container mt-4">
+                                <div {...getRootProps()} className="drag-drop-zone">
+                                    <input {...getInputProps()} />
+                                    <img src={cloud_upload} alt="upload" className="cloud" />
+                                    <p className="drag-drop-text">Drag and drop your file here</p>
+                                </div>
                             </div>
-                            <div className="mt-3">
-                                {acceptedFiles.length > 0 && <p className="text-success">🙂 Files accepted </p>}
-                                {fileRejections.length > 0 && <Error errorM={fileRejections[0].errors[0]} />}
-                            </div>
-                            <div className="text-center mt-4">
-                                <button type="button" className="btn btn-success" onClick={handleUpload}>Save</button>
-                            </div>
+                            <button className="btn btn-primary upload mt-4 mb-3" onClick={handleUpload}>Upload</button>
+                            {uploadMessage && <p className="mt-3 text-center">{uploadMessage}</p>}
                             {validationMessages.length > 0 && (
-                                <div className="mt-3">
-                                    {validationMessages.map((msg, index) => (
-                                        <p key={index} className="text-danger">{msg}</p>
+                                <div className="alert alert-danger mt-4" role="alert">
+                                    {validationMessages.map((message, index) => (
+                                        <p key={index}>{message}</p>
                                     ))}
                                 </div>
                             )}
-                            {uploadMessage && <div className="text-center mt-3"><p>{uploadMessage}</p></div>}
                         </div>
                     </div>
                 </div>
