@@ -1,6 +1,5 @@
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import ProtectedRoutes from './ProtectedRoutes';
-import './App.css';
 import Home from './components/Home';
 import Admin from './components/Admin';
 import Login from './components/Login';
@@ -9,7 +8,8 @@ import ConfirmEmail from './components/ConfirmEmail';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import DragNDrop from './components/DragNDrop';
-import LoggedInResetPassword from './components/LoggedInResetPassword'
+import LoggedInResetPassword from './components/LoggedInResetPassword';
+import ImageView from './components/ImageView'; // Import the new component
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -22,16 +22,23 @@ const router = createBrowserRouter(
             <Route element={<ProtectedRoutes />}>
                 <Route path='/home' element={<Home />} />
                 <Route path='/admin' element={<Admin />} />
+               
+
+
             </Route>
+
+
+
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route path='/confirmemail' element={<ConfirmEmail />} />
             <Route path='/forgotpassword' element={<ForgotPassword />} />
             <Route path='/resetpassword' element={<ResetPassword />} />
-            <Route path='/DragNDrop' element={<DragNDrop />} />
+            <Route path='/dragndrop' element={<DragNDrop />} />
+            <Route path='/loggedinresetpassword' element={<LoggedInResetPassword />} />
+            <Route path='/image/:imageId' element={<ImageView />} /> {/* Add this line */}
 
-            <Route path='/loggedinresetpassword' element={<LoggedInResetPassword/>} />
-            
+
             <Route path='*' element={
                 <div>
                     <header>

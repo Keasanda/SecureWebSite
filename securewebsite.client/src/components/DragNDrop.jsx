@@ -125,7 +125,7 @@ function DragNDrop() {
 
 
                     </div>
-                    <button className="btn logout btn-block mt-auto" onClick={handleLogout}>
+                    <button className="btn logout  mt-auto" onClick={handleLogout}>
                         <MdLogout className="icon ma  " />
                         Log Out
                     </button>
@@ -171,7 +171,7 @@ function DragNDrop() {
                         <div className="">
                             <h1 className="text-center mb-4 UploadHead">Image Upload</h1>
                             <div className="mb-4">
-                                <label htmlFor="title" className="form-label Imagetitle">Image Title</label>
+                                <label htmlFor="title" className=" Imagetitle">Image Title</label>
                                 <input
                                     type="text"
                                     className="form-control imgtil"
@@ -181,7 +181,7 @@ function DragNDrop() {
                                 />
                             </div>
                             <div className="mb-4">
-                                <label htmlFor="category" className="form-label ImageCategory"> Image Category</label>
+                                <label htmlFor="category" className=" ImageCategory"> Image Category</label>
                                 <select
                                     className="form-control imgtil"
                                     id="category"
@@ -195,7 +195,7 @@ function DragNDrop() {
                                 </select>
                             </div>
                             <div className="mb-3 botto">
-                                <label htmlFor="description" className="form-label ImageDiscription">Image Description</label>
+                                <label htmlFor="description" className=" ImageDiscription">Image Description</label>
                                 <textarea
                                     className="form-control discription"
                                     id="description"

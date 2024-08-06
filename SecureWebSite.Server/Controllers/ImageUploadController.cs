@@ -74,4 +74,69 @@ public class ImageUploadController : ControllerBase
         var images = await _context.ImageUploads.ToListAsync();
         return Ok(images);
     }
+
+
+    [HttpGet("images/{id}")]
+    public async Task<IActionResult> GetImage(int id)
+    {
+        var image = await _context.ImageUploads.FindAsync(id);
+
+        if (image == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(image);
+    }
+
+
+
+
+    [HttpGet("user-images/{userId}")]
+    public async Task<IActionResult> GetUserImages(string userId)
+    {
+        var images = await _context.ImageUploads.Where(img => img.UserId == userId).ToListAsync();
+        return Ok(images);
+    }
+
+    [HttpPut("update-image/{id}")]
+    public async Task<IActionResult> UpdateImage(int id, [FromBody] ImageUpload updatedImage)
+    {
+        var image = await _context.ImageUploads.FindAsync(id);
+        if (image == null)
+        {
+            return NotFound();
+        }
+
+        if (image.UserId != updatedImage.UserId)
+        {
+            return Unauthorized();
+        }
+
+        image.Title = updatedImage.Title;
+        image.Description = updatedImage.Description;
+        image.Category = updatedImage.Category;
+
+        _context.Entry(image).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    [HttpDelete("delete-image/{id}")]
+    public async Task<IActionResult> DeleteImage(int id)
+    {
+        var image = await _context.ImageUploads.FindAsync(id);
+        if (image == null)
+        {
+            return NotFound();
+        }
+
+        _context.ImageUploads.Remove(image);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+
 }
