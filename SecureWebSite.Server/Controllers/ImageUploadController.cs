@@ -75,7 +75,6 @@ public class ImageUploadController : ControllerBase
         return Ok(images);
     }
 
-
     [HttpGet("images/{id}")]
     public async Task<IActionResult> GetImage(int id)
     {
@@ -88,9 +87,6 @@ public class ImageUploadController : ControllerBase
 
         return Ok(image);
     }
-
-
-
 
     [HttpGet("user-images/{userId}")]
     public async Task<IActionResult> GetUserImages(string userId)
@@ -105,12 +101,12 @@ public class ImageUploadController : ControllerBase
         var image = await _context.ImageUploads.FindAsync(id);
         if (image == null)
         {
-            return NotFound();
+            return NotFound(new { message = "Image not found." });
         }
 
         if (image.UserId != updatedImage.UserId)
         {
-            return Unauthorized();
+            return Unauthorized(new { message = "You are not authorized to update this image." });
         }
 
         image.Title = updatedImage.Title;
@@ -129,7 +125,7 @@ public class ImageUploadController : ControllerBase
         var image = await _context.ImageUploads.FindAsync(id);
         if (image == null)
         {
-            return NotFound();
+            return NotFound(new { message = "Image not found." });
         }
 
         _context.ImageUploads.Remove(image);
@@ -137,6 +133,4 @@ public class ImageUploadController : ControllerBase
 
         return NoContent();
     }
-
-
 }
