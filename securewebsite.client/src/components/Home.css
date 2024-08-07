@@ -42,10 +42,7 @@
 .nav-button.active {
     background-color: #E9F5F9;
     color: #165A72;
-
     padding-right: 255px;
-    
-   
 }
 
 .nav-button:hover {
@@ -165,14 +162,11 @@
     background-color: #f8f9fa; /* Default background color */
 }
 
-
-
 .pagination .page-item.active .page-link {
     background-color: #E9F5F9; /* Light blue color for the active page */
     color: #007bff;
     border: none;
 }
-
 
 .card-title-overlay {
     position: absolute;
@@ -182,8 +176,8 @@
     background: rgba(0, 0, 0, 0.6);
     color: white;
     text-align: center;
-    padding-right: 75%;
-    margin-top: 60%;
+    padding-right: 40%;
+    margin-top: 50%;
 }
 
 .card-actions {
@@ -205,37 +199,27 @@
     color: #f00;
 }
 
-
-
-.navButoom{
-
-margin-bottom: 140%;
+.navButoom {
+    margin-bottom: 140%;
 }
 
-.nav-button{
-font-size: large;
+.nav-button {
+    font-size: large;
     padding-right: 45%;
     font-family: 'Poppins', sans-serif;
-
     margin-top: 10%;
 }
 
-button.logout{
-
-   background-color: #007bff; 
-margin-left: 20px;
-   border: none;
-
-   font-size: larger;
-   font-family: 'Poppins',
-
+button.logout {
+    background-color: #007bff;
+    margin-left: 20px;
+    border: none;
+    font-size: larger;
+    font-family: 'Poppins', sans-serif;
 }
 
-
-.homelog{
-
+.homelog {
     margin-right: 250px;
-
     font-size: large;
 }
 
@@ -245,7 +229,6 @@ margin-left: 20px;
     text-align: center;
     margin-top: 20px;
 }
-
 
 .page-link {
     padding: 10px 15px;
@@ -259,4 +242,9 @@ margin-left: 20px;
 .page-link.active {
     background-color: #007bff;
     color: white;
+}
+
+button.btn-danger{
+
+    margin-right: 70%;
 }

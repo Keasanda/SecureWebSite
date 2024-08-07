@@ -14,7 +14,7 @@ function MyGallery() {
     const [filteredImages, setFilteredImages] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
-    const imagesPerPage = 6;
+    const imagesPerPage = 6; // Adjusted for three per row
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
@@ -57,6 +57,23 @@ function MyGallery() {
                 image.category.toLowerCase().includes(query)
             );
             setFilteredImages(filtered);
+        }
+    };
+
+    const handleDelete = async (imageId) => {
+        try {
+            const response = await fetch(`/api/ImageUpload/delete-image/${imageId}`, {
+                method: 'DELETE',
+            });
+            if (response.ok) {
+                // Remove the deleted image from the state
+                setImages(images.filter(image => image.imageId !== imageId));
+                setFilteredImages(filteredImages.filter(image => image.imageId !== imageId));
+            } else {
+                console.error('Error deleting image:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error deleting image:', error);
         }
     };
 
@@ -118,30 +135,41 @@ function MyGallery() {
                     <button className="filters-button"><IoFilterSharp className="icon" /> Filters</button>
                 </div>
                 <div className="image-gallery">
-                    {currentImages.map(image => (
-                        <div key={image.imageId} className="image-card">
-                            <img src={image.imageURL} alt={image.title} />
-                            <div className="image-overlay">
-                                <h3>{image.title}</h3>
-                                <p>{image.description}</p>
-                                <Link to={`/edit-image/${image.imageId}`} className="btn btn-secondary">Edit</Link>
-                                <button onClick={() => handleDelete(image.imageId)} className="btn btn-danger">Delete</button>
-                            </div>
-                        </div>
+                    {userInfo ? (
+                        currentImages.length > 0 ? (
+                            currentImages.map((image) => (
+                                <Link to={`/image/${image.imageId}`} key={image.imageId} className="card">
+                                    <div className="image-container">
+                                        <img src={image.imageURL} className="card-img-top" alt={image.title} />
+                                    </div>
+                                    <div className="card-title-overlay">
+                                        <h5>{image.title}</h5>
+                                        <p>{image.description}</p>
+                                    </div>
+                                    <div className="card-body">
+                                        <Link to={`/edit-image/${image.imageId}`} className="btn btn-secondary">Edit</Link>
+                                        <button onClick={() => handleDelete(image.imageId)} className="btn btn-danger">Delete</button>
+                                    </div>
+                                </Link>
+                            ))
+                        ) : (
+                            <p className="no-matches-message">No images match your search criteria.</p>
+                        )
+                    ) : (
+                        <p className="no-matches-message">Please log in to view images.</p>
+                    )}
+                </div>
+                <div className="pagination">
+                    {Array.from({ length: Math.ceil(filteredImages.length / imagesPerPage) }, (_, index) => (
+                        <button
+                            key={index + 1}
+                            className={`page-link ${currentPage === index + 1 ? 'active' : ''}`}
+                            onClick={() => paginate(index + 1)}
+                        >
+                            {index + 1}
+                        </button>
                     ))}
                 </div>
-                <nav className="pagination">
-                    <ul className="pagination-list">
-                        {Array.from({ length: Math.ceil(filteredImages.length / imagesPerPage) }).map((_, index) => (
-                            <li key={index} className={`page-item ${index + 1 === currentPage ? 'active' : ''}`}>
-                                <button onClick={() => paginate(index + 1)} className="page-link">
-                                    {index + 1}
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                </nav>
-                {filteredImages.length === 0 && <p className="validation-message">No matching images found</p>}
             </div>
         </div>
     );

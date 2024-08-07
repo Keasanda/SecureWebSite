@@ -130,6 +130,7 @@ public class ImageUploadController : ControllerBase
         return NoContent();
     }
 
+
     [HttpDelete("delete-image/{id}")]
     public async Task<IActionResult> DeleteImage(int id)
     {

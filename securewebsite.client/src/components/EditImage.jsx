@@ -38,7 +38,8 @@ function EditImage() {
             if (response.ok) {
                 navigate('/MyGallery');
             } else {
-                setError('Error updating image');
+                const errorData = await response.json();
+                setError(`Error updating image: ${errorData.message}`);
             }
         } catch (error) {
             setError('Error updating image');
@@ -54,7 +55,8 @@ function EditImage() {
             if (response.ok) {
                 navigate('/MyGallery');
             } else {
-                setError('Error deleting image');
+                const errorData = await response.json();
+                setError(`Error deleting image: ${errorData.message}`);
             }
         } catch (error) {
             setError('Error deleting image');
