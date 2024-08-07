@@ -112,14 +112,17 @@ function DragNDrop() {
                 <div className="vertical-panel bg p-3">
                     <h1 className='loghead'>Logo</h1>
                     <div className="mt-5 contain">
-                        <button className="btn btn-primary navbarBTN btn-block mb-3">
+                        <button       className="btn btn-primary navbarBTN btn-block mb-3"             onClick={() => window.location.href = '/Home'}>  
+                     
                             <IoHomeOutline className="icon ma" /> Home
                         </button>
                         <button className="btn uplodBTN btn-block mb-5">
                             <IoCameraOutline className="icon ma  " /> Image Upload
                         </button>
 
-                        <button className="btn navbarBTN  btn-block mb-5">
+                        <button   className="btn navbarBTN  btn-block mb-5"
+                     onClick={() => window.location.href = '/Home'}>  
+                       
                             <IoCameraOutline className="icon ma  " /> My Gallery
                         </button>
 

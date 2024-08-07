@@ -78,7 +78,7 @@ function MyGallery() {
                         {userInfo ? (
                             <NavDropdown title={<span><img src="src/assets/notebook-natural-laptop-macbook.jpg" alt="Profile" className="profile-image" /> {userInfo.userName}</span>}>
                                 <NavDropdown.Item>{userInfo.userEmail}</NavDropdown.Item>
-                                <NavDropdown.Item href="/ResetPassword">Reset Password</NavDropdown.Item>
+                                <NavDropdown.Item href="/LoggedInResetPassword">Reset Password</NavDropdown.Item>
                             </NavDropdown>
                         ) : (
                             <Nav.Link href="/login">Login</Nav.Link>
