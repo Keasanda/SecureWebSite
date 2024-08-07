@@ -91,7 +91,18 @@ public class ImageUploadController : ControllerBase
     [HttpGet("user-images/{userId}")]
     public async Task<IActionResult> GetUserImages(string userId)
     {
+        if (string.IsNullOrEmpty(userId))
+        {
+            return BadRequest(new { message = "User ID is required." });
+        }
+
         var images = await _context.ImageUploads.Where(img => img.UserId == userId).ToListAsync();
+
+        if (images == null || !images.Any())
+        {
+            return NotFound(new { message = "No images found for the specified user ID." });
+        }
+
         return Ok(images);
     }
 

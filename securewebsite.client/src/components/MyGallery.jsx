@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Home.css'; // Reuse the same CSS for consistency
+import './Home.css';
 import { IoFilterSharp, IoHomeOutline, IoCameraOutline } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
 import { GrGallery } from "react-icons/gr";
@@ -21,22 +21,27 @@ function MyGallery() {
         if (storedUser) {
             const user = JSON.parse(storedUser);
             setUserInfo(user);
-            fetchUserImages(user.userID); // Use userID here
+            fetchUserImages(user.userID);
         }
     }, []);
 
-    const fetchUserImages = async (userID) => { // Use userID here
+    const fetchUserImages = async (userID) => {
         if (!userID) {
             console.error('User ID is not defined');
             return;
         }
         try {
             const response = await fetch(`/api/ImageUpload/user-images/${userID}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
             const data = await response.json();
             setImages(data);
-            setFilteredImages(data); // Initialize filteredImages with all images
+            setFilteredImages(data);
         } catch (error) {
             console.error('Error fetching images:', error);
+            setImages([]);
+            setFilteredImages([]);
         }
     };
 
@@ -113,42 +118,30 @@ function MyGallery() {
                     <button className="filters-button"><IoFilterSharp className="icon" /> Filters</button>
                 </div>
                 <div className="image-gallery">
-                    {userInfo ? (
-                        currentImages.length > 0 ? (
-                            currentImages.map((image) => (
-                                <Link to={`/image/${image.imageId}`} key={image.imageId} className="card">
-                                    <div className="image-container">
-                                        <img src={image.imageURL} className="card-img-top" alt={image.title} />
-                                    </div>
-                                    <div className="card-title-overlay">
-                                        <h5>{image.title}</h5>
-                                        <p>{image.description}</p>
-                                    </div>
-                                    <div className="card-body">
-                                  
-                                    </div>
-                                </Link>
-                            ))
-                        ) : (
-                            <p className="no-matches-message">No images match your search criteria.</p>
-                        )
-                    ) : (
-                        <div className='warning'>
-                            <p>Please login to view your images.</p>
+                    {currentImages.map(image => (
+                        <div key={image.imageId} className="image-card">
+                            <img src={image.imageURL} alt={image.title} />
+                            <div className="image-overlay">
+                                <h3>{image.title}</h3>
+                                <p>{image.description}</p>
+                                <Link to={`/edit-image/${image.imageId}`} className="btn btn-secondary">Edit</Link>
+                                <button onClick={() => handleDelete(image.imageId)} className="btn btn-danger">Delete</button>
+                            </div>
                         </div>
-                    )}
+                    ))}
                 </div>
-                <nav aria-label="Page navigation">
-                    <ul className="pagination justify-content-center">
-                        {Array.from({ length: Math.ceil(filteredImages.length / imagesPerPage) }, (_, i) => (
-                            <li className={`page-item ${currentPage === i + 1 ? 'active' : ''}`} key={i + 1}>
-                                <a className="page-link" href="#" onClick={() => paginate(i + 1)}>
-                                    {i + 1}
-                                </a>
+                <nav className="pagination">
+                    <ul className="pagination-list">
+                        {Array.from({ length: Math.ceil(filteredImages.length / imagesPerPage) }).map((_, index) => (
+                            <li key={index} className={`page-item ${index + 1 === currentPage ? 'active' : ''}`}>
+                                <button onClick={() => paginate(index + 1)} className="page-link">
+                                    {index + 1}
+                                </button>
                             </li>
                         ))}
                     </ul>
                 </nav>
+                {filteredImages.length === 0 && <p className="validation-message">No matching images found</p>}
             </div>
         </div>
     );

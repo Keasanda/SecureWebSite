@@ -10,7 +10,8 @@ import ResetPassword from './components/ResetPassword';
 import DragNDrop from './components/DragNDrop';
 import LoggedInResetPassword from './components/LoggedInResetPassword';
 import ImageView from './components/ImageView';
-import MyGallery from './components/MyGallery'; // Import the new component
+import MyGallery from './components/MyGallery'; // Import MyGallery component
+import EditImage from './components/EditImage'; // Import EditImage component
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const router = createBrowserRouter(
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
                 <Route path='/home' element={<Home />} />
                 <Route path='/admin' element={<Admin />} />
                 <Route path='/MyGallery' element={<MyGallery />} /> {/* Add this line */}
+                <Route path='/edit-image/:imageId' element={<EditImage />} /> {/* Add EditImage route */}
             </Route>
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
