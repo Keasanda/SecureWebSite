@@ -11,7 +11,9 @@ function Home() {
     document.title = "Welcome";
     const [userInfo, setUserInfo] = useState(null);
     const [images, setImages] = useState([]);
+    const [filteredImages, setFilteredImages] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [searchQuery, setSearchQuery] = useState('');
     const imagesPerPage = 6; // Adjusted for three per row
 
     useEffect(() => {
@@ -29,14 +31,30 @@ function Home() {
             const response = await fetch('api/ImageUpload/images');
             const data = await response.json();
             setImages(data);
+            setFilteredImages(data); // Initialize filteredImages with all images
         } catch (error) {
             console.error('Error fetching images:', error);
         }
     };
 
+    const handleSearch = (e) => {
+        const query = e.target.value.toLowerCase();
+        setSearchQuery(query);
+
+        if (query === '') {
+            setFilteredImages(images);
+        } else {
+            const filtered = images.filter(image =>
+                image.title.toLowerCase().includes(query) ||
+                image.category.toLowerCase().includes(query)
+            );
+            setFilteredImages(filtered);
+        }
+    };
+
     const indexOfLastImage = currentPage * imagesPerPage;
     const indexOfFirstImage = indexOfLastImage - imagesPerPage;
-    const currentImages = images.slice(indexOfFirstImage, indexOfLastImage);
+    const currentImages = filteredImages.slice(indexOfFirstImage, indexOfLastImage);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
    
@@ -87,44 +105,49 @@ function Home() {
                     </Nav>
                 </Navbar>
                 <div className="search-bar">
-                    <input type="text" placeholder="Search for..." />
+                    <input
+                        type="text"
+                        placeholder="Search for..."
+                        value={searchQuery}
+                        onChange={handleSearch}
+                    />
                     <button className="filters-button"><IoFilterSharp className="icon" /> Filters</button>
                 </div>
                 <div className="image-gallery">
                     {userInfo ? (
-                        currentImages.map((image) => (
-                            <Link to={`/image/${image.imageId}`} key={image.imageId} className="card">
-                                <div className="image-container">
-                                    <img src={image.imageURL} className="card-img-top" alt={image.title} />
-                                </div>
-                                <div className="card-title-overlay">
-                                    <h5 className="card-title">{image.title}</h5>
-                                </div>
-                                <div className="card-body">
-                                    <div className="card-actions">
-                                        <i className="far fa-heart"></i>
-                                        <i className="far fa-comment"></i>
+                        currentImages.length > 0 ? (
+                            currentImages.map((image) => (
+                                <Link to={`/image/${image.imageId}`} key={image.imageId} className="card">
+                                    <div className="image-container">
+                                        <img src={image.imageURL} className="card-img-top" alt={image.title} />
                                     </div>
-                                </div>
-                            </Link>
-                        ))
+                                    <div className="card-title-overlay">
+                                        <h5>{image.title}</h5>
+                                        <p>{image.description}</p>
+                                    </div>
+                                    <div className="card-body">
+                                       
+                                    </div>
+                                </Link>
+                            ))
+                        ) : (
+                            <p className="no-matches-message">No images match your search criteria.</p>
+                        )
                     ) : (
-                        <div className='warning'>
-                            <p>Please login to view the images.</p>
-                        </div>
+                        <p className="no-matches-message">Please log in to view images.</p>
                     )}
                 </div>
-                <nav aria-label="Page navigation">
-                    <ul className="pagination justify-content-center">
-                        {Array.from({ length: Math.ceil(images.length / imagesPerPage) }, (_, i) => (
-                            <li className={`page-item ${currentPage === i + 1 ? 'active' : ''}`} key={i + 1}>
-                                <a className="page-link" href="#" onClick={() => paginate(i + 1)}>
-                                    {i + 1}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
-                </nav>
+                <div className="pagination">
+                    {Array.from({ length: Math.ceil(filteredImages.length / imagesPerPage) }, (_, index) => (
+                        <button
+                            key={index + 1}
+                            className={`page-link ${currentPage === index + 1 ? 'active' : ''}`}
+                            onClick={() => paginate(index + 1)}
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
+                </div>
             </div>
         </div>
     );

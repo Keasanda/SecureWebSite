@@ -121,7 +121,7 @@ function DragNDrop() {
                         </button>
 
                         <button   className="btn navbarBTN  btn-block mb-5"
-                     onClick={() => window.location.href = '/Home'}>  
+                     onClick={() => window.location.href = '/MyGallery'}>  
                        
                             <IoCameraOutline className="icon ma  " /> My Gallery
                         </button>
