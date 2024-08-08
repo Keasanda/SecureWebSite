@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Form, Button, Card, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import axios from 'axios';
+import { IoHomeOutline, IoCameraOutline } from "react-icons/io5";
+import { GrGallery } from "react-icons/gr";
+import { MdLogout } from "react-icons/md";
+import './EditImage.css';
 
 function EditImage() {
     const { imageId } = useParams();
@@ -33,42 +38,23 @@ function EditImage() {
     };
 
     const handleSubmit = async (e) => {
-      e.preventDefault();
-      console.log("Submitting image data:", image); // Log the image data
-      try {
-        const response = await axios.put(
-          `/api/ImageUpload/update-image/${imageId}`,
-          image,
-          {
-            headers: { "Content-Type": "application/json" }
-          }
-        );
+        e.preventDefault();
+        try {
+            const response = await axios.put(`/api/ImageUpload/update-image/${imageId}`, image, {
+                headers: { "Content-Type": "application/json" }
+            });
 
-        // if (!response.ok) {
-        //   const errorData = await response.json();
-        //   throw new Error(
-        //     `Error updating image: ${errorData.message || response.statusText}`
-        //   );
-        // }
-
-        if(response.status == 200 )
-
-            console.log("uodated ")
-
-        navigate("/MyGallery");
-      } catch (error) {
-        // console.error('Update image error:', error);
-        // setError(`Error updating image: ${error}`);
-        console.error(error)
-      }
+            if (response.status === 200) {
+                navigate("/MyGallery");
+            }
+        } catch (error) {
+            console.error(error);
+        }
     };
-    
 
     const handleDelete = async () => {
         try {
-            const response = await fetch(`/api/ImageUpload/delete-image/${imageId}`, {
-                method: 'DELETE'
-            });
+            const response = await fetch(`/api/ImageUpload/delete-image/${imageId}`, { method: 'DELETE' });
 
             if (!response.ok) {
                 const errorData = await response.json();
@@ -87,42 +73,82 @@ function EditImage() {
     }
 
     return (
-        <div>
-            <h2>Edit Image</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="title">Title</label>
-                    <input
-                        type="text"
-                        id="title"
-                        name="title"
-                        value={image.title}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="description">Description</label>
-                    <input
-                        type="text"
-                        id="description"
-                        name="description"
-                        value={image.description}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="category">Category</label>
-                    <input
-                        type="text"
-                        id="category"
-                        name="category"
-                        value={image.category}
-                        onChange={handleChange}
-                    />
-                </div>
-                <button type="submit">Update Image</button>
-                <button type="button" onClick={handleDelete}>Delete Image</button>
-            </form>
+        <div className="content">
+            <div className="sidebar">
+                <header className='edit-log'>Logo</header>
+                <nav className="navButoom">
+                    <ul>
+                        <li>
+                            <button className="nav-button active">
+                                <IoHomeOutline className="icon ma" /> Home
+                            </button>
+                        </li>
+                        <li>
+                            <button className="nav-button" onClick={() => window.location.href = '/dragndrop'}>
+                                <IoCameraOutline className="icon ma" /> Image Upload
+                            </button>
+                        </li>
+                        <li>
+                            <button className="nav-button" onClick={() => window.location.href = '/MyGallery'}>
+                                <GrGallery className="icon ma" /> My Library
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+                <button className='logout' onClick={() => window.location.href = '/logout'}>
+                    <MdLogout className="icon ma" /> Logout
+                </button>
+            </div>
+
+            <div className="main-content">
+                <Navbar bg="light" expand="lg" className='edit-nav'>
+                    <Navbar.Brand style={{ marginLeft: '25px' }} href="#edit">Edit Image</Navbar.Brand>
+                    <Nav className="me-auto"></Nav>
+                    <Nav>
+                        {/* Profile dropdown can be added here */}
+                    </Nav>
+                </Navbar>
+                <Card className="edit-card">
+                    <Card.Body>
+                        <Card.Title>Edit Image Details</Card.Title>
+                        <Form onSubmit={handleSubmit}>
+                            <Form.Group controlId="title">
+                                <Form.Label>Title</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="title"
+                                    value={image.title}
+                                    onChange={handleChange}
+                                />
+                            </Form.Group>
+                            <Form.Group controlId="description">
+                                <Form.Label>Description</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="description"
+                                    value={image.description}
+                                    onChange={handleChange}
+                                />
+                            </Form.Group>
+                            <Form.Group controlId="category">
+                                <Form.Label>Category</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="category"
+                                    value={image.category}
+                                    onChange={handleChange}
+                                />
+                            </Form.Group>
+                            <Button variant="primary" type="submit" className="mt-3">
+                                Update Image
+                            </Button>
+                            <Button variant="danger" onClick={handleDelete} className="mt-3 ml-3">
+                                Delete Image
+                            </Button>
+                        </Form>
+                    </Card.Body>
+                </Card>
+            </div>
         </div>
     );
 }
