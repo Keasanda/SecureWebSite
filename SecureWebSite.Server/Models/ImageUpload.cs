@@ -26,11 +26,6 @@ namespace SecureWebSite.Server.Models
         [Required]
         public string UserId { get; set; }
 
-        [ForeignKey("UserId")]
-        public User User { get; set; }
-
-
-
     }
 
 

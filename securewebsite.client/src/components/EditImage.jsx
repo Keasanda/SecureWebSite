@@ -1,20 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function EditImage() {
     const { imageId } = useParams();
     const navigate = useNavigate();
-    const [image, setImage] = useState({ title: '', description: '', category: '' });
+    const [image, setImage] = useState({ imageId: '', title: '', description: '', category: '', userId: '' });
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchImage = async () => {
             try {
                 const response = await fetch(`/api/ImageUpload/images/${imageId}`);
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`Error fetching image: ${errorData.message || response.statusText}`);
+                }
                 const data = await response.json();
                 setImage(data);
             } catch (error) {
-                setError('Error fetching image');
+                console.error('Fetch image error:', error);
+                setError(`Error fetching image: ${error.message}`);
             }
         };
 
@@ -27,24 +33,36 @@ function EditImage() {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch(`/api/ImageUpload/update-image/${imageId}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(image)
-            });
+      e.preventDefault();
+      console.log("Submitting image data:", image); // Log the image data
+      try {
+        const response = await axios.put(
+          `/api/ImageUpload/update-image/${imageId}`,
+          image,
+          {
+            headers: { "Content-Type": "application/json" }
+          }
+        );
 
-            if (response.ok) {
-                navigate('/MyGallery');
-            } else {
-                const errorData = await response.json();
-                setError(`Error updating image: ${errorData.message}`);
-            }
-        } catch (error) {
-            setError('Error updating image');
-        }
+        // if (!response.ok) {
+        //   const errorData = await response.json();
+        //   throw new Error(
+        //     `Error updating image: ${errorData.message || response.statusText}`
+        //   );
+        // }
+
+        if(response.status == 200 )
+
+            console.log("uodated ")
+
+        navigate("/MyGallery");
+      } catch (error) {
+        // console.error('Update image error:', error);
+        // setError(`Error updating image: ${error}`);
+        console.error(error)
+      }
     };
+    
 
     const handleDelete = async () => {
         try {
@@ -52,14 +70,15 @@ function EditImage() {
                 method: 'DELETE'
             });
 
-            if (response.ok) {
-                navigate('/MyGallery');
-            } else {
+            if (!response.ok) {
                 const errorData = await response.json();
-                setError(`Error deleting image: ${errorData.message}`);
+                throw new Error(`Error deleting image: ${errorData.message || response.statusText}`);
             }
+
+            navigate('/MyGallery');
         } catch (error) {
-            setError('Error deleting image');
+            console.error('Delete image error:', error);
+            setError(`Error deleting image: ${error.message}`);
         }
     };
 

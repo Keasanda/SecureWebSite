@@ -109,6 +109,13 @@ public class ImageUploadController : ControllerBase
     [HttpPut("update-image/{id}")]
     public async Task<IActionResult> UpdateImage(int id, [FromBody] ImageUpload updatedImage)
     {
+        if (updatedImage == null || updatedImage.ImageId != id)
+        {
+            return BadRequest(new { message = "Invalid image data." });
+        }
+
+        var user = await _context.Users.FindAsync(updatedImage.UserId);
+
         var image = await _context.ImageUploads.FindAsync(id);
         if (image == null)
         {
@@ -124,10 +131,17 @@ public class ImageUploadController : ControllerBase
         image.Description = updatedImage.Description;
         image.Category = updatedImage.Category;
 
-        _context.Entry(image).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
-
-        return NoContent();
+        try
+        {
+            _context.Entry(image).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error updating image: {ex.Message}"); // Log the error
+            return StatusCode(500, new { message = "An error occurred while updating the image.", details = ex.Message });
+        }
     }
 
 
