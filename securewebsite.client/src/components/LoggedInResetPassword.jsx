@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './LoggedInResetPassword.css'; 
 
 const LoggedInResetPassword = () => {
     const [currentPassword, setCurrentPassword] = useState('');
@@ -70,10 +71,19 @@ const LoggedInResetPassword = () => {
                                 onChange={(e) => setConfirmPassword(e.target.value)} 
                                 required 
                             />
+                                  <p className='bac'><a href="/home" className="no-underline">Back to home</a></p>
                         </div>
                         <button type="submit" className="btn btn-primary grow">Reset Password</button>
                     </form>
                     {message && <p className="mt-3 red">{message}</p>}
+                </div>
+                <div className="col-md-6">
+                    <img 
+                        src="src\assets\notebook-natural-laptop-macbook.jpg" 
+                        alt="Display" 
+                        className="img-fluid" 
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
                 </div>
             </div>
         </div>

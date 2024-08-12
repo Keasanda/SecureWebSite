@@ -128,28 +128,40 @@ body {
 }
 
 .navbarBTN {
-    background:  #2187AB;
+
     color: #fff;
     border: none;
     width: 100%;
     height: 56px;
     margin-bottom: 10px;
 
-    padding-right: 55%;
+    padding-right: 53%;
 
-
+font-size: x-large;
 }
-
-button.uplodBTN  {
-    background: white;
-    color: #2187AB;
+.navbarh{
+    
+    color: #fff;
     border: none;
     width: 100%;
     height: 56px;
     margin-bottom: 10px;
 
+    padding-right: 65%;
 
-    padding-right: 50%;
+font-size: x-large;
+}
+button.uplodBTN  {
+   
+    color:  white;
+    border: none;
+    width: 100%;
+    height: 56px;
+    margin-bottom: 10px;
+font-weight: bolder;
+
+    padding-right: 40%;
+    font-size: x-large;
 }
 
 .bars {

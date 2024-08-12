@@ -5,6 +5,7 @@ import cloud_upload from './image/cloud_upload.svg';
 import { IoHomeOutline, IoCameraOutline } from "react-icons/io5";
 import './DragNDrop.css';
 import { MdLogout } from "react-icons/md";
+import { GrGallery } from "react-icons/gr";
 
 function DragNDrop() {
     const [files, setFiles] = useState([]);
@@ -112,18 +113,18 @@ function DragNDrop() {
                 <div className="vertical-panel bg p-3">
                     <h1 className='loghead'>Logo</h1>
                     <div className="mt-5 contain">
-                        <button       className="btn btn-primary navbarBTN btn-block mb-3"             onClick={() => window.location.href = '/Home'}>  
+                        <button       className="btn btn-primary navbarh ho btn-block mb-3"             onClick={() => window.location.href = '/Home'}>  
                      
                             <IoHomeOutline className="icon ma" /> Home
                         </button>
-                        <button className="btn uplodBTN btn-block mb-5">
+                        <button className="btn uplodBTN ho btn-block mb-5">
                             <IoCameraOutline className="icon ma  " /> Image Upload
                         </button>
 
-                        <button   className="btn navbarBTN  btn-block mb-5"
+                        <button   className="btn navbarBTN ho btn-block mb-5"
                      onClick={() => window.location.href = '/MyGallery'}>  
                        
-                            <IoCameraOutline className="icon ma  " /> My Gallery
+                            <GrGallery  className="icon ma  " /> My Gallery
                         </button>
 
 
@@ -148,7 +149,7 @@ function DragNDrop() {
 
 
                 <Navbar bg="light" expand="lg" className='bars'>
-                <Navbar.Brand style={{ marginLeft: '25px' }} href="#home">Image Upload</Navbar.Brand>
+                <Navbar.Brand style={{ marginLeft: '25px', fontFamily:'Poppins', fontSize:"normal" }} href="#home"> Image Upload <span>&#62;</span></Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">

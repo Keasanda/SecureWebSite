@@ -61,15 +61,11 @@
 }
 
 .nav-buttonHome.active {
-    background-color: #E9F5F9;
-    color: #165A72;
+  
     padding-right: 260px;
 }
 
-.nav-buttonHome:hover {
-    background-color: #0056b3;
-    color: #fff;
-}
+
 
 .sidebar footer {
     padding: 20px;
@@ -304,4 +300,9 @@ button.btn-danger{
 .fa-comment{
 
     margin-right: 90%;
+}
+button.ho:hover{
+
+    background-color:  white;
+    color: #007bff;
 }

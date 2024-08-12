@@ -1,3 +1,78 @@
+.content {
+    display: flex;
+    width: 100%;
+}
+
+.sidebarHome {
+    width: 400px;
+    background: #2187AB;
+    color: white;
+    height: 125vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sidebarHome header {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.sidebarHome nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-buttonHome {
+    width: 100%;
+    padding: 15px;
+    cursor: pointer;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: x-large;
+    font-family: 'Poppins', sans-serif;
+    padding-right: 160px;
+    margin-bottom: 10px;
+    margin-top: 25px;
+}
+
+.myLb {
+    width: 100%;
+    padding: 15px;
+    cursor: pointer;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: x-large;
+    font-family: 'Poppins', sans-serif;
+    padding-right: 200px;
+    margin-bottom: 10px;
+    margin-top: 25px;
+}
+
+
+
+
+.sidebarHome footer {
+    padding: 20px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+/* Additional styles for image view */
 .image-view {
     display: flex;
     flex-direction: column;
@@ -14,6 +89,7 @@
     width: 100%;
     height: auto;
     display: block;
+    border-radius: 8px;
 }
 
 .overlay {
@@ -21,7 +97,6 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 30%;
     background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
     color: white;
     display: flex;
@@ -29,10 +104,10 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-
-    margin-top: 50%;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 70%;
+    /* Removed the opacity transition to make it always visible */
 }
 
 .overlay h2 {
@@ -40,9 +115,23 @@
 }
 
 .overlay p {
-    margin: 0;
+    margin: 5px 0;
 }
 
-.image-container:hover .overlay {
-    opacity: 1;
+.close-button {
+    position: absolute;
+    top: 70px;
+    right: 10px;
+    color: white;
+    background-color: darkblue;
+    border: none;
+    border-radius: 50%;
+    padding: 5px 10px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.close-button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
 }

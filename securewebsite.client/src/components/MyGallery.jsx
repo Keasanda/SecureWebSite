@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Home.css';
+import './MyGallery.css'; // Updated to use the new CSS file
 import { IoFilterSharp, IoHomeOutline, IoCameraOutline } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
 import { GrGallery } from "react-icons/gr";
+
+
 
 function MyGallery() {
     document.title = "My Gallery";
@@ -85,23 +87,23 @@ function MyGallery() {
 
     return (
         <div className="content">
-            <div className="sidebar">
+            <div className="sidebarHome">
                 <header className='homelog'>Logo</header>
                 <nav className="navButoom">
                     <ul>
                         <li>
-                            <button className="nav-button" onClick={() => window.location.href = '/home'}>
+                            <button className="nav-buttonG ho h" onClick={() => window.location.href = '/home'}>
                                 <IoHomeOutline className="icon ma" /> Home
                             </button>
                         </li>
                         <li>
-                            <button className="nav-button" onClick={() => window.location.href = '/dragndrop'}>
+                            <button className="nav-buttonG ho " onClick={() => window.location.href = '/dragndrop'}>
                                 <IoCameraOutline className="icon ma" /> Image Upload
                             </button>
                         </li>
                         <li>
-                            <button className="nav-button active">
-                                <GrGallery className="icon ma" /> My Library
+                            <button className="nav-buttonG ho g active">
+                                <GrGallery className="icon ma" /> My Gallery
                             </button>
                         </li>
                     </ul>
@@ -112,7 +114,7 @@ function MyGallery() {
             </div>
             <div className="main-content">
                 <Navbar bg="light" expand="lg" className='homenav'>
-                    <Navbar.Brand style={{ marginLeft: '25px' }} href="#home">My Gallery</Navbar.Brand>
+                    <Navbar.Brand style={{ marginLeft: '25px', fontFamily:'Poppins', fontSize:"normal" }} href="#home"> My Gallery <span>&#62;</span></Navbar.Brand>
                     <Nav className="me-auto"></Nav>
                     <Nav>
                         {userInfo ? (
@@ -144,7 +146,7 @@ function MyGallery() {
                                     </div>
                                     <div className="card-title-overlay">
                                         <h5>{image.title}</h5>
-                                        <p>{image.description}</p>
+                                        <p className="dicrip">{image.description}</p>
                                     </div>
                                     <div className="card-body">
                                         <Link to={`/edit-image/${image.imageId}`} className="btn btn-secondary">Edit</Link>

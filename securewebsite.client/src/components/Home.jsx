@@ -67,17 +67,18 @@ function Home() {
                 <nav  className="navButoom">
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                         <li>
-                            <button className="nav-buttonHome active">
+                            <button className="nav-buttonHome 
+                              ho active">
                                 
                             <IoHomeOutline className="icon hm" />     
                                 Home</button>
                         </li>
                         <li>
-                            <button className="nav-buttonHome" onClick={() => window.location.href = '/dragndrop'}>
+                            <button className="nav-buttonHome ho" onClick={() => window.location.href = '/dragndrop'}>
                             <IoCameraOutline className="icon hm" />         Image Upload</button>
                         </li>
                         <li>
-                            <button className="nav-buttonHome myLb" onClick={() => window.location.href = '/MyGallery'}>         <GrGallery className="icon hm  " /> My Library</button>
+                            <button className="nav-buttonHome myLb ho" onClick={() => window.location.href = '/MyGallery'}>         <GrGallery className="icon hm  " /> My Library</button>
                         </li>
                     </ul>
                 </nav>
