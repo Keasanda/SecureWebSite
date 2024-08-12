@@ -3,11 +3,11 @@
     width: 100%;
 }
 
-.sidebar {
+.sidebarHome {
     width: 400px;
-    background-color: #007bff;
+    background: #2187AB;
     color: white;
-    height: 120vh;
+    height: 125vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -27,7 +27,7 @@
     margin: 0;
 }
 
-.nav-button {
+.nav-buttonHome {
     width: 100%;
     padding: 15px;
     cursor: pointer;
@@ -35,17 +35,38 @@
     background-color: transparent;
     border: none;
     color: white;
-    font-size: 16px;
+    font-size: x-large;
     font-family: 'Poppins', sans-serif;
+    padding-right: 160px;
+    margin-bottom: 10PX;
+    margin-top: 25px;
 }
 
-.nav-button.active {
+
+
+.myLb{
+
+    width: 100%;
+    padding: 15px;
+    cursor: pointer;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: x-large;
+    font-family: 'Poppins', sans-serif;
+    padding-right: 200px;
+    margin-bottom: 10PX;
+    margin-top: 25px;
+}
+
+.nav-buttonHome.active {
     background-color: #E9F5F9;
     color: #165A72;
-    padding-right: 255px;
+    padding-right: 260px;
 }
 
-.nav-button:hover {
+.nav-buttonHome:hover {
     background-color: #0056b3;
     color: #fff;
 }
@@ -80,6 +101,8 @@
     margin-bottom: 50px;
     margin-right: 50%;
     margin-top: 5%;
+    margin-left: 2%;
+
 }
 
 .search-bar input {
@@ -88,6 +111,7 @@
     margin-right: 10px;
     border: 1px solid #ced4da;
     border-radius: 4px;
+
 }
 
 .filters-button {
@@ -105,6 +129,8 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Changed from 2 to 3 */
     gap: 20px;
+
+    margin: 30px;
 }
 
 .image-gallery .card {
@@ -112,6 +138,8 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
+    margin-bottom: 20px;
+    margin-right: 10px;
 }
 
 .image-container {
@@ -183,14 +211,36 @@
 .card-actions {
     display: flex;
     justify-content: space-between;
-    padding-top: 8px;
+    padding: 10px 15px;
+    background-color: #fff; /* Background color for the action bar */
+    border-top: 1px solid #ddd; /* Optional border on top */
 }
 
 .card-actions i {
+    font-size: 1.5rem;
+    color: #333;
     cursor: pointer;
+    transition: color 0.3s ease;
 }
 
+.card-actions i:hover {
+    color: #007bff;
+}
+
+.card-actions i.far.fa-heart:hover {
+    color: #f00; /* Color for the heart icon when hovered */
+}
+
+.card-actions i.far.fa-comment:hover {
+    color: #007bff; /* Color for the comment icon when hovered */
+}
+
+
+
+
 .far {
+
+
     font-size: 1.5em;
     color: #333;
 }
@@ -205,7 +255,7 @@
 
 .nav-button {
     font-size: large;
-    padding-right: 45%;
+    padding-right: 40%;
     font-family: 'Poppins', sans-serif;
     margin-top: 10%;
 }
@@ -219,8 +269,10 @@ button.logout {
 }
 
 .homelog {
-    margin-right: 250px;
+    margin-right: 200px;
     font-size: large;
+
+    margin-bottom: 20px;
 }
 
 .no-matches-message {
@@ -247,4 +299,9 @@ button.logout {
 button.btn-danger{
 
     margin-right: 70%;
+}
+
+.fa-comment{
+
+    margin-right: 90%;
 }

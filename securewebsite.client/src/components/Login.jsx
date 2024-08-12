@@ -37,9 +37,10 @@ const Login = () => {
     return (
         <div className="background-image">
             <div className="login-container">
-                <div className="headinglogin">
-                    <h3>Image Gallery App</h3>
+                <div >
+                    <h3  className="headinglogin">Image Gallery App</h3>
                 </div>
+
                 <div>
                     <h3 className="secheading">Login</h3>
                 </div>

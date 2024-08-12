@@ -30,7 +30,7 @@ const ForgotPassword = () => {
         <div className="container mt-8">
             <div className="row">
                 <div className="col-md-4 dow">
-                    <h2 className="fg">Forgot Password</h2>
+                    <h2 className="fg">Recover Password</h2>
                     <form  className='tanahala' onSubmit={handleSubmit}>
                         <div className="mb-3 cont">
                             <label htmlFor="exampleInputEmail1" className="email-label la ">Email address</label>
@@ -45,7 +45,11 @@ const ForgotPassword = () => {
                                 required 
                             />
                         </div>
-                        <button type="submit" className="btn btn-primary rest">Send Reset Link</button>
+                     
+                        <div className="backhome">
+                    <p><a href="/login" className="no-underline">Back to login</a></p>
+                </div>
+                        <button type="submit" className="btn btn-primary rest">Recover Password</button>
                     </form>
                     {message && <p className="mt-3">{message}</p>}
                 </div>

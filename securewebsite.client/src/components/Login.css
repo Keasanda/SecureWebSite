@@ -152,7 +152,8 @@ color: #0F3C4C;
        
     font-family: "Poppins";
  
- font-weight: bolder;
+   font-weight: 700; 
+
 
 color: #0F3C4C;;
 }
@@ -163,7 +164,7 @@ color: #0F3C4C;;
     padding-top: 20px;
     font-family: "Poppins";
 
-
+font-weight: 700;
 
 color: #0F3C4C;
 

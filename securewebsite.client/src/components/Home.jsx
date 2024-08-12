@@ -60,38 +60,38 @@ function Home() {
    
     return (
         <div className="content">
-            <div className="sidebar">
+            <div className="sidebarHome">
                 <header className='homelog'>Logo</header>
         
         
                 <nav  className="navButoom">
-                    <ul>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                         <li>
-                            <button className="nav-button active">
+                            <button className="nav-buttonHome active">
                                 
-                            <IoHomeOutline className="icon ma" />     
+                            <IoHomeOutline className="icon hm" />     
                                 Home</button>
                         </li>
                         <li>
-                            <button className="nav-button" onClick={() => window.location.href = '/dragndrop'}>
-                            <IoCameraOutline className="icon ma" />         Image Upload</button>
+                            <button className="nav-buttonHome" onClick={() => window.location.href = '/dragndrop'}>
+                            <IoCameraOutline className="icon hm" />         Image Upload</button>
                         </li>
                         <li>
-                            <button className="nav-button" onClick={() => window.location.href = '/MyGallery'}>         <GrGallery className="icon ma  " /> My Library</button>
+                            <button className="nav-buttonHome myLb" onClick={() => window.location.href = '/MyGallery'}>         <GrGallery className="icon hm  " /> My Library</button>
                         </li>
                     </ul>
                 </nav>
 
 
                 <button className='logout' onClick={() => window.location.href = '/logout'}>
-                <MdLogout className="icon ma  " />    Logout</button>
+                <MdLogout className="icon hm  " />    Logout</button>
             </div>
 
         
             
             <div className="main-content">
                 <Navbar bg="light" expand="lg" className='homenav'>
-                    <Navbar.Brand style={{ marginLeft: '25px' }} href="#home">Home</Navbar.Brand>
+                    <Navbar.Brand style={{ marginLeft: '25px', fontFamily:'Poppins', fontSize:"normal" }} href="#home"> Home <span>&#62;</span>   </Navbar.Brand>
                     <Nav className="me-auto"></Nav>
                     <Nav>
                         {userInfo ? (
@@ -113,30 +113,34 @@ function Home() {
                     />
                     <button className="filters-button"><IoFilterSharp className="icon" /> Filters</button>
                 </div>
+             
                 <div className="image-gallery">
-                    {userInfo ? (
-                        currentImages.length > 0 ? (
-                            currentImages.map((image) => (
-                                <Link to={`/image/${image.imageId}`} key={image.imageId} className="card">
-                                    <div className="image-container">
-                                        <img src={image.imageURL} className="card-img-top" alt={image.title} />
-                                    </div>
-                                    <div className="card-title-overlay">
-                                        <h5>{image.title}</h5>
-                                        <p>{image.description}</p>
-                                    </div>
-                                    <div className="card-body">
-                                       
-                                    </div>
-                                </Link>
-                            ))
-                        ) : (
-                            <p className="no-matches-message">No images match your search criteria.</p>
-                        )
-                    ) : (
-                        <p className="no-matches-message">Please log in to view images.</p>
-                    )}
-                </div>
+    {userInfo ? (
+        currentImages.length > 0 ? (
+            currentImages.map((image) => (
+                <Link to={`/image/${image.imageId}`} key={image.imageId} className="card">
+                    <div className="image-container">
+                        <img src={image.imageURL} className="card-img-top" alt={image.title} />
+                    </div>
+                    <div className="card-title-overlay">
+                        <h5>{image.title}</h5>
+                        <p>{image.description}</p>
+                    </div>
+                    <div className="card-actions">
+                        <i className="far fa-heart"></i>
+                        <i className="far fa-comment"></i>
+                    </div>
+                </Link>
+            ))
+        ) : (
+            <p className="no-matches-message">No images match your search criteria.</p>
+        )
+    ) : (
+        <p className="no-matches-message">Please log in to view images.</p>
+    )}
+</div>
+
+
                 <div className="pagination">
                     {Array.from({ length: Math.ceil(filteredImages.length / imagesPerPage) }, (_, index) => (
                         <button
