@@ -74,32 +74,31 @@ function EditImage() {
 
     return (
         <div className="content">
-            <div className="sidebar">
-                <header className='edit-log'>Logo</header>
-                <nav className="navButoom">
-                    <ul>
-                        <li>
-                            <button className="nav-button active">
-                                <IoHomeOutline className="icon ma" /> Home
-                            </button>
-                        </li>
-                        <li>
-                            <button className="nav-button" onClick={() => window.location.href = '/dragndrop'}>
-                                <IoCameraOutline className="icon ma" /> Image Upload
-                            </button>
-                        </li>
-                        <li>
-                            <button className="nav-button" onClick={() => window.location.href = '/MyGallery'}>
-                                <GrGallery className="icon ma" /> My Library
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
-                <button className='logout' onClick={() => window.location.href = '/logout'}>
-                    <MdLogout className="icon ma" /> Logout
+<div className="sidebar">
+    <header className='edit-log'>Logo</header>
+    <nav className="navButoom">
+        <ul>
+            <li>
+                <button className="nav-buttonrr lr ho active">
+                    <IoHomeOutline className="icon ma" /> Home
                 </button>
-            </div>
-
+            </li>
+            <li>
+                <button className="nav-buttonrr ho" onClick={() => window.location.href = '/dragndrop'}>
+                    <IoCameraOutline className="icon ma" /> Image Upload
+                </button>
+            </li>
+            <li>
+                <button className="nav-buttonrr ll ho " onClick={() => window.location.href = '/MyGallery'}>
+                    <GrGallery className="icon ma" /> My Library
+                </button>
+            </li>
+        </ul>
+    </nav>
+    <button className='logout' onClick={() => window.location.href = '/logout'}>
+        <MdLogout className="icon ma" /> Logout
+    </button>
+</div>
             <div className="main-content">
                 <Navbar bg="light" expand="lg" className='edit-nav'>
                     <Navbar.Brand style={{ marginLeft: '25px' }} href="#edit">Edit Image</Navbar.Brand>
@@ -139,10 +138,10 @@ function EditImage() {
                                     onChange={handleChange}
                                 />
                             </Form.Group>
-                            <Button variant="primary" type="submit" className="mt-3">
+                            <Button variant="primary" type="submit" className="mt-3 danger">
                                 Update Image
                             </Button>
-                            <Button variant="danger" onClick={handleDelete} className="mt-3 ml-3">
+                            <Button variant="danger" onClick={handleDelete} className="mt-3 danger">
                                 Delete Image
                             </Button>
                         </Form>
