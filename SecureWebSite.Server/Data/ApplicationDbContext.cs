@@ -14,6 +14,8 @@ namespace SecureWebSite.Server.Data
         public DbSet<ImageUpload> ImageUploads { get; set; }
         public DbSet<UserPasswordHistory> UserPasswordHistory { get; set; }
 
+        public DbSet<Comment> Comments { get; set; } // Add this line
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
     }
 

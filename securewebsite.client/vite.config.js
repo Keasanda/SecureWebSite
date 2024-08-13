@@ -57,6 +57,11 @@ export default defineConfig({
 
                 target: "https://localhost:7239",
                 secure: false
+            },
+            '^/api/Comments' :{
+                target: "https://localhost:7239",
+                secure: false
+
             }
 
 

@@ -57,6 +57,23 @@ namespace SecureWebSite.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ImageUploads",
+                columns: table => new
+                {
+                    ImageId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ImageUploads", x => x.ImageId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserPasswordHistory",
                 columns: table => new
                 {
@@ -178,25 +195,30 @@ namespace SecureWebSite.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ImageUploads",
+                name: "Comments",
                 columns: table => new
                 {
-                    ImageId = table.Column<int>(type: "int", nullable: false)
+                    CommentID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    ImageID = table.Column<int>(type: "int", nullable: false),
+                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CommentText = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ImageUploads", x => x.ImageId);
+                    table.PrimaryKey("PK_Comments", x => x.CommentID);
                     table.ForeignKey(
-                        name: "FK_ImageUploads_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Comments_AspNetUsers_UserID",
+                        column: x => x.UserID,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comments_ImageUploads_ImageID",
+                        column: x => x.ImageID,
+                        principalTable: "ImageUploads",
+                        principalColumn: "ImageId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -240,9 +262,14 @@ namespace SecureWebSite.Server.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ImageUploads_UserId",
-                table: "ImageUploads",
-                column: "UserId");
+                name: "IX_Comments_ImageID",
+                table: "Comments",
+                column: "ImageID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_UserID",
+                table: "Comments",
+                column: "UserID");
         }
 
         /// <inheritdoc />
@@ -264,7 +291,7 @@ namespace SecureWebSite.Server.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ImageUploads");
+                name: "Comments");
 
             migrationBuilder.DropTable(
                 name: "UserPasswordHistory");
@@ -274,6 +301,9 @@ namespace SecureWebSite.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "ImageUploads");
         }
     }
 }

@@ -155,6 +155,37 @@ namespace SecureWebSite.Server.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("SecureWebSite.Server.Models.Comment", b =>
+                {
+                    b.Property<int>("CommentID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentID"));
+
+                    b.Property<string>("CommentText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ImageID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CommentID");
+
+                    b.HasIndex("ImageID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("SecureWebSite.Server.Models.ImageUpload", b =>
                 {
                     b.Property<int>("ImageId")
@@ -181,11 +212,9 @@ namespace SecureWebSite.Server.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ImageId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("ImageUploads");
                 });
@@ -350,13 +379,21 @@ namespace SecureWebSite.Server.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SecureWebSite.Server.Models.ImageUpload", b =>
+            modelBuilder.Entity("SecureWebSite.Server.Models.Comment", b =>
                 {
-                    b.HasOne("SecureWebSite.Server.Models.User", "User")
+                    b.HasOne("SecureWebSite.Server.Models.ImageUpload", "ImageUpload")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("ImageID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("SecureWebSite.Server.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ImageUpload");
 
                     b.Navigation("User");
                 });

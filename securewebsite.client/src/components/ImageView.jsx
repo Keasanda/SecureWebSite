@@ -9,6 +9,8 @@ import { GrGallery } from "react-icons/gr";
 function ImageView() {
     const { imageId } = useParams();
     const [image, setImage] = useState(null);
+    const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState('');
     const [userInfo, setUserInfo] = useState(null);
 
     useEffect(() => {
@@ -22,6 +24,16 @@ function ImageView() {
             }
         };
 
+        const fetchComments = async () => {
+            try {
+                const response = await fetch(`/api/Comments/${imageId}`);
+                const data = await response.json();
+                setComments(data);
+            } catch (error) {
+                console.error('Error fetching comments:', error);
+            }
+        };
+
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
             const user = JSON.parse(storedUser);
@@ -29,7 +41,60 @@ function ImageView() {
         }
 
         fetchImage();
+        fetchComments();
     }, [imageId]);
+
+    const handleAddComment = async () => {
+        if (newComment.trim() === '') return;
+    
+        const userId = userInfo?.userID; // Ensure this matches the backend's expectation
+    
+        const commentData = {
+            ImageID: imageId,              
+            UserID: userId,                
+            CommentText: newComment,
+        };
+    
+        try {
+            const response = await fetch('/api/Comments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(commentData),
+            });
+    
+            if (response.ok) {
+                const addedComment = await response.json();
+                setComments([...comments, addedComment]);
+                setNewComment('');
+            } else {
+                const errorData = await response.json();
+                console.error('Error adding comment:', errorData);
+            }
+        } catch (error) {
+            console.error('Error adding comment:', error);
+        }
+    };
+    
+
+    const handleDeleteComment = async (commentId) => {
+        try {
+            const response = await fetch(`/api/Comments/${commentId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId: userInfo?.userID }), // Ensure this matches the backend's expectation
+            });
+
+            if (response.ok) {
+                setComments(comments.filter(c => c.commentID !== commentId));
+            }
+        } catch (error) {
+            console.error('Error deleting comment:', error);
+        }
+    };
 
     if (!image) {
         return <div>Loading...</div>;
@@ -88,6 +153,29 @@ function ImageView() {
                             <p><strong>Category:</strong> {image.category || 'Uncategorized'}</p>
                         </div>
                         <Link to="/home" className="close-button">X</Link>
+                    </div>
+                </div>
+
+                <div className="comments-section">
+                    <h3>Comments</h3>
+                    <ul>
+                        {comments.map(comment => (
+                            <li key={comment.commentID}>
+                                <p><strong>{comment.user?.userName || 'Unknown'}</strong>: {comment.commentText}</p>
+                                <p><small>{new Date(comment.createdDate).toLocaleString()}</small></p>
+                                {comment.userID === userInfo?.userID && (
+                                    <button onClick={() => handleDeleteComment(comment.commentID)}>Delete</button>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                    <div className="add-comment">
+                        <textarea
+                            value={newComment}
+                            onChange={(e) => setNewComment(e.target.value)}
+                            placeholder="Add a comment..."
+                        />
+                        <button onClick={handleAddComment}>Post Comment</button>
                     </div>
                 </div>
             </div>
