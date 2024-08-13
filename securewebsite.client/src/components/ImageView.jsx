@@ -85,9 +85,9 @@ function ImageView() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ userId: userInfo?.userID }), // Ensure this matches the backend's expectation
+                body: JSON.stringify(userInfo?.userID), // Pass the userId as a plain string
             });
-
+    
             if (response.ok) {
                 setComments(comments.filter(c => c.commentID !== commentId));
             }
@@ -95,6 +95,7 @@ function ImageView() {
             console.error('Error deleting comment:', error);
         }
     };
+    
 
     if (!image) {
         return <div>Loading...</div>;
