@@ -11,6 +11,8 @@ function ImageView() {
     const [image, setImage] = useState(null);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
+    const [editCommentId, setEditCommentId] = useState(null);
+    const [editCommentText, setEditCommentText] = useState('');
     const [userInfo, setUserInfo] = useState(null);
 
     useEffect(() => {
@@ -47,7 +49,7 @@ function ImageView() {
     const handleAddComment = async () => {
         if (newComment.trim() === '') return;
     
-        const userId = userInfo?.userID; // Ensure this matches the backend's expectation
+        const userId = userInfo?.userID;
     
         const commentData = {
             ImageID: imageId,              
@@ -76,7 +78,6 @@ function ImageView() {
             console.error('Error adding comment:', error);
         }
     };
-    
 
     const handleDeleteComment = async (commentId) => {
         try {
@@ -85,7 +86,7 @@ function ImageView() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(userInfo?.userID), // Pass the userId as a plain string
+                body: JSON.stringify(userInfo?.userID),
             });
     
             if (response.ok) {
@@ -95,7 +96,44 @@ function ImageView() {
             console.error('Error deleting comment:', error);
         }
     };
-    
+
+    const handleEditComment = (comment) => {
+        setEditCommentId(comment.commentID);
+        setEditCommentText(comment.commentText);
+    };
+
+    const handleUpdateComment = async () => {
+        if (editCommentText.trim() === '') return;
+
+        const updatedComment = {
+            commentID: editCommentId,
+            UserID: userInfo?.userID,
+            CommentText: editCommentText,
+        };
+
+        try {
+            const response = await fetch(`/api/Comments/${editCommentId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedComment),
+            });
+
+            if (response.ok) {
+                setComments(comments.map(comment => 
+                    comment.commentID === editCommentId ? { ...comment, commentText: editCommentText } : comment
+                ));
+                setEditCommentId(null);
+                setEditCommentText('');
+            } else {
+                const errorData = await response.json();
+                console.error('Error updating comment:', errorData);
+            }
+        } catch (error) {
+            console.error('Error updating comment:', error);
+        }
+    };
 
     if (!image) {
         return <div>Loading...</div>;
@@ -162,10 +200,26 @@ function ImageView() {
                     <ul>
                         {comments.map(comment => (
                             <li key={comment.commentID}>
-                                <p><strong>{comment.user?.userName || 'Unknown'}</strong>: {comment.commentText}</p>
-                                <p><small>{new Date(comment.createdDate).toLocaleString()}</small></p>
-                                {comment.userID === userInfo?.userID && (
-                                    <button onClick={() => handleDeleteComment(comment.commentID)}>Delete</button>
+                                {editCommentId === comment.commentID ? (
+                                    <>
+                                        <textarea
+                                            value={editCommentText}
+                                            onChange={(e) => setEditCommentText(e.target.value)}
+                                        />
+                                        <button onClick={handleUpdateComment}>Save</button>
+                                        <button onClick={() => setEditCommentId(null)}>Cancel</button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <p><strong>{comment.user?.userName || 'Unknown'}</strong>: {comment.commentText}</p>
+                                        <p><small>{new Date(comment.createdDate).toLocaleString()}</small></p>
+                                        {comment.userID === userInfo?.userID && (
+                                            <>
+                                                <button onClick={() => handleEditComment(comment)}>Edit</button>
+                                                <button onClick={() => handleDeleteComment(comment.commentID)}>Delete</button>
+                                            </>
+                                        )}
+                                    </>
                                 )}
                             </li>
                         ))}
