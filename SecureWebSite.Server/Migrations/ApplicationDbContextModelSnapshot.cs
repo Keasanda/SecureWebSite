@@ -179,8 +179,6 @@ namespace SecureWebSite.Server.Migrations
 
                     b.HasKey("CommentID");
 
-                    b.HasIndex("ImageID");
-
                     b.HasIndex("UserID");
 
                     b.ToTable("Comments");
@@ -381,19 +379,11 @@ namespace SecureWebSite.Server.Migrations
 
             modelBuilder.Entity("SecureWebSite.Server.Models.Comment", b =>
                 {
-                    b.HasOne("SecureWebSite.Server.Models.ImageUpload", "ImageUpload")
-                        .WithMany()
-                        .HasForeignKey("ImageID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SecureWebSite.Server.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ImageUpload");
 
                     b.Navigation("User");
                 });

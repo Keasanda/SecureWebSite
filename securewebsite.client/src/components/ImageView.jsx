@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import './ImageView.css';
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Card, Button, Form, InputGroup } from 'react-bootstrap';
 import { IoHomeOutline, IoCameraOutline } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
 import { GrGallery } from "react-icons/gr";
+import './ImageView.css';
 
 function ImageView() {
     const { imageId } = useParams();
@@ -174,7 +174,7 @@ function ImageView() {
                     <Nav className="me-auto"></Nav>
                     <Nav>
                         {userInfo ? (
-                            <NavDropdown title={<span><img src="assets\notebook-natural-laptop-macbook.jpg" alt="Profile" className="profile-image" /> {userInfo.userName}</span>}>
+                            <NavDropdown title={<span><img src="https://i.pinimg.com/564x/20/7a/b0/207ab07b0f6e2f2c663f778d83cdbb14.jpg" alt="Profile" className="profile-image" /> {userInfo.userName}</span>}>
                                 <NavDropdown.Item>{userInfo.userEmail}</NavDropdown.Item>
                                 <NavDropdown.Item href="/LoggedInResetPassword">Reset Password</NavDropdown.Item>
                             </NavDropdown>
@@ -195,43 +195,59 @@ function ImageView() {
                     </div>
                 </div>
 
+
                 <div className="comments-section">
-                    <h3>Comments</h3>
-                    <ul>
-                        {comments.map(comment => (
-                            <li key={comment.commentID}>
-                                {editCommentId === comment.commentID ? (
-                                    <>
-                                        <textarea
-                                            value={editCommentText}
-                                            onChange={(e) => setEditCommentText(e.target.value)}
-                                        />
-                                        <button onClick={handleUpdateComment}>Save</button>
-                                        <button onClick={() => setEditCommentId(null)}>Cancel</button>
-                                    </>
-                                ) : (
-                                    <>
-                                        <p><strong>{comment.user?.userName || 'Unknown'}</strong>: {comment.commentText}</p>
-                                        <p><small>{new Date(comment.createdDate).toLocaleString()}</small></p>
-                                        {comment.userID === userInfo?.userID && (
-                                            <>
-                                                <button onClick={() => handleEditComment(comment)}>Edit</button>
-                                                <button onClick={() => handleDeleteComment(comment.commentID)}>Delete</button>
-                                            </>
-                                        )}
-                                    </>
-                                )}
-                            </li>
-                        ))}
-                    </ul>
-                    <div className="add-comment">
-                        <textarea
+                    <h1 className="commethead">Comments</h1>
+                    {comments.map(comment => (
+    <Card key={comment.commentID} className="mb-3">
+        <Card.Body className="comment-card-body">
+            {/* Card Title at the top */}
+            <div className="comment-card-title">
+                <img src="https://i.pinimg.com/564x/20/7a/b0/207ab07b0f6e2f2c663f778d83cdbb14.jpg" alt="Profile" className="comment-profile-image" />
+                <span>{comment.user?.userName || 'Unknown'}</span>
+                <small className="text-muted" style={{ marginLeft: '10px' }}>
+                    {new Date(comment.createdDate).toLocaleString()}
+                </small>
+            </div>
+
+            {/* Card Text in the middle */}
+            <div className="comment-card-text">
+                {editCommentId === comment.commentID ? (
+                    <InputGroup>
+                        <Form.Control
+                            as="textarea"
+                            value={editCommentText}
+                            onChange={(e) => setEditCommentText(e.target.value)}
+                        />
+                        <Button variant="primary"   onClick={handleUpdateComment}>Save</Button>
+                        <Button variant="secondary" onClick={() => setEditCommentId(null)}>Cancel</Button>
+                    </InputGroup>
+                ) : (
+                    <p>{comment.commentText}</p>
+                )}
+            </div>
+
+            {/* Edit and Delete Buttons at the bottom */}
+            {comment.userID === userInfo?.userID && (
+                <div className="comment-card-buttons">
+                    <Button variant="outline-primary" size="sm" onClick={() => handleEditComment(comment)}>Edit</Button>
+                    <Button variant="outline-danger" size="sm" onClick={() => handleDeleteComment(comment.commentID)}>Delete</Button>
+                </div>
+            )}
+        </Card.Body>
+    </Card>
+))}
+
+
+                    <InputGroup className="mt-4">
+                        <Form.Control
+                            as="textarea"
                             value={newComment}
                             onChange={(e) => setNewComment(e.target.value)}
                             placeholder="Add a comment..."
                         />
-                        <button onClick={handleAddComment}>Post Comment</button>
-                    </div>
+                        <Button variant="primary" onClick={handleAddComment}>Post Comment</Button>
+                    </InputGroup>
                 </div>
             </div>
         </div>

@@ -214,12 +214,6 @@ namespace SecureWebSite.Server.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Comments_ImageUploads_ImageID",
-                        column: x => x.ImageID,
-                        principalTable: "ImageUploads",
-                        principalColumn: "ImageId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -262,11 +256,6 @@ namespace SecureWebSite.Server.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_ImageID",
-                table: "Comments",
-                column: "ImageID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Comments_UserID",
                 table: "Comments",
                 column: "UserID");
@@ -294,6 +283,9 @@ namespace SecureWebSite.Server.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
+                name: "ImageUploads");
+
+            migrationBuilder.DropTable(
                 name: "UserPasswordHistory");
 
             migrationBuilder.DropTable(
@@ -301,9 +293,6 @@ namespace SecureWebSite.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "ImageUploads");
         }
     }
 }

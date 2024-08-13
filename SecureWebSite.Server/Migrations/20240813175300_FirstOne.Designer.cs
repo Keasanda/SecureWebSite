@@ -12,7 +12,7 @@ using SecureWebSite.Server.Data;
 namespace SecureWebSite.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240813085457_FirstOne")]
+    [Migration("20240813175300_FirstOne")]
     partial class FirstOne
     {
         /// <inheritdoc />
@@ -181,8 +181,6 @@ namespace SecureWebSite.Server.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CommentID");
-
-                    b.HasIndex("ImageID");
 
                     b.HasIndex("UserID");
 
@@ -384,19 +382,11 @@ namespace SecureWebSite.Server.Migrations
 
             modelBuilder.Entity("SecureWebSite.Server.Models.Comment", b =>
                 {
-                    b.HasOne("SecureWebSite.Server.Models.ImageUpload", "ImageUpload")
-                        .WithMany()
-                        .HasForeignKey("ImageID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SecureWebSite.Server.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ImageUpload");
 
                     b.Navigation("User");
                 });
