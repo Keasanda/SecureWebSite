@@ -12,7 +12,7 @@ using SecureWebSite.Server.Data;
 namespace SecureWebSite.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240813175300_FirstOne")]
+    [Migration("20240814084732_FirstOne")]
     partial class FirstOne
     {
         /// <inheritdoc />
@@ -179,6 +179,10 @@ namespace SecureWebSite.Server.Migrations
                     b.Property<string>("UserID")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CommentID");
 

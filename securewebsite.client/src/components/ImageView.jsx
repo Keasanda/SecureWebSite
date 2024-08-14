@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Navbar, Nav, NavDropdown, Card, Button, Form, InputGroup } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Card, Button, Form, InputGroup, Alert } from 'react-bootstrap';
 import { IoHomeOutline, IoCameraOutline } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
 import { GrGallery } from "react-icons/gr";
@@ -14,6 +14,7 @@ function ImageView() {
     const [editCommentId, setEditCommentId] = useState(null);
     const [editCommentText, setEditCommentText] = useState('');
     const [userInfo, setUserInfo] = useState(null);
+    const [feedbackMessage, setFeedbackMessage] = useState('');
 
     useEffect(() => {
         const fetchImage = async () => {
@@ -48,15 +49,17 @@ function ImageView() {
 
     const handleAddComment = async () => {
         if (newComment.trim() === '') return;
-    
+
         const userId = userInfo?.userID;
-    
+        const userName = userInfo?.userName;
+
         const commentData = {
-            ImageID: imageId,              
-            UserID: userId,                
+            ImageID: imageId,
+            UserID: userId,
+            UserName: userName,
             CommentText: newComment,
         };
-    
+
         try {
             const response = await fetch('/api/Comments', {
                 method: 'POST',
@@ -65,17 +68,20 @@ function ImageView() {
                 },
                 body: JSON.stringify(commentData),
             });
-    
+
             if (response.ok) {
                 const addedComment = await response.json();
                 setComments([...comments, addedComment]);
                 setNewComment('');
+                setFeedbackMessage('Comment added successfully!');
             } else {
                 const errorData = await response.json();
                 console.error('Error adding comment:', errorData);
+                setFeedbackMessage('Failed to add comment.');
             }
         } catch (error) {
             console.error('Error adding comment:', error);
+            setFeedbackMessage('Error adding comment.');
         }
     };
 
@@ -88,12 +94,16 @@ function ImageView() {
                 },
                 body: JSON.stringify(userInfo?.userID),
             });
-    
+
             if (response.ok) {
                 setComments(comments.filter(c => c.commentID !== commentId));
+                setFeedbackMessage('Comment deleted successfully!');
+            } else {
+                setFeedbackMessage('Failed to delete comment.');
             }
         } catch (error) {
             console.error('Error deleting comment:', error);
+            setFeedbackMessage('Error deleting comment.');
         }
     };
 
@@ -103,12 +113,16 @@ function ImageView() {
     };
 
     const handleUpdateComment = async () => {
-        if (editCommentText.trim() === '') return;
+        const userId = userInfo?.userID;
+        const userName = userInfo?.userName;
 
         const updatedComment = {
-            commentID: editCommentId,
-            UserID: userInfo?.userID,
+            CommentID: editCommentId,
+            ImageID: imageId,
+            UserID: userId,
+            UserName: userName,
             CommentText: editCommentText,
+            CreatedDate: new Date().toISOString()
         };
 
         try {
@@ -121,23 +135,21 @@ function ImageView() {
             });
 
             if (response.ok) {
-                setComments(comments.map(comment => 
-                    comment.commentID === editCommentId ? { ...comment, commentText: editCommentText } : comment
-                ));
+                const updatedComments = comments.map((comment) =>
+                    comment.commentID === editCommentId ? updatedComment : comment
+                );
+                setComments(updatedComments);
                 setEditCommentId(null);
                 setEditCommentText('');
+                setFeedbackMessage('Comment updated successfully!');
             } else {
-                const errorData = await response.json();
-                console.error('Error updating comment:', errorData);
+                setFeedbackMessage('Failed to update comment.');
             }
         } catch (error) {
             console.error('Error updating comment:', error);
+            setFeedbackMessage('Error updating comment.');
         }
     };
-
-    if (!image) {
-        return <div>Loading...</div>;
-    }
 
     return (
         <div className="content">
@@ -183,70 +195,76 @@ function ImageView() {
                         )}
                     </Nav>
                 </Navbar>
-                <div className="image-view">
-                    <div className="image-container">
-                        <img src={image.imageURL} alt={image.title || 'Image'} />
-                        <div className="overlay">
-                            <h2>{image.title || 'Untitled'}</h2>
-                            <p>{image.description || 'No description available.'}</p>
-                            <p><strong>Category:</strong> {image.category || 'Uncategorized'}</p>
+                
+                {/* Conditional Rendering to Avoid Accessing null Object */}
+                {image ? (
+                    <div className="image-view">
+                        <div className="image-container">
+                            <img src={image.imageURL} alt={image.title || 'Image'} />
+                            <div className="overlay">
+                                <h2>{image.title || 'Untitled'}</h2>
+                                <p>{image.description || 'No description available.'}</p>
+                                <p><strong>Category:</strong> {image.category || 'Uncategorized'}</p>
+                            </div>
+                            <Link to="/home" className="close-button">X</Link>
                         </div>
-                        <Link to="/home" className="close-button">X</Link>
                     </div>
-                </div>
-
+                ) : (
+                    <p>Loading image...</p> // Placeholder while the image is being loaded
+                )}
 
                 <div className="comments-section">
                     <h1 className="commethead">Comments</h1>
+                    {feedbackMessage && <Alert variant="info">{feedbackMessage}</Alert>} {/* Display feedback message */}
+
                     {comments.map(comment => (
-    <Card key={comment.commentID} className="mb-3">
-        <Card.Body className="comment-card-body">
-            {/* Card Title at the top */}
-            <div className="comment-card-title">
-                <img src="https://i.pinimg.com/564x/20/7a/b0/207ab07b0f6e2f2c663f778d83cdbb14.jpg" alt="Profile" className="comment-profile-image" />
-                <span>{comment.user?.userName || 'Unknown'}</span>
-                <small className="text-muted" style={{ marginLeft: '10px' }}>
-                    {new Date(comment.createdDate).toLocaleString()}
-                </small>
-            </div>
+                        <Card key={comment.commentID} className="mb-3">
+                            <Card.Body className="comment-card-body">
+                                <div className="comment-card-title">
+                                    <img src="https://i.pinimg.com/564x/20/7a/b0/207ab07b0f6e2f2c663f778d83cdbb14.jpg" alt="Profile" className="comment-profile-image" />
+                                    <span>{comment.userName || 'Unknown'}</span>
+                                    <small className="text-muted">{new Date(comment.createdDate).toLocaleDateString()}</small>
+                                </div>
 
-            {/* Card Text in the middle */}
-            <div className="comment-card-text">
-                {editCommentId === comment.commentID ? (
-                    <InputGroup>
+                                {editCommentId === comment.commentID ? (
+                                    <>
+                                        <Form.Control
+                                            as="textarea"
+                                            value={editCommentText}
+                                            onChange={(e) => setEditCommentText(e.target.value)}
+                                            rows={3}
+                                            className="comment-textarea"
+                                        />
+                                        <div className="mt-2 text-end">
+                                            <Button variant="secondary" onClick={() => setEditCommentId(null)} className="me-2">Cancel</Button>
+                                            <Button variant="primary" onClick={handleUpdateComment}>Save</Button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Card.Text>{comment.commentText}</Card.Text>
+                                        {userInfo?.userID === comment.userID && (
+                                            <div className="text-end">
+                                                <Button variant="outline-primary" size="sm" onClick={() => handleEditComment(comment)} className="me-2">Edit</Button>
+                                                <Button variant="outline-danger" size="sm" onClick={() => handleDeleteComment(comment.commentID)}>Delete</Button>
+                                            </div>
+                                        )}
+                                    </>
+                                )}
+                            </Card.Body>
+                        </Card>
+                    ))}
+
+                    <InputGroup className="mt-3 commentinput">
                         <Form.Control
                             as="textarea"
-                            value={editCommentText}
-                            onChange={(e) => setEditCommentText(e.target.value)}
-                        />
-                        <Button variant="primary"   onClick={handleUpdateComment}>Save</Button>
-                        <Button variant="secondary" onClick={() => setEditCommentId(null)}>Cancel</Button>
-                    </InputGroup>
-                ) : (
-                    <p>{comment.commentText}</p>
-                )}
-            </div>
-
-            {/* Edit and Delete Buttons at the bottom */}
-            {comment.userID === userInfo?.userID && (
-                <div className="comment-card-buttons">
-                    <Button variant="outline-primary" size="sm" onClick={() => handleEditComment(comment)}>Edit</Button>
-                    <Button variant="outline-danger" size="sm" onClick={() => handleDeleteComment(comment.commentID)}>Delete</Button>
-                </div>
-            )}
-        </Card.Body>
-    </Card>
-))}
-
-
-                    <InputGroup className="mt-4">
-                        <Form.Control
-                            as="textarea"
+                            placeholder="Add a comment..."
                             value={newComment}
                             onChange={(e) => setNewComment(e.target.value)}
-                            placeholder="Add a comment..."
+                            rows={3}
+                            className="comment-textarea"
                         />
-                        <Button variant="primary" onClick={handleAddComment}>Post Comment</Button>
+                        <Button variant="primary" onClick={handleAddComment} className="commentbutton">Add Comment</Button>
                     </InputGroup>
                 </div>
             </div>

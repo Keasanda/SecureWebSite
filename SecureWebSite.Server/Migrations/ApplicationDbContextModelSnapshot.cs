@@ -177,6 +177,10 @@ namespace SecureWebSite.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("CommentID");
 
                     b.HasIndex("UserID");

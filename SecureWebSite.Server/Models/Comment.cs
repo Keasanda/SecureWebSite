@@ -16,13 +16,16 @@ namespace SecureWebSite.Server.Models
         public string UserID { get; set; }
 
         [Required]
+        public string UserName { get; set; }  // Add this line to store the user's name
+
+        [Required]
         public string CommentText { get; set; }
 
         [Required]
         public DateTime CreatedDate { get; set; }
 
         // Navigation property
-        public User? User { get; set; }        // Assuming a User entity exists
+        public User? User { get; set; }
     }
 
 }

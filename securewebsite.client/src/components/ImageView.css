@@ -150,6 +150,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    margin-right: 58%;
 }
 
 .comment-card-title img {
@@ -162,12 +163,14 @@
 .comment-card-text {
     flex-grow: 1; /* Allows the text to grow and push buttons to the bottom */
 margin-top: 20px;
+margin-right: 90%;
 }
 
 .comment-card-buttons {
     display: flex;
     justify-content: flex-end;
     margin-top: 20px;
+    margin-right:77% ;
 }
 
 .comments-section{
