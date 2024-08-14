@@ -159,4 +159,21 @@ public class ImageUploadController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpGet("images-with-comments")]
+    public async Task<IActionResult> GetImagesWithCommentCounts()
+    {
+        var imagesWithComments = await _context.ImageUploads
+            .Select(image => new
+            {
+                Image = image,
+                CommentCount = _context.Comments.Count(c => c.ImageID == image.ImageId)
+            })
+            .ToListAsync();
+
+        return Ok(imagesWithComments);
+    }
+
+
+
 }

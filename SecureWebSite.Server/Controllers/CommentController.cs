@@ -4,6 +4,7 @@ using SecureWebSite.Server.Data;
 using SecureWebSite.Server.Models;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 [Route("api/Comments")]
@@ -27,7 +28,6 @@ public class CommentsController : ControllerBase
         return Ok(comments);
     }
 
-
     [HttpPost]
     public async Task<IActionResult> AddComment([FromBody] Comment comment)
     {
@@ -42,9 +42,6 @@ public class CommentsController : ControllerBase
 
         return BadRequest(ModelState);
     }
-
-
-
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateComment(int id, [FromBody] Comment updatedComment)
@@ -70,7 +67,6 @@ public class CommentsController : ControllerBase
         return NoContent();
     }
 
-
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteComment(int id, [FromBody] string userId)
     {
@@ -92,7 +88,26 @@ public class CommentsController : ControllerBase
         return NoContent();
     }
 
+    [HttpGet("comment-count/{imageId}")]
+    public async Task<IActionResult> GetCommentCount(int imageId)
+    {
+        var commentCount = await _context.Comments
+            .Where(c => c.ImageID == imageId)
+            .CountAsync();
 
+        return Ok(new { Count = commentCount });
+    }
 
+    [HttpPost("comment-counts")]
+    public async Task<IActionResult> GetCommentCounts([FromBody] List<int> imageIds)
+    {
+        var commentCounts = await _context.Comments
+            .Where(c => imageIds.Contains(c.ImageID))
+            .GroupBy(c => c.ImageID)
+            .Select(g => new { ImageID = g.Key, Count = g.Count() })
+            .ToDictionaryAsync(g => g.ImageID, g => g.Count);
+
+        return Ok(commentCounts);
+    }
 
 }

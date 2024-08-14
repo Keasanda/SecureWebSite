@@ -6,8 +6,7 @@ import './MyGallery.css'; // Updated to use the new CSS file
 import { IoFilterSharp, IoHomeOutline, IoCameraOutline } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
 import { GrGallery } from "react-icons/gr";
-
-
+import { FaComment } from "react-icons/fa"; // Import the comment icon
 
 function MyGallery() {
     document.title = "My Gallery";
@@ -33,13 +32,15 @@ function MyGallery() {
             return;
         }
         try {
-            const response = await fetch(`/api/ImageUpload/user-images/${userID}`);
+            const response = await fetch(`/api/ImageUpload/images-with-comments`);
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
             const data = await response.json();
-            setImages(data);
-            setFilteredImages(data);
+            // Filter images based on userId
+            const userImages = data.filter(image => image.image.userId === userID);
+            setImages(userImages);
+            setFilteredImages(userImages);
         } catch (error) {
             console.error('Error fetching images:', error);
             setImages([]);
@@ -55,8 +56,8 @@ function MyGallery() {
             setFilteredImages(images);
         } else {
             const filtered = images.filter(image =>
-                image.title.toLowerCase().includes(query) ||
-                image.category.toLowerCase().includes(query)
+                image.image.title.toLowerCase().includes(query) ||
+                image.image.category.toLowerCase().includes(query)
             );
             setFilteredImages(filtered);
         }
@@ -69,8 +70,8 @@ function MyGallery() {
             });
             if (response.ok) {
                 // Remove the deleted image from the state
-                setImages(images.filter(image => image.imageId !== imageId));
-                setFilteredImages(filteredImages.filter(image => image.imageId !== imageId));
+                setImages(images.filter(image => image.image.imageId !== imageId));
+                setFilteredImages(filteredImages.filter(image => image.image.imageId !== imageId));
             } else {
                 console.error('Error deleting image:', response.statusText);
             }
@@ -139,7 +140,7 @@ function MyGallery() {
                 <div className="image-gallery">
                     {userInfo ? (
                         currentImages.length > 0 ? (
-                            currentImages.map((image) => (
+                            currentImages.map(({ image, commentCount }) => (
                                 <Link to={`/image/${image.imageId}`} key={image.imageId} className="card">
                                     <div className="image-container">
                                         <img src={image.imageURL} className="card-img-top" alt={image.title} />
@@ -149,6 +150,9 @@ function MyGallery() {
                                         <p className="dicrip">{image.description}</p>
                                     </div>
                                     <div className="card-body">
+                                        <span className="comment-count">
+                                            <FaComment className="comment-icon" /> {commentCount} Comments
+                                        </span>
                                         <Link to={`/edit-image/${image.imageId}`} className="btn btn-secondary">Edit</Link>
                                         <button onClick={() => handleDelete(image.imageId)} className="btn btn-danger">Delete</button>
                                     </div>

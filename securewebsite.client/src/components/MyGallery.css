@@ -92,3 +92,16 @@ button.g{
     font-size: 14px;        /* Adjust font size as needed */
     line-height: 1.5;   
 }
+
+.comment-count {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    margin-right: 20px;
+    width: 150px;
+    padding: 3%;
+}
+
+.comment-icon {
+    margin-right: 2px;
+}

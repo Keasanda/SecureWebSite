@@ -306,3 +306,37 @@ button.ho:hover{
     background-color:  white;
     color: #007bff;
 }
+
+
+.icon-group {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.icon-group .like-icon, 
+.icon-group .heart-icon, 
+.icon-group .comment-icon {
+    font-size: 1.5rem;
+    color: #333;
+    cursor: pointer;
+   margin-right: 0px;
+    transition: color 0.3s ease;
+}
+
+.icon-group .icon-count {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.icon-group .like-icon:hover {
+    color: #007bff;
+}
+
+.icon-group .heart-icon:hover {
+    color: #f00;
+}
+
+.icon-group .comment-icon:hover {
+    color: #007bff;
+}
