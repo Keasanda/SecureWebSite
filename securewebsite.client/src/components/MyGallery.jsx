@@ -150,9 +150,7 @@ function MyGallery() {
                                         <p className="dicrip">{image.description}</p>
                                     </div>
                                     <div className="card-body">
-                                        <span className="comment-count">
-                                            <FaComment className="comment-icon" /> {commentCount} Comments
-                                        </span>
+                                  
                                         <Link to={`/edit-image/${image.imageId}`} className="btn btn-secondary">Edit</Link>
                                         <button onClick={() => handleDelete(image.imageId)} className="btn btn-danger">Delete</button>
                                     </div>

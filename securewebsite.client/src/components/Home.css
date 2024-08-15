@@ -314,11 +314,11 @@ button.ho:hover{
     margin-right: 20px;
 }
 
-.icon-group .like-icon, 
+
 .icon-group .heart-icon, 
 .icon-group .comment-icon {
     font-size: 1.5rem;
-    color: #333;
+    color: bisque;
     cursor: pointer;
    margin-right: 0px;
     transition: color 0.3s ease;
@@ -339,4 +339,9 @@ button.ho:hover{
 
 .icon-group .comment-icon:hover {
     color: #007bff;
+}
+
+.commpush{
+
+    margin-right: 90%;
 }

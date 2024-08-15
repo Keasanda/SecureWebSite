@@ -63,6 +63,11 @@ export default defineConfig({
                 secure: false
 
             }
+            ,   '^/api/Likes' :{
+                target: "https://localhost:7239",
+                secure: false
+
+            }
 
 
             

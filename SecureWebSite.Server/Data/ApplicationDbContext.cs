@@ -16,6 +16,9 @@ namespace SecureWebSite.Server.Data
 
         public DbSet<Comment> Comments { get; set; } // Add this line
 
+        public DbSet<Like> Likes { get; set; }
+
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
     }
 

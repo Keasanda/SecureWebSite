@@ -12,7 +12,7 @@ using SecureWebSite.Server.Data;
 namespace SecureWebSite.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240814084732_FirstOne")]
+    [Migration("20240815072532_FirstOne")]
     partial class FirstOne
     {
         /// <inheritdoc />
@@ -222,6 +222,32 @@ namespace SecureWebSite.Server.Migrations
                     b.HasKey("ImageId");
 
                     b.ToTable("ImageUploads");
+                });
+
+            modelBuilder.Entity("SecureWebSite.Server.Models.Like", b =>
+                {
+                    b.Property<int>("LikeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LikeID"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ImageID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsLoved")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("LikeID");
+
+                    b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("SecureWebSite.Server.Models.User", b =>

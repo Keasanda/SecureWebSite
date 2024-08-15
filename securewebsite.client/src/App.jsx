@@ -31,6 +31,7 @@ const router = createBrowserRouter(
             <Route path='/dragndrop' element={<DragNDrop />} />
             <Route path='/loggedinresetpassword' element={<LoggedInResetPassword />} />
             <Route path='/image/:imageId' element={<ImageView />} />
+            
             <Route path='*' element={
                 <div>
                     <header>
@@ -48,20 +49,26 @@ const router = createBrowserRouter(
 function App() {
     const isLogged = localStorage.getItem("user");
     const logout = async () => {
-        const response = await fetch("/api/SecureWebsite/logout", {
-            method: "GET",
-            credentials: "include"
-        });
-
-        const data = await response.json();
-        if (response.ok) {
-            localStorage.removeItem("user");
-            alert(data.message);
-            document.location = "/login";
-        } else {
-            console.log("could not logout: ", response);
+        try {
+            const response = await fetch("/api/securewebsite/logout", {
+                method: "GET",
+                credentials: "include"
+            });
+    
+            const data = await response.json();
+            if (response.ok) {
+                localStorage.removeItem("user");
+                alert(data.message);
+                window.location.href = "/login";
+            } else {
+                console.log("could not logout: ", response);
+            }
+        } catch (error) {
+            console.error('Error logging out:', error);
         }
-    };
+    }
+
+
 
     return (
         <section>

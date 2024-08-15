@@ -74,6 +74,22 @@ namespace SecureWebSite.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Likes",
+                columns: table => new
+                {
+                    LikeID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageID = table.Column<int>(type: "int", nullable: false),
+                    IsLoved = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Likes", x => x.LikeID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserPasswordHistory",
                 columns: table => new
                 {
@@ -285,6 +301,9 @@ namespace SecureWebSite.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "ImageUploads");
+
+            migrationBuilder.DropTable(
+                name: "Likes");
 
             migrationBuilder.DropTable(
                 name: "UserPasswordHistory");

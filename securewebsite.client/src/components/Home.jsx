@@ -6,7 +6,7 @@ import './Home.css';
 import { IoFilterSharp, IoHomeOutline, IoCameraOutline } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
 import { GrGallery } from "react-icons/gr";
-import { FaComment, FaHeart, FaThumbsUp } from "react-icons/fa"; // Import the required icons
+import { FaComment, FaHeart } from "react-icons/fa"; // Import the required icons
 
 function Home() {
     document.title = "Welcome";
@@ -14,6 +14,7 @@ function Home() {
     const [images, setImages] = useState([]);
     const [filteredImages, setFilteredImages] = useState([]);
     const [commentCounts, setCommentCounts] = useState({});
+    const [loveCounts, setLoveCounts] = useState({}); // New state for love counts
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
     const imagesPerPage = 6; // Adjusted for three per row
@@ -35,6 +36,7 @@ function Home() {
             setImages(data);
             setFilteredImages(data); // Initialize filteredImages with all images
             fetchCommentCounts(data); // Fetch comment counts after images are loaded
+            fetchLoveCounts(data); // Fetch love counts after images are loaded
         } catch (error) {
             console.error('Error fetching images:', error);
         }
@@ -57,6 +59,73 @@ function Home() {
             setCommentCounts(counts);
         } catch (error) {
             console.error('Error fetching comment counts:', error);
+        }
+    };
+
+    const fetchLoveCounts = async (images) => {
+        try {
+            const imageIds = images.map(image => image.imageId); // Only extract image IDs
+            
+            const response = await fetch('api/Likes/love-counts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(imageIds),  // Send only image IDs
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to fetch love counts');
+            }
+    
+            const counts = await response.json();
+            setLoveCounts(counts);  // Assuming the response is a dictionary of imageId to love count
+        } catch (error) {
+            console.error('Error fetching love counts:', error);
+        }
+    };
+    
+
+    const handleLogout = async () => {
+        try {
+            const response = await fetch("/api/securewebsite/logout", {
+                method: "GET",
+                credentials: "include"
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                localStorage.removeItem("user");
+                alert(data.message);
+                window.location.href = "/login";
+            } else {
+                console.log("could not logout: ", response);
+            }
+        } catch (error) {
+            console.error('Error logging out:', error);
+        }
+    };
+
+
+
+    const toggleLove = async (imageId) => {
+        const userId = userInfo?.userID;
+        if (!userId) return;
+
+        try {
+            const response = await fetch(`api/Likes/${imageId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userId),
+            });
+            if (response.ok) {
+                // Fetch the updated love counts after toggling the love status
+                fetchLoveCounts(images);
+            }
+        } catch (error) {
+            console.error('Error toggling love:', error);
         }
     };
 
@@ -104,7 +173,7 @@ function Home() {
                         </li>
                     </ul>
                 </nav>
-                <button className='logout' onClick={() => window.location.href = '/logout'}>
+                <button className='logout' onClick={handleLogout}>
                     <MdLogout className="icon hm" /> Logout
                 </button>
             </div>
@@ -145,15 +214,11 @@ function Home() {
                                         <p>{image.description}</p>
                                     </div>
                                     <div className="card-actions">
-                                        <div className="icon-group">
-                                            <FaThumbsUp className="like-icon" />
-                                            <span className="icon-count">0</span>
-                                        </div>
-                                        <div className="icon-group">
+                                        <div className="icon-group" onClick={() => toggleLove(image.imageId)}>
                                             <FaHeart className="heart-icon" />
-                                            <span className="icon-count">0</span>
+                                            <span className="icon-count">{loveCounts[image.imageId] || 0}</span>
                                         </div>
-                                        <div className="icon-group">
+                                        <div className="icon-group  commpush  ">
                                             <FaComment className="comment-icon" />
                                             <span className="icon-count">{commentCounts[image.imageId] || 0}</span>
                                         </div>
