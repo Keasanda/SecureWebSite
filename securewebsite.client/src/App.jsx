@@ -46,32 +46,32 @@ const router = createBrowserRouter(
     )
 );
 
+
 function App() {
     const isLogged = localStorage.getItem("user");
     const logout = async () => {
-        try {
-            const response = await fetch("/api/securewebsite/logout", {
-                method: "GET",
-                credentials: "include"
-            });
-    
-            const data = await response.json();
-            if (response.ok) {
-                localStorage.removeItem("user");
-                alert(data.message);
-                window.location.href = "/login";
-            } else {
-                console.log("could not logout: ", response);
-            }
-        } catch (error) {
-            console.error('Error logging out:', error);
+        const response = await fetch("/api/SecureWebsite/logout", {
+            method: "GET",
+            credentials: "include"
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            localStorage.removeItem("user");
+            alert(data.message);
+            document.location = "/login";
+        } else {
+            console.log("could not logout: ", response);
         }
-    }
+    };
 
 
 
     return (
         <section>
+
+
+
             <RouterProvider router={router} />
         </section>
     );

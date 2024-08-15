@@ -88,7 +88,7 @@ function Home() {
 
     const handleLogout = async () => {
         try {
-            const response = await fetch("/api/securewebsite/logout", {
+            const response = await fetch("/api/SecureWebsite/logout", {
                 method: "GET",
                 credentials: "include"
             });
