@@ -1,0 +1,216 @@
+.content {
+    display: flex;
+    width: 100%;
+}
+
+.logo{
+    width: 200px; 
+    height: auto; 
+    display: block; 
+    margin: 15px;
+    margin: 0px 0; /* Reduced vertical margin */ 
+}
+
+.sidebarrHome {
+    width: 400px;
+    background: #2187AB;
+    color: white;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0px; /* Reduced padding */
+}
+
+.homelog {
+    
+    font-weight: bold;
+    text-align: start;
+    padding: 20px;
+    cursor: pointer;
+    background-color: #2187AB; /* Changed to a distinct color */
+    border: none;
+    color: white;
+    font-size: 20px;
+    margin-top: 5px; /* Add this if there's space above */
+}
+
+.myLb {
+    list-style-type: none;
+    padding: 10px;
+    margin-right: 20px;
+}
+
+.navButtonHome {
+    width: 100%;
+    cursor: pointer;
+    text-align: left;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: x-large;
+    font-family: 'Poppins', sans-serif;
+    padding-right: 160px;
+    
+}
+
+.myLb {
+    width: 100%;
+    padding: 25px;
+    cursor: pointer;
+    text-align: left;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: x-large;
+    font-family: 'Poppins', sans-serif;
+    padding-right: 200px;
+    margin-bottom: 10px;
+    margin-top: 25px;
+}
+
+.nav-buttonHome.active {
+    padding-right: 260px;
+}
+
+.logout {
+    font-weight: bold;
+    text-align: start;
+    padding: 20px;
+    cursor: pointer;
+    background-color: #2187AB; /* Changed to a distinct color */
+    border: none;
+    color: white;
+    font-size: 20px;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+.homenav {
+    margin-bottom: 20px;
+    width: 1500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profileImage {
+    width: 32px;
+    border-radius: 20%;
+    margin-right: 10px;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 50px;
+    margin-right: 50%;
+    margin-top: 5%;
+    margin-left: 2%;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.filters-button {
+    padding: 10px 20px;
+    background: #E9F5F9;
+    color: #165A72;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
+.imageGallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 54px;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+    margin-right: 10px;
+}
+
+.image-container {
+    width: 50%;
+    padding-top: 1%;
+    position: relative;
+    overflow: hidden;
+}
+
+.image-container img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: auto;
+    height: 100%;
+    transform: translate(-50%, -50%);
+}
+
+.cardTitleOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    color: white;
+    text-align: start;
+    padding-right: 40%;
+    margin-top: 60%;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: space-between; /* Adjusts space between icon groups */
+    align-items: center; /* Vertically centers the icons */
+}
+
+/* Ensure that each icon group is aligned horizontally */
+.icon-group {
+    display: flex;
+    align-items: center; /* Vertically centers the icon and count */
+    cursor: pointer;
+}
+
+.iconGroup .icon-count {
+    margin-left: 5px; /* Add space between the icon and the count */
+}
+
+.commpush {
+    margin-left: 40px; /* Optional: adds space between the two icon groups */
+    margin-top: -25px;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.pagination .page-link {
+    color: #007bff;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 10px 15px;
+    border: none;
+    margin: 0 5px;
+    background-color: #f8f9fa;
+}
+
+.pagination .page-link.active {
+    background-color: #E9F5F9;
+    color: #007bff;
+}

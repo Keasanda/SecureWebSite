@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './MyGallery.css'; // Updated to use the new CSS file
+import taste from './MyGallery.module.css';
 import { IoFilterSharp, IoHomeOutline, IoCameraOutline } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
 import { GrGallery } from "react-icons/gr";
@@ -86,32 +86,52 @@ function MyGallery() {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+    const handleLogout = async () => {
+        try {
+            const response = await fetch("/api/SecureWebsite/logout", {
+                method: "GET",
+                credentials: "include"
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                localStorage.removeItem("user");
+                alert(data.message);
+                window.location.href = "/login";
+            } else {
+                console.log("could not logout: ", response);
+            }
+        } catch (error) {
+            console.error('Error logging out:', error);
+        }
+    };
+
     return (
-        <div className="content">
-            <div className="sidebarHome">
-                <header className='homelog'>Logo</header>
-                <nav className="navButoom">
-                    <ul>
+        <div className={taste.content}>
+    <div className={taste.sidebarrHome}>
+        <img src="src/assets/Image Gallery.png"className={taste.logo} />
+        <nav className={taste.navButoom}>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                         <li>
-                            <button className="nav-buttonG ho h" onClick={() => window.location.href = '/home'}>
+                        <button className={taste.homelog} onClick={() => window.location.href = '/home'}>
                                 <IoHomeOutline className="icon ma" /> Home
                             </button>
                         </li>
                         <li>
-                            <button className="nav-buttonG ho " onClick={() => window.location.href = '/dragndrop'}>
+                            <button className={taste.homelog} onClick={() => window.location.href = '/dragndrop'}>
                                 <IoCameraOutline className="icon ma" /> Image Upload
                             </button>
                         </li>
                         <li>
-                            <button className="nav-buttonG ho g active">
+                            <button className={taste.homelog} onClick={() => window.location.href = '/MyGallery'}>
                                 <GrGallery className="icon ma" /> My Gallery
                             </button>
                         </li>
                     </ul>
                 </nav>
-                <button className='logout' onClick={() => window.location.href = '/logout'}>
-                    <MdLogout className="icon ma" /> Logout
-                </button>
+                <button className={taste.logout} onClick={handleLogout}>
+            <MdLogout className={taste.icon} /> Logout
+        </button>
             </div>
             <div className="main-content">
                 <Navbar bg="light" expand="lg" className='homenav'>
@@ -176,7 +196,7 @@ function MyGallery() {
                 </div>
             </div>
         </div>
-    );
-}
+         );
+        } 
 
 export default MyGallery;
