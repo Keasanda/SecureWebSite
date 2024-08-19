@@ -149,7 +149,7 @@ function DragNDrop() {
 
 
                 <Navbar bg="light" expand="lg" className='bars'>
-                <Navbar.Brand style={{ marginLeft: '25px', fontFamily:'Poppins', fontSize:"normal" }} href="#home"> Image Upload <span>&#62;</span></Navbar.Brand>
+                <Navbar.Brand style={{ marginLeft: '25px', fontFamily:'Poppins', fontSize:"medium" }} href="#home"> Image Upload <span>&#62;</span></Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
@@ -173,7 +173,7 @@ function DragNDrop() {
 
                     <div className="card border-0">
                         <div className="">
-                            <h1 className="text-center mb-4 UploadHead">Image Upload</h1>
+                            <h1 className=" mb-4 UploadHead">Image Upload</h1>
                             <div className="mb-4">
                                 <label htmlFor="title" className=" Imagetitle">Image Title</label>
                                 <input

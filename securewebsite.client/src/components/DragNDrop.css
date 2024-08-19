@@ -2,7 +2,7 @@
 
 .Imagetitle {
     margin-top: 2px;
-    margin-left: 530px;
+    margin-left: 535px;
     font-family: "Poppins", sans-serif;
     font-weight: bold;
     font-style: normal;
@@ -13,7 +13,7 @@
 .ImageCategory{
 
     margin-top: 2px;
-    margin-left: 530px;
+    margin-left: 535px;
     font-family: "Poppins", sans-serif;
     font-weight: bold;
     font-style: normal;
@@ -35,7 +35,7 @@
 
 .ImageDiscription {
     margin: 4px;
-    margin-left: 530px;
+    margin-left: 535px;
     font-family: "Poppins", sans-serif;
     font-weight: bold;
     font-style: normal;
@@ -184,7 +184,7 @@ button.logout {
     height: 56px;
     
  color: white;
-    font-family: 'Inter Tight', sans-serif;
+    font-family: "Poppins", sans-serif;
     font-weight: 700;
     font-size: 16px;
   background-color: #2187AB;
@@ -199,7 +199,7 @@ button.logout {
 
 .vertical-panel {
     width: 500px;
-    height: 1054px;
+
    background: #2187AB;
 
 
@@ -278,4 +278,26 @@ color: #2187AB;
     color: white;
 
     margin-bottom: 50px;
+}
+
+.alert-danger{
+padding-left: 8%;
+    
+
+    margin-left: 36%;
+
+    margin-right: 36%;
+}
+
+.text-center{
+margin-left: 36%;
+margin-right: 36%;
+    margin-top: 30px;
+margin-bottom: 30px;
+background-color: #00A4BD;
+border: 2px solid #00A4BD;
+padding: 10px;
+border-radius: 1rem;
+font-family: "Poppins", sans-serif;
+color: #E9F5F9;
 }

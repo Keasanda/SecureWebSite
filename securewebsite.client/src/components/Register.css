@@ -170,3 +170,8 @@ margin-bottom: 20px;
 .container{
 max-width: 100%;
 }
+.error-messages {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  

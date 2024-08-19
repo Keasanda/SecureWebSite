@@ -95,7 +95,7 @@ namespace SecureWebSite.Server.Controllers
                 logger.LogInformation("Modified confirmation link: {ModifiedLink}", modifiedLink);
 
                 // Send the confirmation email
-                await emailSender.SendEmailAsync(user.Email, "Confirm your email", $"Please confirm your email by clicking this link: {modifiedLink}", true);
+                await emailSender.SendEmailAsync(user.Email, "Image Gallery App Email Confirmation", $"Please confirm your email by clicking this link: {modifiedLink}", true);
                 logger.LogInformation("Confirmation email sent to {Email}", user.Email);
 
                 // Return success response

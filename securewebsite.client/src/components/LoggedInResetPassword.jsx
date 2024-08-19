@@ -37,7 +37,7 @@ const LoggedInResetPassword = () => {
                         <h2 className="reheading">Reset Password</h2>
 
                         <div className="mb-3 goat">
-                            <label htmlFor="currentPassword" className="form-label np">Current Password</label>
+                            <label htmlFor="currentPassword" className=" cur">Current Password</label>
                             <input 
                                 type="password" 
                                 className="form-control win" 
@@ -74,8 +74,11 @@ const LoggedInResetPassword = () => {
                                   <p className='bac'><a href="/home" className="no-underline">Back to home</a></p>
                         </div>
                         <button type="submit" className="btn btn-primary grow">Reset Password</button>
+
+                        {message && <p className="mt-3 red">{message}</p>}
+
                     </form>
-                    {message && <p className="mt-3 red">{message}</p>}
+                   
                 </div>
                 <div className="col-md-6">
                     <img 
