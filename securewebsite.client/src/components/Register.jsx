@@ -70,7 +70,7 @@ function Register() {
     return (
         <div className="container">
             <div className="row">
-                <div className="col-md-5">
+                <div className="col-md-4">
                    
                     <form className='register' onSubmit={registerHandler}>
 
@@ -108,9 +108,9 @@ function Register() {
                             </div>
                         </div>
                     </form>
-                    {message && <p className="message">{message}</p>}
+                    {message && <p className="message resgistervalidation">{message}</p>}
                     {errors.length > 0 && (
-                        <ul className="error-messages">
+                        <ul className="error-messages" >
                             {errors.map((error, index) => (
                                 <li key={index}>{error}</li>
                             ))}

@@ -36,7 +36,7 @@ color: #0F3C4C;
 
 
 font-size: xx-small;
-    padding-left: 63%;
+    padding-left: 60%;
 
 
 
@@ -237,4 +237,11 @@ font-size: smaller;
 
 .no-underline:hover {
     text-decoration: underline; /* Optional: to add underline on hover */
+}
+
+.mams{
+
+    width: 90%;
+color: red;
+    margin-left: 8%;
 }

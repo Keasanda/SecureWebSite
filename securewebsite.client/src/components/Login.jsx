@@ -10,25 +10,29 @@ const Login = () => {
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
+    
     const handleLogin = async (e) => {
         e.preventDefault();
     
         try {
             const response = await axios.post("/api/SecureWebsite/login", { email, password });
-            
+    
             if (response.status === 200) {
-                const { userEmail, userName ,userID } = response.data;
-                localStorage.setItem("user", JSON.stringify({ userName, userEmail ,userID}));
+                const { userEmail, userName, userID } = response.data;
+                localStorage.setItem("user", JSON.stringify({ userName, userEmail, userID }));
                 navigate('/home');  // Navigate to Home page
-            } else {
-                setMessage("Login failed. Please check your credentials.");
             }
         } catch (error) {
-            console.error("ERROR: ", error);
-            setMessage("An error occurred during login. Please try again.");
+            if (error.response && error.response.data && error.response.data.message) {
+                setMessage(error.response.data.message);
+            } else {
+                setMessage("An error occurred during login. Please try again.");
+            }
         }
     }
     
+
+
 
     const handleForgotPassword = () => {
         navigate('/forgotpassword');
@@ -83,7 +87,7 @@ const Login = () => {
                     
                     <button type="submit" className="btn btn-primary power login-button">Login</button>
                 </form>
-                {message && <p className="message">{message}</p>}
+                {message && <p className=" mams">{message}</p>}
 
                 <div className="register-link">
                     <p>New to this platform? <a href="/register" className="no-underline">Register here</a></p>

@@ -51,7 +51,7 @@ const ForgotPassword = () => {
                 </div>
                         <button type="submit" className="btn btn-primary rest">Recover Password</button>
                     </form>
-                    {message && <p className="mt-3">{message}</p>}
+                    {message && <p className="mt-3 recovermasgge">{message}</p>}
                 </div>
                 <div className="col-md-8 open">
                     <img src="src/assets/5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Forgot Password" className="img-fluid custom-image" />

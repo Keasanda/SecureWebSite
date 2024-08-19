@@ -28,7 +28,7 @@ form {
 
 .registerhead{
 
-margin-right: 203px;
+margin-right: 103px;
     padding-top: 100px;
 
     padding-bottom: 55px;
@@ -39,7 +39,7 @@ margin-right: 203px;
 
 color: #0F3C4C;;
 
-  padding-right: 30%;
+  padding-right: 10%;
 }
 
 
@@ -62,7 +62,7 @@ color: #0F3C4C;;
 }
 .con{
 
-padding-right: 510px;
+padding-right: 310px;
     font-size: small;
 
     font-family: "Poppins";
@@ -140,7 +140,7 @@ margin-bottom: 20px;
 
 .register{
 
-    margin-right: 70px;
+    margin-right: 20%;
 
 }
 /* Additional styles for the component */
@@ -162,6 +162,9 @@ margin-bottom: 20px;
 .message{
 
     color: red;
+
+    margin-left: 35%;
+    margin-top: 5%;
 }
 
 .container{
