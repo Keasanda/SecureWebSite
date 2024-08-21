@@ -68,13 +68,7 @@
     text-align: center;
 }
 
-.main-content {
-    flex: 1;
-    padding: 20px;
-    background-color: #f8f9fa;
-    min-height: 100vh;
-    overflow-y: scroll;
-}
+
 
 /* Additional styles for image view */
 .image-view {
@@ -110,7 +104,7 @@
     text-align: center;
     padding: 10px;
     border-radius: 8px;
-    margin-top: 70%;
+    margin-top: 53%;
     /* Removed the opacity transition to make it always visible */
 }
 

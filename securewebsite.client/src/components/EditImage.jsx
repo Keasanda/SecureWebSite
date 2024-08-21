@@ -38,6 +38,29 @@ function EditImage() {
         setImage((prevImage) => ({ ...prevImage, [name]: value }));
     };
 
+
+
+    const handleLogout = async () => {
+        try {
+            const response = await fetch("/api/SecureWebsite/logout", {
+                method: "GET",
+                credentials: "include"
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                localStorage.removeItem("user");
+                alert(data.message);
+                window.location.href = "/login";
+            } else {
+                console.log("could not logout: ", response);
+            }
+        } catch (error) {
+            console.error('Error logging out:', error);
+        }
+    };
+
+
   
 
     const handleSubmit = async (e) => {
@@ -84,7 +107,7 @@ function EditImage() {
                 <nav className="navButoom">
                     <ul>
                         <li>
-                            <button className="nav-buttonrr lr ho active">
+                            <button className="nav-buttonrr lr ho active"    onClick={() => window.location.href = '/home'}>  
                                 <IoHomeOutline className="icon ma" /> Home
                             </button>
                         </li>

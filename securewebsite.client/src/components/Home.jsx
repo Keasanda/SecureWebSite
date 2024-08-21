@@ -6,6 +6,7 @@ import './Home.css';
 import { IoFilterSharp, IoHomeOutline, IoCameraOutline } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
 import { GrGallery } from "react-icons/gr";
+import { IoIosSearch } from "react-icons/io";
 import { FaComment, FaHeart } from "react-icons/fa"; // Import the required icons
 
 function Home() {
@@ -195,12 +196,22 @@ function Home() {
                     </Nav>
                 </Navbar>
                 <div className="search-bar">
+             
                     <input
+
+   
+
+
                         type="text"
                         placeholder="Search for..."
                         value={searchQuery}
                         onChange={handleSearch}
+
+                        
+
                     />
+
+
                     <button className="filters-button"><IoFilterSharp className="icon" /> Filters</button>
                 </div>
               
@@ -216,8 +227,8 @@ function Home() {
                         </div>
                     </Link>
                     
-                    <div className="home-card-title-overlay">
-                        <h5  className="titleov">{image.title}</h5>
+                    <div className="overlay">
+                        <h5 >{image.title}</h5>
                      
                     </div>
                     

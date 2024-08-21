@@ -102,7 +102,7 @@ function DragNDrop() {
     return (
         <>
            
-            <div className="d-flex DND">
+            <div className="d-flex">
 
           
 
@@ -110,18 +110,14 @@ function DragNDrop() {
           
 
 
-                <div className="vertical-panel bg p-3">
+                <div className="vertical-panelh bg p-3">
                     <h1 className='loghead'>Logo</h1>
                     <div className="mt-5 contain">
                         <button       className="btn btn-primary navbarh ho btn-block mb-3"             onClick={() => window.location.href = '/Home'}>  
                      
                             <IoHomeOutline className="icon ma" /> Home
                         </button>
-
-                        <button className="btn uplodBTN ho btn-block mb-5"   
-onClick={() => window.location.href = '/dragndrop'}> 
-
-
+                        <button className="btn uplodBTN ho btn-block mb-5">
                             <IoCameraOutline className="icon ma  " /> Image Upload
                         </button>
 
@@ -153,7 +149,7 @@ onClick={() => window.location.href = '/dragndrop'}>
 
 
                 <Navbar bg="light" expand="lg" className='bars'>
-                <Navbar.Brand style={{ marginLeft: '25px', fontFamily:'Poppins', fontSize:"medium" }} href="#home"> Image Upload <span>&#62;</span></Navbar.Brand>
+                <Navbar.Brand style={{ marginLeft: '25px', fontFamily:'Poppins', fontSize:"normal" }} href="#home"> Image Upload <span>&#62;</span></Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
@@ -177,7 +173,7 @@ onClick={() => window.location.href = '/dragndrop'}>
 
                     <div className="card border-0">
                         <div className="">
-                            <h1 className=" mb-4 UploadHead">Image Upload</h1>
+                            <h1 className="text-center mb-4 UploadHead">Image Upload</h1>
                             <div className="mb-4">
                                 <label htmlFor="title" className=" Imagetitle">Image Title</label>
                                 <input
