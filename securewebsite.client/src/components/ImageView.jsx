@@ -85,6 +85,31 @@ function ImageView() {
         }
     };
 
+
+    const handleLogout = async () => {
+        try {
+            const response = await fetch("/api/SecureWebsite/logout", {
+                method: "GET",
+                credentials: "include"
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                localStorage.removeItem("user");
+                alert(data.message);
+                window.location.href = "/login";
+            } else {
+                console.log("could not logout: ", response);
+            }
+        } catch (error) {
+            console.error('Error logging out:', error);
+        }
+    };
+
+
+
+
+
     const handleDeleteComment = async (commentId) => {
         try {
             const response = await fetch(`/api/Comments/${commentId}`, {
@@ -153,32 +178,34 @@ function ImageView() {
 
     return (
         <div className="content">
-            <div className="sidebarHome">
-                <header className='homelog'>Logo</header>
-                <nav className="navButoom">
-                    <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                        <li>
-                            <button className="nav-buttonHome active">
-                                <IoHomeOutline className="icon hm" />
-                                <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>Home</Link>
-                            </button>
-                        </li>
-                        <li>
-                            <button className="nav-buttonHome" onClick={() => window.location.href = '/dragndrop'}>
-                                <IoCameraOutline className="icon hm" /> Image Upload
-                            </button>
-                        </li>
-                        <li>
-                            <button className="nav-buttonHome myLb" onClick={() => window.location.href = '/MyGallery'}>
-                                <GrGallery className="icon hm" /> My Library
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
-                <button className='logout' onClick={() => window.location.href = '/logout'}>
-                    <MdLogout className="icon hm" /> Logout
-                </button>
-            </div>
+           
+
+           <div className="vertical-panel bg p-3">
+                    <h1 className='loghead'>Logo</h1>
+                    <div className="mt-5 contain">
+                        <button       className="btn btn-primary navbarh ho btn-block mb-3"             onClick={() => window.location.href = '/Home'}>  
+                     
+                            <IoHomeOutline className="icon ma" /> Home
+                        </button>
+                        <button className="btn uplodBTN ho btn-block mb-5" onClick={() => window.location.href = '/dragndrop'}>  
+                            <IoCameraOutline className="icon ma  " /> Image Upload
+                        </button>
+
+                        <button   className="btn navbarBTN ho btn-block mb-5"
+                     onClick={() => window.location.href = '/MyGallery'}>  
+                       
+                            <GrGallery  className="icon ma  " /> My Gallery
+                        </button>
+
+
+                    </div>
+                    <button className="btn logout  mt-auto" onClick={handleLogout}>
+                        <MdLogout className="icon ma  " />
+                        Log Out
+                    </button>
+                </div>
+
+
 
             <div className="main-content">
                 <Navbar bg="light" expand="lg" className='homenav'>

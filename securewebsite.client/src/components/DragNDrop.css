@@ -194,13 +194,16 @@ button.logout {
 }
 
 .logout .icon {
-    margin-right: 10px;
+    margin-right: 20px;
 }
 
 .vertical-panel {
     width: 500px;
 
+    max-height: 100vh;
    background: #2187AB;
+
+
 
 
     border: 1px solid rgba(0, 0, 0, 0.3);
@@ -301,3 +304,4 @@ border-radius: 1rem;
 font-family: "Poppins", sans-serif;
 color: #E9F5F9;
 }
+

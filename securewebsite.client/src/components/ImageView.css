@@ -9,7 +9,7 @@
     width: 400px;
     background: #2187AB;
     color: white;
-    height: 180vh;
+   
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -72,6 +72,8 @@
     flex: 1;
     padding: 20px;
     background-color: #f8f9fa;
+    min-height: 100vh;
+    overflow-y: scroll;
 }
 
 /* Additional styles for image view */

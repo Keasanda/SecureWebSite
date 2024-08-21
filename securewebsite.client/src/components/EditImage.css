@@ -68,6 +68,8 @@ button.lr{
     flex: 1;
     padding: 20px;
     background-color: #f8f9fa;
+    min-height: 100vh;
+    overflow-y: scroll;
 }
 
 .edit-nav {
@@ -102,4 +104,32 @@ button.lr{
 
 button.danger{
     width: 100%;
+}
+
+/* EditImage.css */
+
+/* Margin for Form Labels */
+form label {
+    margin-top: 20px; /* Adjust the value to your preference */
+}
+
+/* Margin for Form Controls */
+form .form-group .form-control {
+    margin-top: 10px; /* Adjust the value to your preference */
+}
+
+/* Card Styles */
+.edit-card {
+    margin-top: 20px;
+    padding: 20px;
+}
+
+/* Spacing for Buttons */
+button.mt-3 {
+    margin-top: 15px;
+}
+
+.alert-success{
+
+    padding-left: 40%;
 }

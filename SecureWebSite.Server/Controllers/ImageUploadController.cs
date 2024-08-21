@@ -115,8 +115,8 @@ public class ImageUploadController : ControllerBase
         }
 
         var user = await _context.Users.FindAsync(updatedImage.UserId);
-
         var image = await _context.ImageUploads.FindAsync(id);
+
         if (image == null)
         {
             return NotFound(new { message = "Image not found." });
@@ -135,7 +135,7 @@ public class ImageUploadController : ControllerBase
         {
             _context.Entry(image).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return NoContent();
+            return Ok(new { message = "Image updated successfully." }); // Return success message here
         }
         catch (Exception ex)
         {
@@ -143,6 +143,7 @@ public class ImageUploadController : ControllerBase
             return StatusCode(500, new { message = "An error occurred while updating the image.", details = ex.Message });
         }
     }
+
 
 
     [HttpDelete("delete-image/{id}")]
