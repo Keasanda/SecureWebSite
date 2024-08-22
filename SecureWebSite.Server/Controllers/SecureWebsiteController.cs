@@ -243,7 +243,6 @@ namespace SecureWebSite.Server.Controllers
             return Ok(new { message = "OTP verified successfully.", user = user });
         }
 
-        // Endpoint to log out a user
         [HttpGet("logout"), Authorize]
         public async Task<ActionResult> LogoutUser()
         {
@@ -251,7 +250,7 @@ namespace SecureWebSite.Server.Controllers
             {
                 await signInManager.SignOutAsync();
                 logger.LogInformation("User logged out successfully.");
-                return Ok(new { message = "You are free to go!" });
+                return Ok(new { message = "Logout successful", redirectTo = "/LogoutPage" });
             }
             catch (Exception ex)
             {

@@ -39,27 +39,25 @@ function EditImage() {
     };
 
 
-
     const handleLogout = async () => {
         try {
             const response = await fetch("/api/SecureWebsite/logout", {
                 method: "GET",
                 credentials: "include"
             });
-
+    
             const data = await response.json();
             if (response.ok) {
                 localStorage.removeItem("user");
-                alert(data.message);
-                window.location.href = "/login";
+                window.location.href = data.redirectTo || "/login";
             } else {
-                console.log("could not logout: ", response);
+                console.log("Could not logout: ", response);
             }
         } catch (error) {
             console.error('Error logging out:', error);
         }
     };
-
+    
 
   
 
@@ -123,7 +121,7 @@ function EditImage() {
                         </li>
                     </ul>
                 </nav>
-                <button className='logout' onClick={() => window.location.href = '/logout'}>
+                <button className='logout' onClick={handleLogout}>
                     <MdLogout className="icon ma" /> Logout
                 </button>
             </div>

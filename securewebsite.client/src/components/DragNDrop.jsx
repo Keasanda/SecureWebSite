@@ -45,9 +45,35 @@ function DragNDrop() {
         setValidationMessages(messages);
     }, [fileRejections]);
 
-    const handleLogout = () => {
-        alert('Logged out');
+ 
+
+
+    const handleLogout = async () => {
+        try {
+            const response = await fetch("/api/SecureWebsite/logout", {
+                method: "GET",
+                credentials: "include"
+            });
+    
+            const data = await response.json();
+            if (response.ok) {
+                localStorage.removeItem("user");
+                window.location.href = data.redirectTo || "/login";
+            } else {
+                console.log("Could not logout: ", response);
+            }
+        } catch (error) {
+            console.error('Error logging out:', error);
+        }
     };
+    
+
+
+
+
+
+
+
 
     const handleUpload = async () => {
         let messages = [];

@@ -92,20 +92,19 @@ function Home() {
                 method: "GET",
                 credentials: "include"
             });
-
+    
             const data = await response.json();
             if (response.ok) {
                 localStorage.removeItem("user");
-                alert(data.message);
-                window.location.href = "/login";
+                window.location.href = data.redirectTo || "/login";
             } else {
-                console.log("could not logout: ", response);
+                console.log("Could not logout: ", response);
             }
         } catch (error) {
             console.error('Error logging out:', error);
         }
     };
-
+    
 
     const toggleLove = async (imageId) => {
         const userId = userInfo?.userID;

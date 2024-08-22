@@ -13,11 +13,14 @@ import ImageView from './components/ImageView';
 import MyGallery from './components/MyGallery'; // Import MyGallery component
 import EditImage from './components/EditImage'; // Import EditImage component
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Logoutpage from './components/Logoutpage';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path='/'>
             <Route element={<ProtectedRoutes />}>
+            
+           
                 <Route path='/home' element={<Home />} />
                 <Route path='/admin' element={<Admin />} />
                 <Route path='/MyGallery' element={<MyGallery />} /> {/* Add this line */}
@@ -31,6 +34,8 @@ const router = createBrowserRouter(
             <Route path='/dragndrop' element={<DragNDrop />} />
             <Route path='/loggedinresetpassword' element={<LoggedInResetPassword />} />
             <Route path='/image/:imageId' element={<ImageView />} />
+
+            <Route path ='Logoutpage' element = {<Logoutpage/>} />
             
             <Route path='*' element={
                 <div>
