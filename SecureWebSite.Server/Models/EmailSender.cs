@@ -11,44 +11,47 @@ namespace SecureWebSite.Server.Models
     {
         Task SendEmailAsync(string toEmail, string subject, string body, bool isBodyHtml = false);
     }
-
-    // Class for sending emails using SMTP
     public class EmailSender : ISenderEmail
     {
-        // Dependency injection for IConfiguration
-        private readonly IConfiguration _configuration;
+        private readonly SmtpClient _smtpClient;
+        private readonly ILogger<EmailSender> _logger;
 
-        // Constructor with dependency injection
-        public EmailSender(IConfiguration configuration)
+        public EmailSender(IConfiguration configuration, ILogger<EmailSender> logger)
         {
-            _configuration = configuration;
+            _smtpClient = new SmtpClient
+            {
+                Host = configuration["EmailSettings:Host"],
+                Port = int.Parse(configuration["EmailSettings:Port"]),
+                EnableSsl = bool.Parse(configuration["EmailSettings:EnableSsl"]),
+                Credentials = new NetworkCredential(configuration["EmailSettings:Username"], configuration["EmailSettings:Password"])
+            };
+            _logger = logger;
         }
 
-        // Method for sending emails
-        public async Task SendEmailAsync(string toEmail, string subject, string body, bool isBodyHtml = false)
+        public async Task SendEmailAsync(string toEmail, string subject, string body, bool isHtml)
         {
-            // Get email settings from configuration
-            string mailServer = _configuration["EmailSettings:MailServer"];
-            string fromEmail = _configuration["EmailSettings:FromEmail"];
-            string password = _configuration["EmailSettings:Password"];
-            int port = int.Parse(_configuration["EmailSettings:MailPort"]);
-
-            // Create a new SMTP client
-            using (var client = new SmtpClient(mailServer, port))
+            try
             {
-                // Set the client's credentials and enable SSL
-                client.Credentials = new NetworkCredential(fromEmail, password);
-                client.EnableSsl = true;
-
-                // Create a new MailMessage object
-                var mailMessage = new MailMessage(fromEmail, toEmail, subject, body)
+                var mailMessage = new MailMessage
                 {
-                    IsBodyHtml = isBodyHtml
+                    From = new MailAddress("no-reply@example.com"),
+                    Subject = subject,
+                    Body = body,
+                    IsBodyHtml = isHtml
                 };
 
-                // Send the email asynchronously
-                await client.SendMailAsync(mailMessage);
+                mailMessage.To.Add(toEmail);
+
+                await _smtpClient.SendMailAsync(mailMessage);
+
+                _logger.LogInformation("Email sent to {Email}", toEmail);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to send email to {Email}", toEmail);
+                throw;
             }
         }
     }
+
 }

@@ -18,6 +18,9 @@ namespace SecureWebSite.Server
             builder.Logging.AddEventSourceLogger();
 
             builder.Services.AddTransient<ISenderEmail, EmailSender>();
+;
+
+
             builder.Services.AddControllers();
             builder.Services.AddAuthorization();
 
