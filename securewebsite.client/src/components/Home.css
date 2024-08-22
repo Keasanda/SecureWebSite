@@ -385,3 +385,9 @@ button.ho:hover{
     box-sizing: border-box;
     text-align: center;
 }
+
+.logopic{
+
+    width: 45%;
+    height: auto;
+}
