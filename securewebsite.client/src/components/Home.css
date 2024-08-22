@@ -153,6 +153,8 @@
     padding-top: 66.67%; /* Aspect ratio of 3:2 (height / width * 100%) */
     position: relative;
     overflow: hidden;
+    display: inline-block;
+
 }
 
 .home-image-container img {
@@ -323,7 +325,7 @@ button.ho:hover{
 .icon-group .heart-icon, 
 .icon-group .comment-icon {
     font-size: 1.5rem;
-    color: bisque;
+    color: lightgray;
     cursor: pointer;
    margin-right: 0px;
     transition: color 0.3s ease;
@@ -359,6 +361,9 @@ button.ho:hover{
     height: 100%;
     width: 100%;
     object-fit: contain;
+
+    display: block;
+
 }
 
 
@@ -368,4 +373,16 @@ button.ho:hover{
     margin-left:12px ;
 }
 
+.card-title-overlay {
 
+    margin-top: 55%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    color: white;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+}

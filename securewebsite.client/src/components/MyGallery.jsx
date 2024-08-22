@@ -186,46 +186,44 @@ function MyGallery() {
                     />
                     <button className="filters-button"><IoFilterSharp className="icon" /> Filters</button>
                 </div>
+     
                 <div className="image-gallery">
-                    {userInfo ? (
-                        currentImages.length > 0 ? (
-                            currentImages.map(({ image, commentCount }) => (
-                                <Link to={`/image/${image.imageId}`} key={image.imageId} className="home-image-link">
-                                    <div className="home-image-container">
-                                        <img src={image.imageURL} className="home-image-item" alt={image.title} />
-                                    </div>
-                                    <div className="home-card-title-overlay">
-                                        <h5 className='titleov'>{image.title}</h5>
-                                     
-                                    </div>
-                                    <div className="card-body">
-                                  
-                                        <Link to={`/edit-image/${image.imageId}`} className="btn btn-secondary ma">Edit</Link>
-                                        <button onClick={() => handleDelete(image.imageId)} className="btn btn-danger">Delete</button>
-                                    </div>
-                                </Link>
-                            ))
-                        ) : (
-                            <p className="no-matches-message">No images match your search criteria.</p>
-                        )
-                    ) : (
-                        <p className="no-matches-message">Please log in to view images.</p>
-                    )}
-                </div>
-                <div className="pagination">
-                    {Array.from({ length: Math.ceil(filteredImages.length / imagesPerPage) }, (_, index) => (
-                        <button
-                            key={index + 1}
-                            className={`page-link ${currentPage === index + 1 ? 'active' : ''}`}
-                            onClick={() => paginate(index + 1)}
-                        >
-                            {index + 1}
-                        </button>
+    {userInfo ? (
+        currentImages.length > 0 ? (
+            currentImages.map(({ image, commentCount }) => (
+                <Link to={`/image/${image.imageId}`} key={image.imageId} className="home-image-link">
+                    <div className="home-image-container">
+                        <img src={image.imageURL} className="home-image-item" alt={image.title} />
+                        <div className="home-card-title-overlay">
+                            <h5 className="titleov">{image.title}</h5>
+                        </div>
+                    </div>
+                    <div className="card-body">
+                        <Link to={`/edit-image/${image.imageId}`} className="btn btn-secondary ma">Edit</Link>
+                        <button onClick={() => handleDelete(image.imageId)} className="btn btn-danger">Delete</button>
+                    </div>
+                </Link>
+            ))
+        ) : (
+            <p className="no-matches-message">No images match your search criteria.</p>
+        )
+    ) : (
+        <p className="no-matches-message">Please log in to view images.</p>
+    )}
+</div>
+<div className="pagination">
+    {Array.from({ length: Math.ceil(filteredImages.length / imagesPerPage) }, (_, index) => (
+        <button
+            key={index + 1}
+            className={`page-link ${currentPage === index + 1 ? 'active' : ''}`}
+            onClick={() => paginate(index + 1)}
+        >
+            {index + 1}
+        </button>
+    ))}
+</div>
 
 
-
-                    ))}
-                </div>
             </div>
         </div>
     );

@@ -223,15 +223,13 @@ function Home() {
                     {/* Only the image is wrapped in the <Link> */}
                     <Link to={`/image/${image.imageId}`} className="home-image-link">
                         <div className="home-image-container">
-                            <img src={image.imageURL} className=" home-image-item " alt={image.title} />
+                            <img src={image.imageURL} className="home-image-item" alt={image.title} />
+                            <div className="card-title-overlay">
+                                <h5>{image.title}</h5>
+                            </div>
                         </div>
                     </Link>
-                    
-                    <div className="overlay">
-                        <h5 >{image.title}</h5>
-                     
-                    </div>
-                    
+
                     <div className="card-actions">
                         {/* Like button */}
                         <div className="icon-group" onClick={() => toggleLove(image.imageId)}>
@@ -253,6 +251,7 @@ function Home() {
         <p className="no-matches-message">Please log in to view images.</p>
     )}
 </div>
+
 
 
 
