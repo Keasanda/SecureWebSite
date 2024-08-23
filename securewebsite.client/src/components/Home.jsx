@@ -160,7 +160,7 @@ function Home() {
                      
                             <IoHomeOutline className="icon ma" /> Home
                         </button>
-                        <button className="btn uplodBTN ho btn-block mb-5" onClick={() => window.location.href = '/dragndrop'}>  
+                        <button className="btn  homebtn btn-block mb-5" onClick={() => window.location.href = '/dragndrop'}>  
                             <IoCameraOutline className="icon ma  " /> Image Upload
                         </button>
 

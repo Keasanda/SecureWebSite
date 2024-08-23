@@ -125,3 +125,15 @@ button.g{
 }
 
 
+button.gallerybtn {
+
+    color:  white;
+    border: none;
+    width: 100%;
+    height: 56px;
+    margin-bottom: 10px;
+font-weight: bolder;
+
+    padding-right: 45%;
+    font-size: x-large;
+}

@@ -178,13 +178,13 @@ function ImageView() {
            
 
            <div className="vertical-panel bg p-3">
-                    <h1 className='loghead'>Logo</h1>
+                    <h1>  <img src="https://i.imgur.com/aNOZKGU.png" alt="Profile" className=" logopic" ></img>   </h1>
                     <div className="mt-5 contain">
                         <button       className="btn btn-primary navbarh ho btn-block mb-3"             onClick={() => window.location.href = '/Home'}>  
                      
                             <IoHomeOutline className="icon ma" /> Home
                         </button>
-                        <button className="btn uplodBTN ho btn-block mb-5" onClick={() => window.location.href = '/dragndrop'}>  
+                        <button className="btn viewBTN ho btn-block mb-5" onClick={() => window.location.href = '/dragndrop'}>  
                             <IoCameraOutline className="icon ma  " /> Image Upload
                         </button>
 
@@ -227,8 +227,8 @@ function ImageView() {
                             <img src={image.imageURL} alt={image.title || 'Image'} />
                             <div className="overlay">
                                 <h2>{image.title || 'Untitled'}</h2>
-                                <p>{image.description || 'No description available.'}</p>
-                                <p><strong>Category:</strong> {image.category || 'Uncategorized'}</p>
+                                <p className='colour'>{image.description || 'No description available.'}</p>
+                                <p className='colour'><strong></strong> {image.category || 'Uncategorized'}</p>
                             </div>
                             <Link to="/home" className="close-button">X</Link>
                         </div>

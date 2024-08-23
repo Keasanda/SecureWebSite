@@ -100,31 +100,35 @@ function EditImage() {
 
     return (
         <div className="content">
-            <div className="sidebar">
-                <header className='edit-log'>Logo</header>
-                <nav className="navButoom">
-                    <ul>
-                        <li>
-                            <button className="nav-buttonrr lr ho active"    onClick={() => window.location.href = '/home'}>  
-                                <IoHomeOutline className="icon ma" /> Home
-                            </button>
-                        </li>
-                        <li>
-                            <button className="nav-buttonrr ho" onClick={() => window.location.href = '/dragndrop'}>
-                                <IoCameraOutline className="icon ma" /> Image Upload
-                            </button>
-                        </li>
-                        <li>
-                            <button className="nav-buttonrr ll ho " onClick={() => window.location.href = '/MyGallery'}>
-                                <GrGallery className="icon ma" /> My Library
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
-                <button className='logout' onClick={handleLogout}>
-                    <MdLogout className="icon ma" /> Logout
-                </button>
-            </div>
+     
+     <div className="vertical-panel bg p-3">
+                    <h1> < img src="https://i.imgur.com/aNOZKGU.png" alt="Profile" className=" logopic" ></img>     </h1>
+                    <div className="mt-5 contain">
+                        <button       className="btn btn-primary navbarh ho btn-block mb-3"             onClick={() => window.location.href = '/Home'}>  
+                     
+                            <IoHomeOutline className="icon ma" /> Home
+                        </button>
+                        <button className="btn  homebtn btn-block mb-5" onClick={() => window.location.href = '/dragndrop'}>  
+                            <IoCameraOutline className="icon ma  " /> Image Upload
+                        </button>
+
+                        <button   className="btn navbarBTN ho btn-block mb-5"
+                     onClick={() => window.location.href = '/MyGallery'}>  
+                       
+                            <GrGallery  className="icon ma  " /> My Gallery
+                        </button>
+
+
+                    </div>
+                    <button className="btn logout  mt-auto" onClick={handleLogout}>
+                        <MdLogout className="icon ma  " />
+                        Log Out
+                    </button>
+                </div>
+
+
+
+
             <div className="main-content">
                 <Navbar bg="light" expand="lg" className='edit-nav'>
                     <Navbar.Brand style={{ marginLeft: '25px' }} href="#edit">Edit Image</Navbar.Brand>

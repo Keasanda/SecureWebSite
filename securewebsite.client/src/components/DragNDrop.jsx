@@ -137,7 +137,7 @@ function DragNDrop() {
 
 
                 <div className="vertical-panelh bg p-3">
-                    <h1 className='loghead'>Logo</h1>
+                    <h1 >  < img src="src\assets\Image Gallery.png" alt="Profile" className=" logopic" ></img>     </h1>
                     <div className="mt-5 contain">
                         <button       className="btn btn-primary navbarh ho btn-block mb-3"             onClick={() => window.location.href = '/Home'}>  
                      
