@@ -222,17 +222,18 @@ function ImageView() {
                 
                 {/* Conditional Rendering to Avoid Accessing null Object */}
                 {image ? (
-                    <div className="image-view">
-                        <div className="image-container">
-                            <img src={image.imageURL} alt={image.title || 'Image'} />
-                            <div className="overlay">
-                                <h2>{image.title || 'Untitled'}</h2>
-                                <p className='colour'>{image.description || 'No description available.'}</p>
-                                <p className='colour'><strong></strong> {image.category || 'Uncategorized'}</p>
-                            </div>
-                            <Link to="/home" className="close-button">X</Link>
-                        </div>
-                    </div>
+                   <div className="image-view">
+                   <div className="image-container">
+                       <img src={image.imageURL} alt={image.title || 'Image'} />
+                       <div className="overlay">
+                           <h2>{image.title || 'Untitled'}</h2>
+                           <p className='colour'>{image.description || 'No description available.'}</p>
+                           <p className='colour'><strong></strong> {image.category || 'Uncategorized'}</p>
+                       </div>
+                       <Link to="/home" className="close-button">X</Link>
+                   </div>
+               </div>
+               
                 ) : (
                     <p>Loading image...</p> // Placeholder while the image is being loaded
                 )}

@@ -92,9 +92,9 @@
 
 .overlay {
     position: absolute;
-    top: 0;
+    bottom: 0; /* Position at the bottom of the image */
     left: 0;
-    width: 100%;
+    width: 100%; /* Full width of the image container */
     background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
     color: white;
     display: flex;
@@ -103,10 +103,10 @@
     align-items: center;
     text-align: center;
     padding: 10px;
-    border-radius: 8px;
-    margin-top: 52%;
-    /* Removed the opacity transition to make it always visible */
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
+
 
 .overlay h2 {
     margin: 10px 0;

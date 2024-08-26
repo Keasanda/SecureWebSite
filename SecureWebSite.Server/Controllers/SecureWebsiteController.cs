@@ -95,7 +95,37 @@ namespace SecureWebSite.Server.Controllers
                 logger.LogInformation("Modified confirmation link: {ModifiedLink}", modifiedLink);
 
                 // Send the confirmation email
-                await emailSender.SendEmailAsync(user.Email, "Image Gallery App Email Confirmation", $"Please confirm your email by clicking this link: {modifiedLink}", true);
+                // Email template for registration confirmation
+                string confirmationEmailTemplate = $@"
+    <h1>Welcome to Image App Gallery</h1>
+    <h3>Dear {user.Name}</h3>
+    <p>We are thrilled to have you join our community. At <span style='color: #2187AB;'>ImageApp Gallery</span>, we strive to provide you with the best experience for exploring and sharing stunning images.</p>
+    <p>Thank you for signing up! Here are a few things you can do to get started:</p>
+    <ul>
+        <li>Explore our extensive collection of images.</li>
+        <li>Upload and share your own amazing photos.</li>
+        <li>Connect with other photography enthusiasts.</li>
+    </ul>
+    <div style='padding: 0 0 10px;'>
+        <h4>Before you can login, please click the button below to activate your account.</h4>
+        <a href='{modifiedLink}'
+        style='
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin: 10px auto;
+            background-color: #2187AB;
+            color: #E9F5F9; 
+            height: 40px;
+            text-decoration: none;'
+        >Confirm Email
+        </a>
+    </div>
+    <p>If you have any questions or need assistance, feel free to reach out to our support team.</p>
+    <h4>Signature</h4>
+    <p>Best regards,</p>
+    <p>The ImageApp Gallery Team</p>";
+
+                await emailSender.SendEmailAsync(user.Email, "Image Gallery App Email Confirmation", confirmationEmailTemplate, true);
                 logger.LogInformation("Confirmation email sent to {Email}", user.Email);
 
                 // Return success response
@@ -277,7 +307,33 @@ namespace SecureWebSite.Server.Controllers
             var resetLink = $"https://localhost:5173/resetpassword?email={model.Email}&token={encodedToken}";
 
             // Send the reset password email
-            await emailSender.SendEmailAsync(model.Email, "Reset Password", $"Please reset your password by clicking here: {resetLink}", true);
+            // Email template for password reset
+            string resetPasswordEmailTemplate = $@"
+    <h1>Password reset for Image App Gallery</h1>
+    <h3>Hi {user.Name}</h3>
+    <p>We received a request to reset the password for your account associated with this email address. If you did not make this request, please ignore this email.</p>
+    <div style='padding: 0 0 10px;'>
+        <h4>To reset your password, please click the button below:</h4>
+        <a href='{resetLink}'
+        style='
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin: 10px auto;
+            background-color: #2187AB;
+            color: #E9F5F9; 
+            height: 40px;
+            text-decoration: none;'
+        >Reset Password
+        </a>
+    </div>
+    <p>This link will expire in 24 hours. If you encounter any issues, please reach out to our support team.</p>
+    <p>Thank you,</p>
+    <h4>Signature</h4>
+    <p>Best regards,</p>
+    <p>The ImageApp Gallery Team</p>";
+
+            await emailSender.SendEmailAsync(model.Email, "Reset Password", resetPasswordEmailTemplate, true);
+
 
             logger.LogInformation("Password reset email sent to {Email}", model.Email);
             return Ok(new { message = "Password reset email sent. Please check your inbox." });
