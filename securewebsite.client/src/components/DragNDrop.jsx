@@ -219,9 +219,11 @@ function DragNDrop() {
                                     onChange={(e) => setCategory(e.target.value)}
                                 >
                                     <option value="">Select a category</option>
-                                    <option value="category1">Category 1</option>
-                                    <option value="category2">Category 2</option>
-                                    <option value="category3">Category 3</option>
+                                    <option value="category1">Nature</option>
+                                    <option value="category2">Animals</option>
+                                    <option value="category3">Food</option>
+                                    <option value="category4">Feshion</option>
+                                     <option value="category5">Vehicle</option>
                                 </select>
                             </div>
                             <div className="mb-3 botto">
