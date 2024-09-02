@@ -44,8 +44,8 @@ color: #0F3C4C;;
 
 
 .nae{
-padding-right: 600px;
-    font-size: small;
+padding-right: 300px;
+    font-size:  medium;
 
 padding-bottom: -1px;
 
@@ -62,8 +62,8 @@ color: #0F3C4C;;
 }
 .con{
 
-padding-right: 310px;
-    font-size: small;
+padding-right: 210px;
+    font-size: medium;
 
     font-family: "Poppins";
     font-weight: 300;
@@ -80,7 +80,7 @@ color: #0F3C4C;;
 
     padding-right: 650px;
 margin: 1px;
-    font-size: small;
+    font-size: medium;
 
     font-family: "Poppins";
     font-weight: 300;
@@ -148,6 +148,8 @@ margin-bottom: 20px;
 .picRes{
 
   height: 70%;
+  margin-right: 10%;
+  margin-bottom: 50%;
    
 }
 

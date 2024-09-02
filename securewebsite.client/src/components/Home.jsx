@@ -164,7 +164,7 @@ function Home() {
                             <IoCameraOutline className="icon ma  " /> Image Upload
                         </button>
 
-                        <button   className="btn navbarBTN ho btn-block mb-5"
+                        <button   className="btn navbarBTN  btn-block mb-5"
                      onClick={() => window.location.href = '/MyGallery'}>  
                        
                             <GrGallery  className="icon ma  " /> My Gallery
@@ -211,7 +211,7 @@ function Home() {
                     />
 
 
-                    <button className="filters-button"><IoFilterSharp className="icon" /> Filters</button>
+                    <button className="filters-button"><IoFilterSharp className="icon" /> Search</button>
                 </div>
               
                 <div className="image-gallery">

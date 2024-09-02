@@ -77,7 +77,7 @@ function Register() {
                     <h2 className="registerhead">Register Profile</h2>
 
                         <div className="mb-3">
-                            <label htmlFor="name" className="form-label nae">Name</label>
+                            <label htmlFor="name" className="form-label nae">Full Name</label>
                             <input type="text" className="control1" name='Name' placeholder="Enter Name" id='name' required />
                         </div>
                         <div className="mb-3">
@@ -118,7 +118,7 @@ function Register() {
                     )}
                 </div>
                 <div className="col-md-6 d-flex picRes">
-                    <img src="src/assets/5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Register" className="img-fluid custom-image  regPic" />
+                    <img src="src/assets/5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Register" className="img-fluid " />
                 </div>
             </div>
         </div>

@@ -46,9 +46,9 @@ const ConfirmEmail = () => {
     return (
         <div className="confirm-email-container">
             <div className="confirmation-message">
-                <h1>{loading ? 'Confirming Email...' : 'Email Confirmation'}</h1>
+                <h1>{loading ? 'Confirming Email...' : 'Done !'}</h1>
                 {!loading && <p className='me'>{message}</p>}
-                {!loading && <button  className="btn btn-primary  confirm"       onClick={() => window.location.href = '/login'}>Go to Home</button>}
+                {!loading && <button  className="btn btn-primary  confirm"       onClick={() => window.location.href = '/login'}>Go to Login</button>}
             </div>
             <div className="confirmation-image">
                 <img src="src\assets\5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Confirmation" />
