@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SecureWebSite.Server.Data;
 using System.Security.Claims;
+using QRCoder; // Ensure this is correct
+using System.Drawing;
+
 
 namespace SecureWebSite.Server.Controllers
 {
@@ -197,6 +200,32 @@ namespace SecureWebSite.Server.Controllers
                 // Attempt to sign in the user
                 var result = await signInManager.PasswordSignInAsync(user, login.Password, login.Remember, lockoutOnFailure: true);
 
+
+
+                if (result.Succeeded)
+                {
+                    if (await userManager.GetTwoFactorEnabledAsync(user))
+                    {
+                        // Redirect to OTP verification
+                        HttpContext.Session.SetString("otpUserEmail", user.Email);
+                        return Ok(new { message = "Two-factor authentication required. Redirecting...", redirectTo = "/verify-otp" });
+                    }
+
+                    // If 2FA is not enabled, proceed as normal
+                    user.LastLogin = DateTime.Now;
+                    var updateResult = await userManager.UpdateAsync(user);
+                    if (!updateResult.Succeeded)
+                    {
+                        logger.LogWarning("Failed to update last login time for user {UserId}", user.Id);
+                        return BadRequest(new { message = "Failed to update last login time." });
+                    }
+
+                    logger.LogInformation("User {UserId} logged in successfully", user.Id);
+                    return Ok(new { message = "Login successful.", userName = user.Name, userEmail = user.Email, userID = user.Id });
+                }
+
+
+
                 if (result.Succeeded)
                 {
                     user.LastLogin = DateTime.Now;
@@ -233,45 +262,7 @@ namespace SecureWebSite.Server.Controllers
             }
         }
 
-        // Endpoint to verify OTP
-        [HttpPost("verifyotp")]
-        public async Task<ActionResult> VerifyOtp(OtpVerificationModel model)
-        {
-            // Get email from session
-            var email = HttpContext.Session.GetString("otpUserEmail");
-            if (string.IsNullOrEmpty(email))
-            {
-                return BadRequest(new { message = "Session expired. Please log in again." });
-            }
-
-            // Validate OTP
-            if (string.IsNullOrEmpty(model.Otp))
-            {
-                return BadRequest(new { message = "OTP is required." });
-            }
-
-            // Find the user by email
-            var user = await userManager.FindByEmailAsync(email);
-            if (user == null)
-            {
-                return BadRequest(new { message = "User not found." });
-            }
-
-            // Verify OTP
-            if (user.Otp != model.Otp)
-            {
-                return BadRequest(new { message = "Invalid OTP." });
-            }
-
-            logger.LogInformation("OTP verified successfully for email: {Email}, OTP: {Otp}", email, model.Otp);
-
-            // Clear OTP and sign in the user
-            user.Otp = null;
-            await userManager.UpdateAsync(user);
-            await signInManager.SignInAsync(user, isPersistent: false);
-
-            return Ok(new { message = "OTP verified successfully.", user = user });
-        }
+        
 
         [HttpGet("logout"), Authorize]
         public async Task<ActionResult> LogoutUser()
@@ -505,6 +496,67 @@ namespace SecureWebSite.Server.Controllers
             return Ok(new { message = "Password reset successful." });
         }
 
+
+        [HttpGet("generate-qr-code")]
+        public async Task<IActionResult> GenerateQrCodeForTfa()
+        {
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized(new { message = "User not found." });
+            }
+
+            // Generate TOTP key
+            var authenticatorKey = await userManager.GetAuthenticatorKeyAsync(user);
+            if (string.IsNullOrEmpty(authenticatorKey))
+            {
+                await userManager.ResetAuthenticatorKeyAsync(user);
+                authenticatorKey = await userManager.GetAuthenticatorKeyAsync(user);
+            }
+
+            // Generate QR Code
+            var qrCodeUri = GenerateQrCodeUri(user.Email, authenticatorKey);
+            using (var qrCodeGenerator = new QRCodeGenerator())
+            using (var qrCodeData = qrCodeGenerator.CreateQrCode(qrCodeUri, QRCodeGenerator.ECCLevel.Q))
+            using (var qrCode = new QRCode(qrCodeData))
+            using (var qrCodeBitmap = qrCode.GetGraphic(20))
+            using (var stream = new MemoryStream())
+            {
+                qrCodeBitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                var qrCodeBase64 = Convert.ToBase64String(stream.ToArray());
+                return Ok(new { qrCodeUri, qrCodeBase64 });
+            }
+        }
+
+
+        private string GenerateQrCodeUri(string email, string key)
+        {
+            return $"otpauth://totp/{Uri.EscapeDataString("SecureWebSite")}:{Uri.EscapeDataString(email)}?secret={key}&issuer={Uri.EscapeDataString("SecureWebSite")}&digits=6";
+        }
+
+        [HttpPost("verify-otp")]
+        public async Task<IActionResult> VerifyOtp(OtpVerificationModel model)
+        {
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return BadRequest(new { message = "User not found." });
+            }
+
+            // Verify OTP
+            var verificationResult = await userManager.VerifyTwoFactorTokenAsync(user, TokenOptions.DefaultAuthenticatorProvider, model.Otp);
+            if (!verificationResult)
+            {
+                return BadRequest(new { message = "Invalid OTP." });
+            }
+
+            logger.LogInformation("OTP verified successfully for email: {Email}", model.Email);
+
+            // Complete the login process
+            await signInManager.SignInAsync(user, isPersistent: false);
+
+            return Ok(new { message = "OTP verified successfully. Redirecting to home page...", redirectTo = "/home" });
+        }
 
 
     }
