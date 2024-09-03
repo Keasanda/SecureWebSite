@@ -4,6 +4,9 @@ using SecureWebSite.Server.Data;
 using SecureWebSite.Server.Models;
 using System.Net.Mail;
 using System.Net;
+using QRCoder; // Ensure this is correct
+using System.Drawing;
+
 
 namespace SecureWebSite.Server
 {
@@ -44,9 +47,11 @@ namespace SecureWebSite.Server
                 options.User.AllowedUserNameCharacters =
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = true;
+                options.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
             })
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
+ .AddEntityFrameworkStores<ApplicationDbContext>()
+ .AddDefaultTokenProviders();
+
 
             // Add the IHttpClientFactory service
             builder.Services.AddHttpClient();
