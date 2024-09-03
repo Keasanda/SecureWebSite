@@ -102,7 +102,12 @@ button.lr{
     margin-bottom: 140%;
 }
 
-button.danger{
+button.deleteBTN{
+    width: 100%;
+}
+
+button.update {
+
     width: 100%;
 }
 

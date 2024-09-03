@@ -12,7 +12,7 @@ using SecureWebSite.Server.Data;
 namespace SecureWebSite.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240902090847_FirstOne")]
+    [Migration("20240903181622_FirstOne")]
     partial class FirstOne
     {
         /// <inheritdoc />

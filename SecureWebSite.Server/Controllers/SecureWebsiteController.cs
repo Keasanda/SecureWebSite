@@ -456,7 +456,7 @@ namespace SecureWebSite.Server.Controllers
         [HttpPost("loggedinresetpassword")]
         public async Task<ActionResult> LoggedInResetPassword(LoggedInResetPasswordModel model)
         {
-            // Extract the user details from local storage
+            // Extract the user details from the token or session
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
             {
@@ -485,8 +485,9 @@ namespace SecureWebSite.Server.Controllers
                 }
             }
 
-            // Change the user's password
-            var result = await userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+            // Change the user's password without current password check
+            user.PasswordHash = userManager.PasswordHasher.HashPassword(user, model.NewPassword);
+            var result = await userManager.UpdateAsync(user);
             if (!result.Succeeded)
             {
                 var errorMessages = result.Errors.Select(e => e.Description).ToList();

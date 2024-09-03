@@ -38,7 +38,6 @@ function EditImage() {
         setImage((prevImage) => ({ ...prevImage, [name]: value }));
     };
 
-
     const handleLogout = async () => {
         try {
             const response = await fetch("/api/SecureWebsite/logout", {
@@ -57,9 +56,6 @@ function EditImage() {
             console.error('Error logging out:', error);
         }
     };
-    
-
-  
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -100,34 +96,25 @@ function EditImage() {
 
     return (
         <div className="content">
-     
-     <div className="vertical-panel bg p-3">
-                    <h1> < img src="https://i.imgur.com/aNOZKGU.png" alt="Profile" className=" logopic" ></img>     </h1>
-                    <div className="mt-5 contain">
-                        <button       className="btn btn-primary navbarh ho btn-block mb-3"             onClick={() => window.location.href = '/Home'}>  
-                     
-                            <IoHomeOutline className="icon ma" /> Home
-                        </button>
-                        <button className="btn  homebtn btn-block mb-5" onClick={() => window.location.href = '/dragndrop'}>  
-                            <IoCameraOutline className="icon ma  " /> Image Upload
-                        </button>
-
-                        <button   className="btn navbarBTN ho btn-block mb-5"
-                     onClick={() => window.location.href = '/MyGallery'}>  
-                       
-                            <GrGallery  className="icon ma  " /> My Gallery
-                        </button>
-
-
-                    </div>
-                    <button className="btn logout  mt-auto" onClick={handleLogout}>
-                        <MdLogout className="icon ma  " />
-                        Log Out
+            <div className="vertical-panel bg p-3">
+                <h1>
+                    <img src="https://i.imgur.com/aNOZKGU.png" alt="Profile" className="logopic"></img>
+                </h1>
+                <div className="mt-5 contain">
+                    <button className="btn btn-primary navbarh ho btn-block mb-3" onClick={() => window.location.href = '/Home'}>
+                        <IoHomeOutline className="icon ma" /> Home
+                    </button>
+                    <button className="btn homebtn btn-block mb-5" onClick={() => window.location.href = '/dragndrop'}>
+                        <IoCameraOutline className="icon ma" /> Image Upload
+                    </button>
+                    <button className="btn navbarBTN ho btn-block mb-5" onClick={() => window.location.href = '/MyGallery'}>
+                        <GrGallery className="icon ma" /> My Gallery
                     </button>
                 </div>
-
-
-
+                <button className="btn logout mt-auto" onClick={handleLogout}>
+                    <MdLogout className="icon ma" /> Log Out
+                </button>
+            </div>
 
             <div className="main-content">
                 <Navbar bg="light" expand="lg" className='edit-nav'>
@@ -135,16 +122,9 @@ function EditImage() {
                     <Nav className="me-auto"></Nav>
                 </Navbar>
 
- 
-
                 <Card className="edit-card">
                     <Card.Body>
-
-                        
                         <Card.Title>Edit Image Details</Card.Title>
-
-                       
-
                         <Form onSubmit={handleSubmit}>
                             <Form.Group controlId="title">
                                 <Form.Label>Title</Form.Label>
@@ -167,27 +147,31 @@ function EditImage() {
                             <Form.Group controlId="category">
                                 <Form.Label>Category</Form.Label>
                                 <Form.Control
-                                    type="text"
+                                    as="select"
                                     name="category"
                                     value={image.category}
                                     onChange={handleChange}
-                                />
+                                >
+                                    <option value="">Select a category</option>
+                                    <option value="Nature">Nature</option>
+                                    <option value="Animals">Animals</option>
+                                    <option value="Food">Food</option>
+                                    <option value="Fashion">Fashion</option>
+                                    <option value="Vehicle">Vehicle</option>
+                                </Form.Control>
                             </Form.Group>
-                            <Button variant="primary" type="submit" className="mt-3 danger">
+                            <Button variant="primary" type="submit" className="mt-3 update ">
                                 Update Image
                             </Button>
-                            <Button variant="danger" onClick={handleDelete} className="mt-3 danger">
+                            <Button variant="danger" onClick={handleDelete} className="mt-3 deleteBTN   ">
                                 Delete Image
                             </Button>
                         </Form>
-
-                     
-
                     </Card.Body>
                 </Card>
 
-                 {/* Success message */}
-                 {successMessage && <div className="alert alert-success mt-3">{successMessage}</div>}
+                {/* Success message */}
+                {successMessage && <div className="alert alert-success mt-3">{successMessage}</div>}
             </div>
         </div>
     );
