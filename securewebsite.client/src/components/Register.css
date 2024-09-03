@@ -147,8 +147,8 @@ margin-bottom: 20px;
 
 .picRes{
 
-  height: 70%;
-  margin-right: 10%;
+  height: 66%;
+
   margin-bottom: 50%;
    
 }
@@ -163,10 +163,20 @@ margin-bottom: 20px;
 
 .message{
 
-    color: red;
+    font-family: "Poppins";
+    background-color: #9AE6B4;
 
-    margin-left: 35%;
+border: 2px solid #9AE6B4;
+padding: 10px;
+border-radius: 1rem;
+
+    margin-left: 9%;
+    margin-right: 20%;
     margin-top: 5%;
+
+    padding-left: 100px;
+
+    color: black;
 }
 
 .container{
@@ -175,5 +185,9 @@ max-width: 100%;
 .error-messages {
     list-style-type: none;
     padding-left: 0;
+    margin-left: 9%;
+    margin-right: 20%;
+
+
   }
   

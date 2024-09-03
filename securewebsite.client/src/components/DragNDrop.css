@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 .Imagetitle {
-    margin-top: 2px;
+   
     margin-left: 530px;
     font-family: "Poppins", sans-serif;
     font-weight: bold;
-    font-style: normal;
+    font-size: small;
     color: #0F3C4C;
 }
 
@@ -16,7 +16,7 @@
     margin-left: 530px;
     font-family: "Poppins", sans-serif;
     font-weight: bold;
-    font-style: normal;
+    font-size: small;
     color: #0F3C4C;
 }
 
@@ -26,11 +26,11 @@
     line-height: 36px;
     text-align: center;
     padding-bottom: 90px;
-    padding-top: 30px;
+    padding-top: 100px;
     font-family: "Poppins", sans-serif;
     font-weight: bold;
     font-style: normal;
-    color: #2187AB;
+    color: #0F3C4C;
 }
 
 .ImageDiscription {
@@ -38,7 +38,7 @@
     margin-left: 530px;
     font-family: "Poppins", sans-serif;
     font-weight: bold;
-    font-style: normal;
+    font-size: small;
     color: #0F3C4C;
 }
 
@@ -72,7 +72,7 @@
 
 .drag-drop-zone {
     width:400px;
-    height: 250px;
+    height: 350px;
     border: 2px dashed #2187AB;
     display: flex;
     flex-direction: column;
@@ -128,18 +128,43 @@ body {
 }
 
 .navbarBTN {
-
+   
     color: #fff;
     border: none;
     width: 100%;
     height: 56px;
     margin-bottom: 10px;
-
-    padding-right: 53%;
+font-weight: 700;
+    padding-right: 55%;
 
 font-size: x-large;
+
+background-color: #2187AB;
+
+
 }
-.navbarh{
+
+
+
+.navbarBTN2 {
+   
+    color: #fff;
+    border: none;
+    width: 100%;
+    height: 56px;
+    margin-bottom: 10px;
+font-weight: 700;
+    padding-right: 50%;
+
+font-size: x-large;
+
+background-color: #2187AB;
+
+
+}
+
+
+button.navbarh{
     
     color: #fff;
     border: none;
@@ -150,6 +175,10 @@ font-size: x-large;
     padding-right: 65%;
 
 font-size: x-large;
+
+background-color: #2187AB;
+
+
 }
 button.uplodBTN  {
    
@@ -158,8 +187,8 @@ button.uplodBTN  {
     width: 100%;
     height: 56px;
     margin-bottom: 10px;
-font-weight: bolder;
 
+font-weight: 700;
     padding-right: 40%;
     font-size: x-large;
 }
@@ -278,4 +307,37 @@ color: #2187AB;
     color: white;
 
     margin-bottom: 50px;
+}
+
+button.upload-btn{
+
+    background-color:  #2187AB;
+}
+.orn{
+
+color: #2187AB;
+}
+
+.alert-danger{
+
+    padding-left: 45%;
+}
+
+
+.greentext{
+
+    margin-top: 30px;
+margin-bottom: 30px;
+background-color: #9AE6B4;
+
+border: 2px solid #9AE6B4;
+padding: 10px;
+border-radius: 1rem;
+    padding-bottom: 30px;
+    color: black;
+    font-family: "Poppins";
+
+    padding-left: 43%;
+
+    font-size: medium;
 }

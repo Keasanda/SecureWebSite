@@ -84,27 +84,31 @@
 }
 
 .image-container img {
+
     width: 100%;
-    height: auto;
+    height: 700px; /* Or another height that suits your design */
+    object-fit: cover;
     display: block;
     border-radius: 8px;
+
 }
 
 .overlay {
+   
     position: absolute;
-    bottom: 0; /* Position at the bottom of the image */
+    bottom: 0;
     left: 0;
     width: 100%; /* Full width of the image container */
     background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
     color: white;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    align-items: flex-start; /* Align items to the left */
+    text-align: left; /* Align text to the left */
     padding: 10px;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
+padding: 20px;
 }
 
 
@@ -146,7 +150,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-    margin-right: 58%;
+    margin-right: 74%;
 }
 
 .comment-card-title img {
@@ -189,7 +193,7 @@ margin-left: 11%;
 }
 
 .colour{
-
+text-align: left;
     color: white;
 }
 
@@ -204,4 +208,32 @@ font-weight: bolder;
 
     padding-right: 44%;
     font-size: x-large;
+}
+
+
+button.commentbutton{
+
+    height: 100px; /* Make the button the same height as the textarea */
+    font-size: 0.8rem; /* Adjust font size if needed */
+    /* Adjust padding for button size */
+    background-color:   #2187AB;
+
+
+    font-family: 'Poppins', sans-serif;
+    
+ 
+}
+
+
+.commentinput {
+    display: flex;
+    align-items: stretch; /* Ensure both elements align properly */
+}
+
+.comment-textarea {
+
+    flex: 1; /* Allow textarea to take up remaining space */
+    margin-right: 10px; /* Space between textarea and button */
+
+
 }

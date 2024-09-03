@@ -50,7 +50,7 @@ const ResetPassword = () => {
                                 type="password" 
                                 className="form-control win" 
                                 id="newPassword" 
-                                 placeholder="newPassword"
+                                 placeholder="New Password"
                                 value={password} 
                                 onChange={(e) => setPassword(e.target.value)} 
                                 required 
@@ -62,7 +62,7 @@ const ResetPassword = () => {
                                 type="password" 
                                 className="form-control win" 
                                 id="confirmPassword" 
-                                  placeholder="ConfirmPassword"
+                                  placeholder="Confirm Password"
                                 value={confirmPassword} 
                                 onChange={(e) => setConfirmPassword(e.target.value)} 
                                 required 
@@ -70,7 +70,7 @@ const ResetPassword = () => {
                         </div>
                         <button type="submit" className="btn btn-primary grow">Reset Password</button>
                     </form>
-                    {message && <p className="mt-3 red">{message}</p>}
+                    {message && <p className="mt-3 resetvalidation">{message}</p>}
                 </div>
                 <div className="col-md-7 ">
                     <img src="src\assets\5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Reset Password" className=" restpic " />

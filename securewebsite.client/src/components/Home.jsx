@@ -7,7 +7,7 @@ import { IoFilterSharp, IoHomeOutline, IoCameraOutline } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
 import { GrGallery } from "react-icons/gr";
 import { IoIosSearch } from "react-icons/io";
-import { FaComment, FaHeart } from "react-icons/fa"; // Import the required icons
+import { FaComment, FaHeart } from "react-icons/fa";
 
 function Home() {
     document.title = "Welcome";
@@ -15,7 +15,7 @@ function Home() {
     const [images, setImages] = useState([]);
     const [filteredImages, setFilteredImages] = useState([]);
     const [commentCounts, setCommentCounts] = useState({});
-    const [loveCounts, setLoveCounts] = useState({}); // New state for love counts
+    const [loveCounts, setLoveCounts] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
     const imagesPerPage = 6; // Adjusted for three per row
@@ -35,9 +35,9 @@ function Home() {
             const response = await fetch('api/ImageUpload/images');
             const data = await response.json();
             setImages(data);
-            setFilteredImages(data); // Initialize filteredImages with all images
-            fetchCommentCounts(data); // Fetch comment counts after images are loaded
-            fetchLoveCounts(data); // Fetch love counts after images are loaded
+            setFilteredImages(data);
+            fetchCommentCounts(data);
+            fetchLoveCounts(data);
         } catch (error) {
             console.error('Error fetching images:', error);
         }
@@ -65,46 +65,25 @@ function Home() {
 
     const fetchLoveCounts = async (images) => {
         try {
-            const imageIds = images.map(image => image.imageId); // Only extract image IDs
-            
+            const imageIds = images.map(image => image.imageId);
             const response = await fetch('api/Likes/love-counts', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(imageIds),  // Send only image IDs
+                body: JSON.stringify(imageIds),
             });
-    
+
             if (!response.ok) {
                 throw new Error('Failed to fetch love counts');
             }
-    
+
             const counts = await response.json();
-            setLoveCounts(counts);  // Assuming the response is a dictionary of imageId to love count
+            setLoveCounts(counts);
         } catch (error) {
             console.error('Error fetching love counts:', error);
         }
     };
-    
-    const handleLogout = async () => {
-        try {
-            const response = await fetch("/api/SecureWebsite/logout", {
-                method: "GET",
-                credentials: "include"
-            });
-    
-            const data = await response.json();
-            if (response.ok) {
-                localStorage.removeItem("user");
-                window.location.href = data.redirectTo || "/login";
-            } else {
-                console.log("Could not logout: ", response);
-            }
-        } catch (error) {
-            console.error('Error logging out:', error);
-        }
-    };
-    
 
     const toggleLove = async (imageId) => {
         const userId = userInfo?.userID;
@@ -119,11 +98,30 @@ function Home() {
                 body: JSON.stringify(userId),
             });
             if (response.ok) {
-                // Fetch the updated love counts after toggling the love status
                 fetchLoveCounts(images);
             }
         } catch (error) {
             console.error('Error toggling love:', error);
+        }
+    };
+
+
+    const handleLogout = async () => {
+        try {
+            const response = await fetch("/api/SecureWebsite/logout", {
+                method: "GET",
+                credentials: "include"
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                localStorage.removeItem("user");
+                window.location.href = data.redirectTo || "/login";
+            } else {
+                console.log("Could not logout: ", response);
+            }
+        } catch (error) {
+            console.error('Error logging out:', error);
         }
     };
 
@@ -146,38 +144,53 @@ function Home() {
     const indexOfFirstImage = indexOfLastImage - imagesPerPage;
     const currentImages = filteredImages.slice(indexOfFirstImage, indexOfLastImage);
 
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    const totalPages = Math.ceil(filteredImages.length / imagesPerPage);
+    const [pageRange, setPageRange] = useState({ start: 1, end: Math.min(3, totalPages) });
+
+    const handleNextSet = () => {
+        const newStart = pageRange.end + 1;
+        const newEnd = Math.min(newStart + 2, totalPages);
+        setPageRange({ start: newStart, end: newEnd });
+        setCurrentPage(newStart); // Set current page to the start of the new range
+    };
+
+    const handlePrevSet = () => {
+        const newStart = Math.max(pageRange.start - 3, 1);
+        const newEnd = newStart + 2;
+        setPageRange({ start: newStart, end: newEnd });
+        setCurrentPage(newStart); // Set current page to the start of the new range
+    };
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+
+        // Adjust the page range dynamically based on the selected page
+        if (pageNumber > pageRange.end) {
+            handleNextSet();
+        } else if (pageNumber < pageRange.start) {
+            handlePrevSet();
+        }
+    };
 
     return (
         <div className="content">
-            
-
-
             <div className="vertical-panel bg p-3">
-                    <h1> < img src="src\assets\Image Gallery.png" alt="Profile" className=" logopic" ></img>     </h1>
-                    <div className="mt-5 contain">
-                        <button       className="btn btn-primary navbarh ho btn-block mb-3"             onClick={() => window.location.href = '/Home'}>  
-                     
-                            <IoHomeOutline className="icon ma" /> Home
-                        </button>
-                        <button className="btn  homebtn btn-block mb-5" onClick={() => window.location.href = '/dragndrop'}>  
-                            <IoCameraOutline className="icon ma  " /> Image Upload
-                        </button>
-
-                        <button   className="btn navbarBTN  btn-block mb-5"
-                     onClick={() => window.location.href = '/MyGallery'}>  
-                       
-                            <GrGallery  className="icon ma  " /> My Gallery
-                        </button>
-
-
-                    </div>
-                    <button className="btn logout  mt-auto" onClick={handleLogout}>
-                        <MdLogout className="icon ma  " />
-                        Log Out
+                <h1><img src="src\assets\Image Gallery.png" alt="Profile" className="logopic" /></h1>
+                <div className="mt-5 contain">
+                    <button className="btn btn-primary navbarh ho btn-block mb-3" onClick={() => window.location.href = '/Home'}>
+                        <IoHomeOutline className="icon ma" /> Home
+                    </button>
+                    <button className="btn homebtn ho btn-block mb-5" onClick={() => window.location.href = '/dragndrop'}>
+                        <IoCameraOutline className="icon ma" /> Image Upload
+                    </button>
+                    <button className="btn navbarBTN ho btn-block mb-5" onClick={() => window.location.href = '/MyGallery'}>
+                        <GrGallery className="icon ma" /> My Gallery
                     </button>
                 </div>
-
+                <button className="btn logout mt-auto" onClick={handleLogout}>
+                    <MdLogout className="icon ma" /> Log Out
+                </button>
+            </div>
 
             <div className="main-content">
                 <Navbar bg="light" expand="lg" className='homenav'>
@@ -195,76 +208,69 @@ function Home() {
                     </Nav>
                 </Navbar>
                 <div className="search-bar">
-             
                     <input
-
-   
-
-
                         type="text"
                         placeholder="Search for..."
                         value={searchQuery}
                         onChange={handleSearch}
-
-                        
-
                     />
-
-
                     <button className="filters-button"><IoFilterSharp className="icon" /> Search</button>
                 </div>
-              
+
                 <div className="image-gallery">
-    {userInfo ? (
-        currentImages.length > 0 ? (
-            currentImages.map((image) => (
-                <div key={image.imageId} className="home-card">
-                    {/* Only the image is wrapped in the <Link> */}
-                    <Link to={`/image/${image.imageId}`} className="home-image-link">
-                        <div className="home-image-container">
-                            <img src={image.imageURL} className="home-image-item" alt={image.title} />
-                            <div className="card-title-overlay">
-                                <h5>{image.title}</h5>
-                            </div>
-                        </div>
-                    </Link>
+                    {userInfo ? (
+                        currentImages.length > 0 ? (
+                            currentImages.map((image) => (
+                                <div key={image.imageId} className="home-card">
+                                    <Link to={`/image/${image.imageId}`} className="home-image-link">
+                                        <div className="home-image-container">
+                                            <img src={image.imageURL} className="home-image-item" alt={image.title} />
+                                            <div className="card-title-overlay">
+                                                <h5>{image.title}</h5>
+                                            </div>
+                                        </div>
+                                    </Link>
 
-                    <div className="card-actions">
-                        {/* Like button */}
-                        <div className="icon-group" onClick={() => toggleLove(image.imageId)}>
-                            <FaHeart className="heart-icon" />
-                            <span className="icon-count">{loveCounts[image.imageId] || 0}</span>
-                        </div>
-                        {/* Comment button */}
-                        <div className="icon-group commpush">
-                            <FaComment className="comment-icon" />
-                            <span className="icon-count">{commentCounts[image.imageId] || 0}</span>
-                        </div>
-                    </div>
+                                    <div className="card-actions">
+                                        <div className="icon-group" onClick={() => toggleLove(image.imageId)}>
+                                            <FaHeart className="heart-icon" />
+                                            <span className="icon-count">{loveCounts[image.imageId] || 0}</span>
+                                        </div>
+                                        <div className="icon-group commpush">
+                                            <FaComment className="comment-icon" />
+                                            <span className="icon-count">{commentCounts[image.imageId] || 0}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <p>No images found.</p>
+                        )
+                    ) : (
+                        <p>Please log in to view the images.</p>
+                    )}
                 </div>
-            ))
-        ) : (
-            <p className="no-matches-message">No images match your search criteria.</p>
-        )
-    ) : (
-        <p className="no-matches-message">Please log in to view images.</p>
-    )}
-</div>
-
-
-
-
 
                 <div className="pagination">
-                    {Array.from({ length: Math.ceil(filteredImages.length / imagesPerPage) }, (_, index) => (
+                    {pageRange.start > 1 && (
+                        <button className="page-link" onClick={handlePrevSet}>
+                            &lt;
+                        </button>
+                    )}
+                    {Array.from({ length: pageRange.end - pageRange.start + 1 }, (_, index) => (
                         <button
-                            key={index + 1}
-                            className={`page-link ${currentPage === index + 1 ? 'active' : ''}`}
-                            onClick={() => paginate(index + 1)}
+                            key={pageRange.start + index}
+                            className={`page-link ${currentPage === pageRange.start + index ? 'active' : ''}`}
+                            onClick={() => paginate(pageRange.start + index)}
                         >
-                            {index + 1}
+                            {pageRange.start + index}
                         </button>
                     ))}
+                    {pageRange.end < totalPages && (
+                        <button className="page-link" onClick={handleNextSet}>
+                            &gt;
+                        </button>
+                    )}
                 </div>
             </div>
         </div>

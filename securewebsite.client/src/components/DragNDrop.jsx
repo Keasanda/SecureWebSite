@@ -147,7 +147,7 @@ function DragNDrop() {
                             <IoCameraOutline className="icon ma  " /> Image Upload
                         </button>
 
-                        <button   className="btn navbarBTN ho btn-block mb-5"
+                        <button   className="btn navbarBTN2 ho btn-block mb-5"
                      onClick={() => window.location.href = '/MyGallery'}>  
                        
                             <GrGallery  className="icon ma  " /> My Gallery
@@ -242,7 +242,7 @@ function DragNDrop() {
                                     <img src={cloud_upload} alt="upload" className="cloud" />
                                     <p className="drag-drop-text">Drag and Drop Files</p>
 
-                                    <p> or </p>
+                                    <p className='orn'> or </p>
 
 
                                     <button className="btn btn-primary upload-btn" type="button" onClick={open}>Upload</button>
@@ -252,7 +252,7 @@ function DragNDrop() {
                                 </div>
                             </div>
                             <button className="btn btn-primary save mt-4 mb-3" type="button" onClick={handleUpload}>Save</button>
-                            {uploadMessage && <p className="mt-3 text-center">{uploadMessage}</p>}
+                            {uploadMessage && <p className="mt-3 greentext">{uploadMessage}</p>}
                             {validationMessages.length > 0 && (
                                 <div className="alert alert-danger mt-4" role="alert">
                                     {validationMessages.map((message, index) => (

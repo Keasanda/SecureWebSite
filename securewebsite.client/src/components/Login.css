@@ -185,7 +185,7 @@ color: #0F3C4C;
     color: #aaa;
     pointer-events: none; /* Ensure the icon does not interfere with input */
 
-  
+  height: 15px;
 }
 
 .input-with-icon .form-control {
@@ -238,4 +238,6 @@ font-size: smaller;
     width: 90%;
 color: red;
     margin-left: 8%;
+
+    padding-left: 33px;
 }
