@@ -118,8 +118,33 @@ function MyGallery() {
     const indexOfFirstImage = indexOfLastImage - imagesPerPage;
     const currentImages = filteredImages.slice(indexOfFirstImage, indexOfLastImage);
 
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    const totalPages = Math.ceil(filteredImages.length / imagesPerPage);
+    const [pageRange, setPageRange] = useState({ start: 1, end: Math.min(3, totalPages) });
 
+    const handleNextSet = () => {
+        const newStart = pageRange.end + 1;
+        const newEnd = Math.min(newStart + 2, totalPages);
+        setPageRange({ start: newStart, end: newEnd });
+        setCurrentPage(newStart); // Set current page to the start of the new range
+    };
+
+    const handlePrevSet = () => {
+        const newStart = Math.max(pageRange.start - 3, 1);
+        const newEnd = newStart + 2;
+        setPageRange({ start: newStart, end: newEnd });
+        setCurrentPage(newStart); // Set current page to the start of the new range
+    };
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+
+        // Adjust the page range dynamically based on the selected page
+        if (pageNumber > pageRange.end) {
+            handleNextSet();
+        } else if (pageNumber < pageRange.start) {
+            handlePrevSet();
+        }
+    };
     return (
         <div className="content">
             
@@ -189,7 +214,7 @@ function MyGallery() {
     {userInfo ? (
         currentImages.length > 0 ? (
             currentImages.map(({ image, commentCount }) => (
-                <Link to={`/image/${image.imageId}`} key={image.imageId} className="home-image-link">
+                <div key={image.imageId} className="home-image-link">
                     <div className="home-image-container">
                         <img src={image.imageURL} className="home-image-item" alt={image.title} />
                         <div className="home-card-title-overlay">
@@ -200,7 +225,7 @@ function MyGallery() {
                         <Link to={`/edit-image/${image.imageId}`} className="btn btn-secondary ma">Edit</Link>
                         <button onClick={() => handleDelete(image.imageId)} className="btn btn-danger">Delete</button>
                     </div>
-                </Link>
+                </div>
             ))
         ) : (
             <p className="no-matches-message">No images match your search criteria.</p>
@@ -209,16 +234,28 @@ function MyGallery() {
         <p className="no-matches-message">Please log in to view images.</p>
     )}
 </div>
+
+
 <div className="pagination">
-    {Array.from({ length: Math.ceil(filteredImages.length / imagesPerPage) }, (_, index) => (
-        <button
-            key={index + 1}
-            className={`page-link ${currentPage === index + 1 ? 'active' : ''}`}
-            onClick={() => paginate(index + 1)}
-        >
-            {index + 1}
-        </button>
-    ))}
+                    {pageRange.start > 1 && (
+                        <button className="page-link" onClick={handlePrevSet}>
+                            &lt;
+                        </button>
+                    )}
+                    {Array.from({ length: pageRange.end - pageRange.start + 1 }, (_, index) => (
+                        <button
+                            key={pageRange.start + index}
+                            className={`page-link ${currentPage === pageRange.start + index ? 'active' : ''}`}
+                            onClick={() => paginate(pageRange.start + index)}
+                        >
+                            {pageRange.start + index}
+                        </button>
+                    ))}
+                    {pageRange.end < totalPages && (
+                        <button className="page-link" onClick={handleNextSet}>
+                            &gt;
+                        </button>
+                    )}
 </div>
 
 

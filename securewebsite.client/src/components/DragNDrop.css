@@ -154,7 +154,7 @@ background-color: #2187AB;
     height: 56px;
     margin-bottom: 10px;
 font-weight: 700;
-    padding-right: 50%;
+    padding-right: 42%;
 
 font-size: x-large;
 
@@ -180,6 +180,26 @@ background-color: #2187AB;
 
 
 }
+
+
+button.navbarh2{
+
+
+    color: #fff;
+    border: none;
+    width: 100%;
+    height: 56px;
+    margin-bottom: 10px;
+
+    padding-right: 55%;
+
+font-size: x-large;
+
+background-color: #2187AB;
+
+}
+
+
 button.uplodBTN  {
    
     color:  white;
@@ -189,7 +209,7 @@ button.uplodBTN  {
     margin-bottom: 10px;
 
 font-weight: 700;
-    padding-right: 40%;
+    padding-right: 30%;
     font-size: x-large;
 }
 
@@ -197,7 +217,7 @@ font-weight: 700;
 
   
     width: 100%;
-    height: 100%;
+    height: 10%;
     background: rgba(33, 135, 171, 0.5);
 
   ;
@@ -261,8 +281,10 @@ button.logout {
 
 .Uploadmuster{
 
- width: 90%;
- height: 80%;
+    width: 100%;
+    overflow-y: auto;
+    padding: 20px;
+    height: calc(100vh - 56px); /* Adjust height to fit screen */
 }
 
 .ma {

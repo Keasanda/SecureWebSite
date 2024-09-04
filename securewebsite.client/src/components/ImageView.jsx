@@ -4,6 +4,10 @@ import { Navbar, Nav, NavDropdown, Card, Button, Form, InputGroup, Alert } from 
 import { IoHomeOutline, IoCameraOutline } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
 import { GrGallery } from "react-icons/gr";
+import { MdEdit, MdDelete } from 'react-icons/md';
+
+
+
 import './ImageView.css';
 
 function ImageView() {

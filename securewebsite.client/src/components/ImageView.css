@@ -142,8 +142,8 @@ padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%;
-    margin-right: 20%;
+ 
+   
 }
 
 .comment-card-title {
@@ -160,10 +160,11 @@ padding: 20px;
     margin-right: 10px;
 }
 
-.comment-card-text {
+.card-text {
     flex-grow: 1; /* Allows the text to grow and push buttons to the bottom */
 margin-top: 20px;
-margin-right: 90%;
+width:94%;
+height: 100%;
 }
 
 .comment-card-buttons {
