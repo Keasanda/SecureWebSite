@@ -273,11 +273,15 @@ function ImageView() {
                                     <>
                                         <Card.Text>{comment.commentText}</Card.Text>
                                         {userInfo?.userID === comment.userID && (
-                                            <div className="text-end">
-                                                <Button variant="outline-primary" size="sm" onClick={() => handleEditComment(comment)} className="me-2">Edit</Button>
-                                                <Button variant="outline-danger" size="sm" onClick={() => handleDeleteComment(comment.commentID)}>Delete</Button>
-                                            </div>
-                                        )}
+    <div className="text-end">
+        <Button variant="outline-primary" size="sm" onClick={() => handleEditComment(comment)} className="me-2">
+            <MdEdit /> {/* Edit icon */}
+        </Button>
+        <Button variant="outline-danger" size="sm" onClick={() => handleDeleteComment(comment.commentID)}>
+            <MdDelete /> {/* Delete icon */}
+        </Button>
+    </div>
+)}
                                     </>
                                 )}
                             </Card.Body>
