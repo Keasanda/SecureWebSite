@@ -117,8 +117,8 @@ function Register() {
                         </ul>
                     )}
                 </div>
-                <div className="col-md-6 d-flex picRes">
-                    <img src="src/assets/5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Register" className="img-fluid " />
+                <div className="col-md-7">
+                    <img src="src/assets/5b4b4419dc94f06b31a38beb2085ab3b.jpg" alt="Register" className=" picRes" />
                 </div>
             </div>
         </div>
