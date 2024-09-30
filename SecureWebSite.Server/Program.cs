@@ -1,81 +1,84 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using SecureWebSite.Server.Data;
-using SecureWebSite.Server.Models;
-using System.Net.Mail;
-using System.Net;
-using QRCoder; // Ensure this is correct
-using System.Drawing;
+using Microsoft.AspNetCore.Identity; // Importing ASP.NET Core Identity
+using Microsoft.EntityFrameworkCore; // Importing Entity Framework Core
+using SecureWebSite.Server.Data; // Importing application data context
+using SecureWebSite.Server.Models; // Importing application models
+using System.Net.Mail; // Importing mail classes
+using System.Net; // Importing networking classes
 
-
-namespace SecureWebSite.Server
+namespace SecureWebSite.Server // Defining the application namespace
 {
-    public class Program
+    public class Program // Main application class
     {
-        public static void Main(string[] args)
+        public static void Main(string[] args) // Entry point of the application
         {
+            // Creating a builder for the web application
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Logging.AddConsole();
-            builder.Logging.AddDebug();
-            builder.Logging.AddEventSourceLogger();
+            // Adding logging services
+            builder.Logging.AddConsole(); // Console logging
+            builder.Logging.AddDebug(); // Debug logging
+            builder.Logging.AddEventSourceLogger(); // Event source logging
 
+            // Registering email sender service
             builder.Services.AddTransient<ISenderEmail, EmailSender>();
-;
 
-
+            // Adding controller services
             builder.Services.AddControllers();
-            builder.Services.AddAuthorization();
+            builder.Services.AddAuthorization(); // Adding authorization services
 
+            // Configuring the database context with SQL Server
             builder.Services.AddDbContext<ApplicationDbContext>(options => {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("Default")); // Connection string from configuration
             });
 
+            // Setting up Identity API endpoints with Entity Framework stores
             builder.Services.AddIdentityApiEndpoints<User>().AddEntityFrameworkStores<ApplicationDbContext>();
 
+            // Configuring identity options
             builder.Services.AddIdentityCore<User>(options => {
-                options.SignIn.RequireConfirmedAccount = true;
-                options.Password.RequireDigit = true;
-                options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequireUppercase = true;
-                options.Password.RequiredLength = 8;
-                options.Password.RequiredUniqueChars = 4;
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                options.Lockout.MaxFailedAccessAttempts = 3;
-                options.Lockout.AllowedForNewUsers = true;
-                options.SignIn.RequireConfirmedEmail = true;
-                options.User.AllowedUserNameCharacters =
-                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                options.User.RequireUniqueEmail = true;
-                options.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
+                options.SignIn.RequireConfirmedAccount = true; // Require confirmed accounts for sign-in
+                options.Password.RequireDigit = true; // Require digits in passwords
+                options.Password.RequireNonAlphanumeric = true; // Require non-alphanumeric characters in passwords
+                options.Password.RequireUppercase = true; // Require uppercase letters in passwords
+                options.Password.RequiredLength = 8; // Minimum password length
+                options.Password.RequiredUniqueChars = 4; // Minimum unique characters in password
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // Default lockout time
+                options.Lockout.MaxFailedAccessAttempts = 3; // Max failed access attempts before lockout
+                options.Lockout.AllowedForNewUsers = true; // Allow lockout for new users
+                options.SignIn.RequireConfirmedEmail = true; // Require confirmed email for sign-in
+                options.User.AllowedUserNameCharacters = // Allowed characters in usernames
+                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = true; // Require unique email addresses
             })
- .AddEntityFrameworkStores<ApplicationDbContext>()
- .AddDefaultTokenProviders();
+            .AddEntityFrameworkStores<ApplicationDbContext>() // Configuring Entity Framework stores
+            .AddDefaultTokenProviders(); // Adding default token providers for password resets, etc.
 
-
-            // Add the IHttpClientFactory service
+            // Adding the IHttpClientFactory service for HTTP requests
             builder.Services.AddHttpClient();
 
-            var app = builder.Build();
+            var app = builder.Build(); // Building the web application
 
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
+            // Configuring middleware
+            app.UseDefaultFiles(); // Serving default files (like index.html)
+            app.UseStaticFiles(); // Serving static files
 
+            // Configuring static file options for gallery pictures
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
-                    Path.Combine(builder.Environment.ContentRootPath, "Gallery pics")),
-                RequestPath = "/gallery"
+                    Path.Combine(builder.Environment.ContentRootPath, "Gallery pics")), // Path to gallery pics
+                RequestPath = "/gallery" // URL path for accessing gallery
             });
 
-            app.UseHttpsRedirection();
-            app.UseAuthorization();
+            app.UseHttpsRedirection(); // Redirecting HTTP requests to HTTPS
+            app.UseAuthorization(); // Enabling authorization middleware
 
-            app.MapIdentityApi<User>();
-            app.MapControllers();
-            app.MapFallbackToFile("/index.html");
+            // Mapping identity API and controllers
+            app.MapIdentityApi<User>(); // Mapping Identity API routes
+            app.MapControllers(); // Mapping controller routes
+            app.MapFallbackToFile("/index.html"); // Fallback to index.html for single-page apps
 
-            app.Run();
+            app.Run(); // Running the web application
         }
     }
 }
