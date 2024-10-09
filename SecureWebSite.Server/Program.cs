@@ -2,8 +2,7 @@ using Microsoft.AspNetCore.Identity; // Importing ASP.NET Core Identity
 using Microsoft.EntityFrameworkCore; // Importing Entity Framework Core
 using SecureWebSite.Server.Data; // Importing application data context
 using SecureWebSite.Server.Models; // Importing application models
-using System.Net.Mail; // Importing mail classes
-using System.Net; // Importing networking classes
+
 
 namespace SecureWebSite.Server // Defining the application namespace
 {

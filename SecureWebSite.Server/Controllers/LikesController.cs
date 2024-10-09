@@ -1,16 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc; // Importing ASP.NET Core MVC
-using Microsoft.EntityFrameworkCore; // Importing Entity Framework Core for database operations
-using SecureWebSite.Server.Data; // Importing the application's data context
-using SecureWebSite.Server.Models; // Importing the application's models
-using System; // Importing System namespace for general types
-using System.Linq; // Importing LINQ for query operations
-using System.Threading.Tasks; // Importing Task for asynchronous programming
-
-namespace SecureWebSite.Server.Controllers // Defining the controller namespace
+﻿using Microsoft.AspNetCore.Mvc; 
+using Microsoft.EntityFrameworkCore; 
+using SecureWebSite.Server.Data; 
+using SecureWebSite.Server.Models; 
+namespace SecureWebSite.Server.Controllers 
 {
     // Defining the API route for likes
     [Route("api/Likes")]
-    [ApiController] // Indicates that this class is an API controller
+    [ApiController] 
     public class LikesController : ControllerBase
     {
         private readonly ApplicationDbContext _context; // Database context for accessing likes
@@ -55,7 +51,7 @@ namespace SecureWebSite.Server.Controllers // Defining the controller namespace
 
             await _context.SaveChangesAsync(); // Save changes asynchronously
 
-            return Ok(new { isLoved = like.IsLoved }); // Return the current like status
+            return Ok(new { isLoved = like.IsLoved }); 
         }
 
         // GET: api/Likes/love-count/{imageId} - Retrieve the count of likes for a specific image
